@@ -36,7 +36,15 @@ body * { visibility: hidden; }
                                     <div class="col-sm-12">
                                         <ul class="list-group search-list" id="patient_s_list">
                                             @foreach($patients as $patient)
-                                            <li class="list-group-item d-flex"><span><b>Patient ID :</b> <em>{!! $patient->patient_id !!}</em><br><b>Name :</b> {!! $patient->name !!}</span><span><b>Contact No :</b> {!! $patient->contact_no !!}<br><b>Age :</b> {!! $patient->age !!}  <button class="btn btn-sm btn-warning patient_search_btn" style="float: right" data-id={!! $patient->id !!} >Select</button></span></li>
+                                            <li class="list-group-item">
+
+                                                    <b>Patient ID :</b> <em>{!! $patient->patient_id !!}</em><br>
+                                                    <b>Name :</b> {!! $patient->name !!}<br>
+                                                    <b>Contact No :</b> {!! $patient->contact_no !!}<br>
+                                                    <b>Age :</b> {!! $patient->age !!}<br>
+                                                    <button class="btn btn-sm btn-warning patient_search_btn" style="float: right" data-id={!! $patient->id !!} >Select</button>
+
+                                            </li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -294,6 +302,7 @@ body * { visibility: hidden; }
         });
         $(".patient_search_btn").on('click',function(e){
            let id = $(this).attr('data-id');
+           $(this).parents('.list-group-item').first().css("background-color", "yellow");
             patientSet(id);
 
         });

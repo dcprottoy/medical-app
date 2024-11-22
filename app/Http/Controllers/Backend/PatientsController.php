@@ -104,6 +104,7 @@ class PatientsController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
+            $date = Carbon::now();
             $patient = Patients::findOrFail($id);
             $data = $request->only(['name',
                                     'patient_id',
@@ -113,8 +114,12 @@ class PatientsController extends Controller
                                     'birth_date',
                                     'sex']
                                 );
+            if($patient->birth_date == $data['birth_date']){
+                $data['birth_date'] = $date->subYears($request->year)->subMonths($request->month)->subDays($request->day)->toDateString();
+            }
+
             $patient->fill($data)->save();
-            return back()->with('success','Brand Image Created Successfully');
+            return back()->with('success','Patient Information Created Successfully');
         }
     }
 

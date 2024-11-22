@@ -392,7 +392,7 @@ body * { visibility: hidden; }
                     url: "{{url('appointed/patientlist/')}}/"+doctor_id,
                     success: function (result) {
                         $("#appoin-patient-list").empty();
-
+                            console.log(result);
                          let element = "";
                          result.forEach(x =>{
                             element += `<li class="list-group-item">
@@ -400,13 +400,13 @@ body * { visibility: hidden; }
                                                 <div class="col-sm-8">
                                                     <b>Patient ID :</b><em id="patient-id${x.id}">${x.patient_id}</em>
                                                     <br>
-                                                    <b>Name :</b> <span id="patient-name${x.id}">${x.patient_name}</span>
+                                                    <b>Name :</b> <span id="patient-name${x.id}">${x.patient.name}</span>
                                                     <br>
-                                                    <b>Contact No :</b> <span id="patient-contact${x.id}">${x.contact_no}</span>
+                                                    <b>Contact No :</b> <span id="patient-contact${x.id}">${x.patient.contact_no}</span>
                                                     <br>
-                                                    <b>Age :</b> <span id="patient-age${x.id}">${x.age}</span>
+                                                    <b>Age :</b> <span id="patient-age${x.id}">${x.patient.age}</span>
                                                     <br>
-                                                    <b>Gender :</b> <span id="patient-gender${x.id}">${x.sex == 'M'?'Male':(x.sex == 'F'?'Female':'Other')}</span>
+                                                    <b>Gender :</b> <span id="patient-gender${x.id}">${x.patient.sex == 'M'?'Male':(x.patient.sex == 'F'?'Female':'Other')}</span>
                                                 </div>
                                                 <div class="col-sm-4">
                                                     <b>Date :</b> <em id="appon-date${x.id}">${x.appointed_date}</em>
