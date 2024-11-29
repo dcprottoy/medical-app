@@ -17,7 +17,8 @@ class AppoinmentController extends Controller
      */
     public function index()
     {
-        $data['doctors'] = Doctors::all();
+        $data['doctors'] = Doctors::with('department')->get();
+        // return $data;
         $data['patients'] = Patients::orderBy('id','DESC')->limit(100)->get();
         return view('backend.appoinments.index',$data);
     }

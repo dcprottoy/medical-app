@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('doctor_id');
+            $table->integer('department_id');
             $table->string('address');
             $table->string('contact_no');
             $table->string('emr_cont_no')->nullable();
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->enum('sex',['M','F','O']);
             $table->enum('status',['Y','N'])->default('Y');
             $table->text('degree')->nullable();
+            $table->text('specialities')->nullable();
             $table->date('appointed_date')->nullable();
             $table->timestamps();
         });

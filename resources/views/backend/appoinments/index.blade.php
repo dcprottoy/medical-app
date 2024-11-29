@@ -6,6 +6,12 @@
     overflow-x: hidden;
     overflow-y: scroll;
 }
+/*
+.patient-select:hover{
+    cursor: pointer;
+    background-color: beige;
+}
+*/
 @media print
 {
 body * { visibility: hidden; }
@@ -36,13 +42,13 @@ body * { visibility: hidden; }
                                     <div class="col-sm-12">
                                         <ul class="list-group search-list" id="patient_s_list">
                                             @foreach($patients as $patient)
-                                            <li class="list-group-item">
+                                            <li class="list-group-item patient-select " data-id={!! $patient->id !!}>
 
                                                     <b>Patient ID :</b> <em>{!! $patient->patient_id !!}</em><br>
                                                     <b>Name :</b> {!! $patient->name !!}<br>
                                                     <b>Contact No :</b> {!! $patient->contact_no !!}<br>
                                                     <b>Age :</b> {!! $patient->age !!}<br>
-                                                    <button class="btn btn-sm btn-warning patient_search_btn" style="float: right" data-id={!! $patient->id !!} >Select</button>
+                                                    <button class="btn btn-sm btn-info patient_search_btn" style="width:50%;float:right;" data-id={!! $patient->id !!} >Select</button>
 
                                             </li>
                                             @endforeach
@@ -61,7 +67,12 @@ body * { visibility: hidden; }
                                     <div class="col-sm-12">
                                         <ul class="list-group  search-list " id="doctor_s_list">
                                             @foreach($doctors as $doctor)
-                                            <li class="list-group-item"><b>Doctor ID :</b> <em>{!! $doctor->doctor_id !!}</em><br><b>Name :</b> {!! $doctor->name !!}<br><b>Degree :</b> {!! $doctor->degree !!}<br><b>Contact No :</b>{!! $doctor->contact_no !!} <button class="btn btn-sm btn-warning  doctor_select" data-id={!! $doctor->id !!} style="float: right">Select</button></li>
+                                            <li class="list-group-item doctor-select ">
+                                                <b>Doctor ID :</b><em>{!! $doctor->doctor_id !!}</em><br>
+                                                <b>Name :</b> {!! $doctor->name !!}<br>
+                                                <b>Department :</b> {!! $doctor->department->name_eng !!}<br>
+                                                <b>Contact No :</b>{!! $doctor->contact_no !!} <br>
+                                                <button class="btn btn-sm btn-info  doctor_select" data-id={!! $doctor->id !!} style="float: right;width:50%;">Select</button></li>
                                             @endforeach
                                         </ul>
                                     </div>
@@ -96,7 +107,7 @@ body * { visibility: hidden; }
                                     <li class="list-group-item">Appointment No:<span id="appoint-no"></span></li>
                                     <li class="list-group-item"><b>Patient ID :</b> <em id="patient-id"></em><br><b>Name :</b> <span id="patient-name"></span><br><b>Contact No :</b> <span id="patient-contact"></span><br><b>Age :</b> <span id="patient-age"></span></li>
                                     <li class="list-group-item">Doctor Information</li>
-                                    <li class="list-group-item"><b>Doctor ID :</b> <em id="doctor-id"></em><br><b>Name :</b><span id="doctor-name"></span><br><b>Degree :</b><span id="doctor-degree"></span> <br><b>Contact No :</b><span id="doctor-contact"></span></li>
+                                    <li class="list-group-item"><b>Doctor ID :</b> <em id="doctor-id"></em><br><b>Name :</b><span id="doctor-name"></span><br><b>Degree :</b><span id="doctor-department"></span> <br><b>Contact No :</b><span id="doctor-contact"></span></li>
                                     <li class="list-group-item">Appointment Details</li>
                                     <li class="list-group-item"><b>Date :</b> <em id="appon-date"></em><br><b>Serial No :</b><span id="serial-no"></span><br><b>Note :</b><em id="note"> </li>
                                     <li class="list-group-item"><button class="btn btn-md btn-danger col-sm-12" id="print-button">Print</button></li>
@@ -302,7 +313,10 @@ body * { visibility: hidden; }
         });
         $(".patient_search_btn").on('click',function(e){
            let id = $(this).attr('data-id');
-        //    $(this).parents('.list-group-item').first().css("background-color", "yellow");
+           $('.patient-select').each(function(){
+            $(this).css("background-color", "white");
+           });
+           $(this).parents('.list-group-item').first().css("background-color", "beige");
             patientSet(id);
 
         });
@@ -367,6 +381,10 @@ body * { visibility: hidden; }
         });
         $(".doctor_select").on('click',function(e){
            let id = $(this).attr('data-id');
+           $('.doctor-select').each(function(){
+            $(this).css("background-color", "white");
+           });
+           $(this).parents('.doctor-select').first().css("background-color", "beige");
             doctorSet(id);
         });
         function doctorSet(id){
@@ -376,8 +394,8 @@ body * { visibility: hidden; }
                         console.log(result);
                         $("#doctor-id").text(result.doctor_id);
                         $("#doctor-name").text(result.name);
-                        $("#doctor-degree").text(result.contact_no);
-                        $("#doctor-contact").text(result.degree);
+                        $("#doctor-department").text(result.department.name_eng);
+                        $("#doctor-contact").text(result.contact_no);
                         checkSerial();
                     }
                 });

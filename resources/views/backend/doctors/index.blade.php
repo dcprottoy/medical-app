@@ -49,6 +49,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                          <label>Department</label>
+                                          <select class="form-control"  name="department_id">
+                                            <option value="" selected disabled>Please select</option>
+                                            @foreach($departments as $department)
+                                            <option value="{{$department->id}}">{{$department->name_eng}}</option>
+                                            @endforeach
+                                          </select>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-lg-8 d-flex">
                                         <div class="form-check m-2">
                                           <input class="form-check-input" type="radio" name="sex" value="M" required>
@@ -63,10 +74,16 @@
                                             <label class="form-check-label">Other</label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Degree</label>
                                             <input type="text" class="form-control form-control-sm" name='degree' placeholder="Degree" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Specialities</label>
+                                            <input type="text" class="form-control form-control-sm" name='specialities' placeholder="specialities" required>
                                         </div>
                                     </div>
                                 </div>
@@ -205,7 +222,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group col-lg-8">
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                          <label>Department</label>
+                                          <select class="form-control" name="department_id" id="u-department_id" >
+                                            @foreach($departments as $department)
+                                            <option value="{{$department->id}}">{{$department->name_eng}}</option>
+                                            @endforeach
+                                          </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-8 d-flex">
                                         <div class="form-check m-2">
                                           <input class="form-check-input" type="radio" name="sex" id='u-male' value="M"  required>
                                           <label class="form-check-label">Male</label>
@@ -219,10 +246,16 @@
                                             <label class="form-check-label">Other</label>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <label>Degree</label>
                                             <input type="text" class="form-control form-control-sm" name='degree' id="u-degree" placeholder="Degree"   required>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label>Specialities</label>
+                                            <input type="text" class="form-control form-control-sm" name='specialities' id="u-specialities" placeholder="Specialities" required>
                                         </div>
                                     </div>
                                 </div>
@@ -286,7 +319,9 @@
                         $('#u-emr_cont_no').val(result.emr_cont_no);
                         $('#u-address').val(result.address);
                         $('#u-date').val(result.birth_date);
+                        $('#u-department_id').val(result.department_id);
                         $('#u-degree').val(result.degree);
+                        $('#u-specialities').val(result.specialities);
                         if(result.sex == 'M'){
                             $('#u-male').attr('checked','checked');
                         }else if(result.sex == 'F'){

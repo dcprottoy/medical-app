@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\Doctors;
+use App\Models\Backend\Departments;
 use Illuminate\Support\Carbon;
 
 
@@ -18,6 +19,8 @@ class DoctorController extends Controller
     {
 
         $data['images'] = Doctors::paginate(5);
+        $data['departments'] = Departments::paginate(5);
+
         return view('backend.doctors.index',$data);
     }
 
@@ -69,7 +72,7 @@ class DoctorController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = Doctors::findOrFail($id);
+        $lastid = Doctors::with('department')->findOrFail($id);
         return $lastid;
     }
 
