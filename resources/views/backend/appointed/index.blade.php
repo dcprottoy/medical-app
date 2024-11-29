@@ -239,7 +239,7 @@ body * { visibility: hidden; }
                                 <div class="col-sm-1">
                                     <div class="form-group">
                                         <a class="btn btn-info btn-sm p-2 add-exam">
-                                            <i style="font-size:10px;" class="fas fa-check add-exam"></i>
+                                            <i style="font-size:10px;" class="fas fa-check"></i>
                                         </a>
                                     </div>
                                 </div>
