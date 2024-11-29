@@ -302,7 +302,7 @@ body * { visibility: hidden; }
         });
         $(".patient_search_btn").on('click',function(e){
            let id = $(this).attr('data-id');
-           $(this).parents('.list-group-item').first().css("background-color", "yellow");
+        //    $(this).parents('.list-group-item').first().css("background-color", "yellow");
             patientSet(id);
 
         });
