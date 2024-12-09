@@ -4,20 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Alif Medical Center</title>
-
+  <link rel="icon" type="image/x-icon" href="{{asset('backend/adminlte/dist/img/favicon.ico')}}">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset("backend/adminlte/plugins/fontawesome-free/css/all.min.css")}}">
+  <link rel="stylesheet" href="{{asset('backend/adminlte/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{asset("backend/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css")}}">
+  <link rel="stylesheet" href="{{asset('backend/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset("backend/adminlte/dist/css/adminlte.min.css")}}">
+  <link rel="stylesheet" href="{{asset('backend/adminlte/dist/css/adminlte.min.css')}}">
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Alif Medical Center</a>
+  <div class="image">
+    <img src="{{asset('backend/adminlte/dist/img/AdminLTELogo.jpg')}}" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:200px;width:200px;">
+  </div>
+    <!-- <a href="/"><b>Alif Medical Center</a> -->
   </div>
   <!-- /.login-logo -->
   <div class="card">
