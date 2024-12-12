@@ -25,6 +25,8 @@ return new class extends Migration
             $table->text('degree')->nullable();
             $table->text('specialities')->nullable();
             $table->date('appointed_date')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

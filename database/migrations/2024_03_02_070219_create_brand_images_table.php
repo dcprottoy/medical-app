@@ -17,6 +17,8 @@ return new class extends Migration
             $table->char('Type')->default('R');
             $table->enum('Status',['Y','N'])->default('Y');
             $table->date('SpecialDate')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

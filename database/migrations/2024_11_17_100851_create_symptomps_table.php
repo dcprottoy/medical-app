@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name_eng')->nullable();
             $table->string('name_bang')->nullable();
             $table->enum('status',['Y','N'])->default('Y');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

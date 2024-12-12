@@ -24,6 +24,8 @@ return new class extends Migration
             $table->date('birth_date')->nullable();
             $table->enum('sex',['M','F','O']);
             $table->enum('status',['Y','N'])->default('Y');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

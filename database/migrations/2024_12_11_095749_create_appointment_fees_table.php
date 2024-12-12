@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('advice', function (Blueprint $table) {
+        Schema::create('appointment_fees', function (Blueprint $table) {
             $table->id();
-            $table->string('name_eng')->nullable();
-            $table->string('name_bang')->nullable();
+            $table->integer('day_diff')->default(0);
+            $table->integer('appointment_type_id');
+            $table->integer('fee-amount');
             $table->enum('status',['Y','N'])->default('Y');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('advice');
+        Schema::dropIfExists('appointment_fees');
     }
 };

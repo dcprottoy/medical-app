@@ -17,11 +17,15 @@ return new class extends Migration
             $table->integer('patient_id');
             $table->integer('doctor_id');
             $table->date('appointed_date');
-            $table->string('appointment_type',1);
+            $table->integer('appointment_type');
             $table->boolean('referred_appointment')->default(false);
             $table->integer('referred_by')->nullable();
+            $table->boolean('transferred_appointment')->default(false);
+            $table->integer('transferred_to')->nullable();
             $table->text('note')->nullable();
             $table->integer('serial')->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }
