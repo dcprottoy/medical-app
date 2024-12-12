@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\AdviceController;
 use App\Http\Controllers\Backend\SymptompsController;
 use App\Http\Controllers\Backend\OnExaminationController;
 use App\Http\Controllers\Backend\AppointmentTypeController;
+use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -122,13 +123,21 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'destroy'=>'onexaminations.delete'
         ]);
 
-        Route::resource('/appointype',AppointmentTypeController::class)->names([
-            'index'=>'appointype.home',
-            'create'=>'appointype.create',
-            'store'=>'appointype.save',
-            'edit'=>'onexaminations.edit',
-            'update'=>'appointype.update',
-            'destroy'=>'appointype.delete'
+        Route::resource('/appointtype',AppointmentTypeController::class)->names([
+            'index'=>'appointtype.home',
+            'create'=>'appointtype.create',
+            'store'=>'appointtype.save',
+            'edit'=>'appointtype.edit',
+            'update'=>'appointtype.update',
+            'destroy'=>'appointtype.delete'
+        ]);
+        Route::resource('/appointfee',AppointmentFeeController::class)->names([
+            'index'=>'appointfee.home',
+            'create'=>'appointfee.create',
+            'store'=>'appointfee.save',
+            'edit'=>'appointfee.edit',
+            'update'=>'appointfee.update',
+            'destroy'=>'appointfee.delete'
         ]);
 
     });

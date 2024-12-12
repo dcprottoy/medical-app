@@ -4,7 +4,8 @@ namespace App\Models\Backend;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
 // use App\Models\Backend\Departments;
 
 class Doctors extends Model
@@ -24,8 +25,8 @@ class Doctors extends Model
     ];
 
 
-    public function department(): HasOne
+    public function department(): BelongsTo
     {
-        return $this->hasOne(Departments::class, 'id');
+        return $this->BelongsTo(Departments::class, 'department_id');
     }
 }

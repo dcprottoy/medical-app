@@ -109,9 +109,15 @@
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('appointype.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointype.home'||Route::currentRouteName() == 'appointype.create'||Route::currentRouteName() == 'appointype.edit' ? 'active' : ''}}" >
+                        <a href="{{route('appointtype.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointtype.home'||Route::currentRouteName() == 'appointtype.create'||Route::currentRouteName() == 'appointtype.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-user-md"></i>
                             <p>Appointment Type</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('appointfee.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointfee.home'||Route::currentRouteName() == 'appointfee.create'||Route::currentRouteName() == 'appointfee.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-user-md"></i>
+                            <p>Appointment Fee</p>
                         </a>
                     </li>
                 </ul>

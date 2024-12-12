@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('day_diff')->default(0);
             $table->integer('appointment_type_id');
-            $table->integer('fee-amount');
+            $table->integer('fee_amount');
             $table->enum('status',['Y','N'])->default('Y');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

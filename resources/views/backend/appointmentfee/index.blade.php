@@ -1,30 +1,41 @@
 @extends('backend.layout.main')
 @section('body-part')
 <div class="content-wrapper">
-    <x-breadcumb title="Appointment Type"/>
+    <x-breadcumb title="Appointment Fee"/>
     <div class="content">
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Appointment Type Entry</h3>
+                    <h3 class="card-title">Appointment Fee Entry</h3>
                 </div>
-                <form action="{{route('appointtype.save')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('appointfee.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label> Appointment Type Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Appointment Type Name">
+                                  <label>Appointment Type</label>
+                                  <select class="form-control form-control-sm"  name="appointment_type_id">
+                                    <option value="" selected disabled>Please select</option>
+                                    @foreach($appointtypes as $appointtype)
+                                    <option value="{{$appointtype->id}}">{{$appointtype->name_eng}}</option>
+                                    @endforeach
+                                  </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label>সাক্ষাৎ এর ধরনের নাম</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="সাক্ষাৎ এর ধরনের নাম">
+                                    <label>Day Differece Range</label>
+                                    <input type="number" class="form-control form-control-sm" name="day_diff" min="0" value="0">
                                 </div>
                             </div>
-                            <div class="form-group col-lg-4">
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Fee Amount</label>
+                                    <input type="number" class="form-control form-control-sm" name="fee_amount" min="0" value="0">
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-3">
                                 <label>Status</label><br>
                                 <div class="form-check form-check-inline">
                                   <input class="form-check-input" type="radio" name="status" value="Y" required checked>
@@ -63,10 +74,16 @@
                                 SL
                             </th>
                             <th style="width: 30%" class="text-center">
-                                Appointment Type Name
+                                Appointment Type
+                            </th>
+                            <th style="width: 30%" class="text-center">
+                                Day Differece Range
                             </th>
                             <th style="width: 15%" class="text-center">
-                                সাক্ষাৎ এর ধরনের নাম
+                                Fee Amount
+                            </th>
+                            <th style="width: 15%" class="text-center">
+                                Status
                             </th>
                             <th class="text-center" style="width: 25%">
                                 Action
@@ -74,16 +91,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($examinations as $item)
+                        @foreach($appointfees as $item)
                             <tr>
                                 <td>
                                    #
                                 </td>
-                                <td class="text-center" style="font-weight:bold;">
-                                {!! $item->name_eng !!}
-                                </td>
                                 <td  class="text-center">
-                                    {!! $item->name_bang !!}
+                                    {!! $item->appointmenttype->name_eng !!}
+                                </td>
+                                <td class="text-center" style="font-weight:bold;">
+                                    {!! $item->day_diff !!}
+                                    </td>
+                                <td  class="text-center">
+                                    {!! $item->fee_amount !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->status == 'Y' ? '<span class="badge badge-success">Active</span>' :'<span class="badge badge-warning">Dactive</span>' !!}
@@ -111,7 +131,7 @@
                     </table>
                 </div>
                 <div class="m-3">
-                    {{ $examinations->links('pagination::bootstrap-4')}}
+                    {{ $appointfees->links('pagination::bootstrap-4')}}
                 </div>
             </div>
             <div class="modal fade" id="modal-default-delete">
@@ -153,19 +173,30 @@
                                 @csrf
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label>Appointment Type Name</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Department Name" required>
+                                              <label>Appointment Type</label>
+                                              <select class="form-control form-control-sm"  name="appointment_type_id" id="u-appointment_type_id">
+                                                <option value="" selected disabled>Please select</option>
+                                                @foreach($appointtypes as $appointtype)
+                                                <option value="{{$appointtype->id}}">{{$appointtype->name_eng}}</option>
+                                                @endforeach
+                                              </select>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <div class="form-group">
-                                                <label>সাক্ষাৎ এর ধরনের নাম</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="সাক্ষাৎ এর ধরনের নাম" >
+                                                <label>Day Differece Range</label>
+                                                <input type="number" class="form-control form-control-sm" name="day_diff" id="u-day_diff" min="0" value="0">
                                             </div>
                                         </div>
-                                        <div class="form-group col-lg-4">
+                                        <div class="col-sm-3">
+                                            <div class="form-group">
+                                                <label>Fee Amount</label>
+                                                <input type="number" class="form-control form-control-sm" name="fee_amount" id="u-fee_amount" min="0" value="0">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-lg-3">
                                             <label>Status</label><br>
                                             <div class="form-check  form-check-inline">
                                                 <input class="form-check-input" type="radio" id="u-active" name="status" value="Y" required>
@@ -196,18 +227,19 @@
     $(document).ready(function(){
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('appointtype/')}}/"+id;
+            let link = "{{url('appointfee/')}}/"+id;
             $('#modal-default-delete').modal('show');
             $('#delete-modal').attr('action',link);
         });
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('appointtype/')}}/"+id,
+                    url: "{{url('appointfee/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-                        $('#u-name_eng').val(result.name_eng);
-                        $('#u-name_bang').val(result.name_bang);
+                        $('#u-appointment_type_id').val(result.appointment_type_id);
+                        $('#u-day_diff').val(result.day_diff);
+                        $('#u-fee_amount').val(result.fee_amount);
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
                         }else if(result.status == 'N'){
@@ -216,7 +248,7 @@
 
                     }
                 });
-            let link = "{{url('appointtype/')}}/"+id;
+            let link = "{{url('appointfee/')}}/"+id;
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 
