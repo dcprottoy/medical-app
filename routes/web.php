@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AdviceController;
 use App\Http\Controllers\Backend\SymptompsController;
 use App\Http\Controllers\Backend\OnExaminationController;
+use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -119,6 +120,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'edit'=>'onexaminations.edit',
             'update'=>'onexaminations.update',
             'destroy'=>'onexaminations.delete'
+        ]);
+
+        Route::resource('/appointype',AppointmentTypeController::class)->names([
+            'index'=>'appointype.home',
+            'create'=>'appointype.create',
+            'store'=>'appointype.save',
+            'edit'=>'onexaminations.edit',
+            'update'=>'appointype.update',
+            'destroy'=>'appointype.delete'
         ]);
 
     });

@@ -108,6 +108,12 @@
                             <p>On Examinations</p>
                         </a>
                     </li>
+                    <li class="nav-item " >
+                        <a href="{{route('appointype.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointype.home'||Route::currentRouteName() == 'appointype.create'||Route::currentRouteName() == 'appointype.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-user-md"></i>
+                            <p>Appointment Type</p>
+                        </a>
+                    </li>
                 </ul>
           </li>
         </ul>
