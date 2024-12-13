@@ -17,8 +17,15 @@ class Appoinments extends Model
         'patient_id',
         'doctor_id',
         'appointed_date',
+        'appointment_type_id',
+        'referred_appointment',
+        'referred_by',
+        'transferred_appointment',
+        'transferred_to',
         'note',
-        'serial'
+        'serial',
+        'created_by',
+        'updated_by'
     ];
 
     public function patient(): HasOne

@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Backend\Patients;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
+use App\Models\Backend\Appoinments;
+use App\Models\Backend\Doctors;
+
 
 class PatientsController extends Controller
 {
@@ -65,7 +68,37 @@ class PatientsController extends Controller
             $patient->save();
             if ($request->has('save_type')) {
                 if($request->save_type == 2){
-                    return response()->json(["success"=>$patient]);
+                    $date = Carbon::now();
+                    $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
+                    $lastid = Appoinments::where('appoint_id','>',$checkingID)->orderBy('appoint_id', 'desc')->first();
+
+                    if($lastid){
+                        $appoint_id = $lastid->appoint_id+1;
+                    }else{
+                        $appoint_id = strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0001';
+                    }
+                    $patient_id = $patient->patient_id;
+                    $doctor_id = Doctors::where('id',1)->first()->doctor_id;
+                    $serial_no = 1;
+                    $serial = Appoinments::where('doctor_id',$doctor_id)->where('appointed_date',$date->format('Y-m-d'))->orderBy('serial','DESC')->first();
+                    if($serial){
+                        $serial_no = $serial->serial+1;
+                    }
+                    $appointed = new Appoinments();
+                    $appointed->appoint_id = (int)$appoint_id;
+                    $appointed->patient_id = (int)$patient_id;
+                    $appointed->doctor_id = (int)$doctor_id;
+                    $appointed->appointed_date = $date->format('Y-m-d');
+                    $appointed->serial = $serial_no;
+                    $appointed->appointment_type_id = $request->appointment_type_id;
+                    $appointed->save();
+                    return response()->json([
+                        "success"=>$appointed,
+                        "patient"=>$patient
+                    ]);
+
+                    // return response()->json(["success"=>$date->format('Y-m-d')]);
+                    return response()->json(["success"=>$date->format('Y-m-d')]);
                 }
             }else{
                 return back()->with('success','New Patient Created Successfully');
