@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('appointment_type_id');
             $table->integer('fee_amount');
             $table->enum('status',['Y','N'])->default('Y');
+            $table->boolean('is_default')->default(false);
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

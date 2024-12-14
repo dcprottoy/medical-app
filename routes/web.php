@@ -29,7 +29,7 @@ use App\Http\Controllers\Auth\AuthenticationController;
 
     Route::get('login',[UserController::class,'index'])->name('login');
     Route::post('login',[AuthenticationController::class,'login'])->name('login.post');
-    Route::post('logout',[AuthenticationController::class,'logout'])->name('logout.post');
+    Route::get('logout',[AuthenticationController::class,'logout'])->name('logout.get');
     Route::get('register',[UserController::class,'create']);
     Route::post('register',[UserController::class,'store'])->name('register');
 
@@ -40,6 +40,7 @@ use App\Http\Controllers\Auth\AuthenticationController;
         Route::get('/',function(){
             return view('backend.welcome');
         })->name('home');
+
 
         Route::resource('/brand-image',BrandImageController::class)->names([
             'index'=>'brand-image.home',

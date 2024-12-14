@@ -79,17 +79,22 @@ class AppointmentFeeController extends Controller
             'appointment_type_id' => 'required',
             'fee_amount' => 'required',
         ]);
+        // return $request->input();
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
             $advice = AppointmentFees::findOrFail($id);
+            if(!$request->has('is_default')) $request->merge(['is_default' => 0]);
             $data = $request->only(['day_diff',
                                     'appointment_type_id',
                                     'fee_amount',
+                                    'is_default',
                                     'status']
                                 );
             $advice->fill($data)->save();
             return back()->with('success','Appointment Fee '.$advice->name_eng.' Updated Successfully');
+
+
         }
     }
 

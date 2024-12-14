@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('patient_id');
             $table->integer('doctor_id');
             $table->date('appointed_date');
-            $table->integer('appointment_type_id');
+            $table->integer('appointment_type_id')->nullable();
             $table->boolean('referred_appointment')->default(false);
             $table->integer('referred_by')->nullable();
             $table->boolean('transferred_appointment')->default(false);

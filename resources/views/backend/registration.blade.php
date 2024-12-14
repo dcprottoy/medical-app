@@ -8,16 +8,19 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{asset("backend/adminlte/plugins/fontawesome-free/css/all.min.css")}}">
+  <link rel="stylesheet" href="{{asset('backend/adminlte/plugins/fontawesome-free/css/all.min.css')}}">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{asset("backend/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css")}}">
+  <link rel="stylesheet" href="{{asset('backend/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{asset("backend/adminlte/dist/css/adminlte.min.css")}}">
+  <link rel="stylesheet" href="{{asset('backend/adminlte/dist/css/adminlte.min.css')}}">
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
   <div class="register-logo">
-    <a href="../../index2.html"><b>Alif Medical Center</a>
+  <div class="image">
+        <img src="{{asset('backend/adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:200px;width:200px;">
+    </div>
+    <!-- <a href="../../index2.html"><b>Alif Medical Center</a> -->
   </div>
 
   <div class="card">
@@ -35,7 +38,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="email" >
+          <input type="text" class="form-control" placeholder="User ID" name="user_id" >
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -70,11 +73,11 @@
 </div>
 
 <!-- jQuery -->
-<script src="{{asset("backend/adminlte/plugins/jquery/jquery.min.js")}}"></script>
+<script src="{{asset('backend/adminlte/plugins/jquery/jquery.min.js')}}"></script>
 <!-- Bootstrap 4 -->
-<script src="{{asset("backend/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
+<script src="{{asset('backend/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset("backend/adminlte/dist/js/adminlte.min.js")}}"></script>
+<script src="{{asset('backend/adminlte/dist/js/adminlte.min.js')}}"></script>
 <script>
     $(document).ready(function(){
         $('#err-match').hide();

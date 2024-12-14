@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('doctor_id');
-            $table->integer('department_id');
+            $table->integer('department_id')->nullable();
             $table->string('address');
             $table->string('contact_no');
             $table->string('emr_cont_no')->nullable();

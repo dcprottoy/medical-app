@@ -33,7 +33,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
+            'user_id' => 'required',
             'password' => 'required',
         ]);
 
@@ -43,7 +43,7 @@ class UserController extends Controller
         $data = $request->all();
         $model = new User();
         $model->name = $data['name'];
-        $model->email = $data['email'];
+        $model->user_id = $data['user_id'];
         $model->password = Hash::make($data['password']);
         $model->save();
         return redirect()->route('home');

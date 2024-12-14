@@ -1,13 +1,13 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
-      <img src="{{asset("backend/adminlte/dist/img/AdminLTELogo.jpg")}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <img src="{{asset('backend/adminlte/dist/img/AdminLTELogo.jpg')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Alif Medical Centre</span>
     </a>
     <div class="sidebar">
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="{{asset("backend/adminlte/dist/img/user2-160x160.jpg")}}" class="img-circle elevation-2" alt="User Image">
+          <img src="{{asset('backend/adminlte/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{Auth::user()->name}}</a>
@@ -15,39 +15,48 @@
       </div>
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Dashboard
               </p>
             </a>
-          </li>
-          <li class="nav-item " >
+          </li> -->
+          <!-- <li class="nav-item " >
             <a href="{{route('brand-image.home')}}" class="nav-link {{ Route::currentRouteName() == 'brand-image.home'||Route::currentRouteName() == 'brand-image.create'||Route::currentRouteName() == 'brand-image.edit' ? "active" : ""}}" >
                 <i class="nav-icon fab fa-forumbee"></i>
               <p>
                 Brand Image
               </p>
             </a>
-          </li>
-          <li class="nav-header">DOCTOR'S PANNEL</li>
-          <li class="nav-item " >
-            <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? "active" : ""}}" >
-                <i class="nav-icon fas fa-user-md"></i>
-              <p>
-                Profile
-              </p>
-            </a>
-          </li>
-          <li class="nav-item " >
-            <a href="{{route('appointed.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointed.home'||Route::currentRouteName() == 'appointed.create'||Route::currentRouteName() == 'appointed.edit' ? "active" : ""}}" >
-                <i class="nav-icon fas fa-procedures"></i>
-              <p>
-                Today Appointments
-              </p>
-            </a>
-          </li>
+          </li> -->
+          <li class="nav-item menu-open">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>DOCTOR'S PANNEL
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item " >
+                        <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-user-md"></i>
+                        <p>
+                            Profile
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('appointed.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointed.home'||Route::currentRouteName() == 'appointed.create'||Route::currentRouteName() == 'appointed.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-procedures"></i>
+                        <p>
+                            Today Appointments
+                        </p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
           <li class="nav-item menu-open">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
@@ -121,6 +130,15 @@
                         </a>
                     </li>
                 </ul>
+          </li>
+          <li class="nav-item">
+
+            <a href="{{route('logout.get')}}" class="nav-link">
+            <i class="nav-icon fas fa-sign-in-alt"></i>
+              <p>
+                Logout
+              </p>
+            </a>
           </li>
         </ul>
       </nav>

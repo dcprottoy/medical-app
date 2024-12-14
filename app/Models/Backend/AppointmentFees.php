@@ -14,6 +14,7 @@ class AppointmentFees extends Model
         'day_diff',
         'appointment_type_id',
         'fee_amount',
+        'is_default',
         'status'
     ];
 

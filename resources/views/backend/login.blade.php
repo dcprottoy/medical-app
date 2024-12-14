@@ -17,9 +17,9 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-  <div class="image">
-    <img src="{{asset('backend/adminlte/dist/img/AdminLTELogo.jpg')}}" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:200px;width:200px;">
-  </div>
+    <div class="image">
+        <img src="{{asset('backend/adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:200px;width:200px;">
+    </div>
     <!-- <a href="/"><b>Alif Medical Center</a> -->
   </div>
   <!-- /.login-logo -->
@@ -30,7 +30,7 @@
       <form action="{{route('login.post')}}" method="post">
         @csrf
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="email">
+          <input type="text" class="form-control" placeholder="User ID" name="user_id">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>

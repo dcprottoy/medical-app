@@ -225,24 +225,32 @@ body * { visibility: hidden; }
             </div>
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-sm btn-success" data-toggle="modal" id="aptpantbtn" data-target="#appointedPatient">Appointed Patients</button>
-                    <div class="modal fade" id="appointedPatient" tabindex="-1" role="dialog" aria-labelledby="appointedPatientLabel" aria-hidden="true">
+                    <button class="btn btn-sm btn-success" data-toggle="modal" id="aptpantbtn" data-target="#cheifComplaint">Cheif Complaint</button>
+                    <div class="modal fade" id="cheifComplaint" tabindex="-1" role="dialog" aria-labelledby="cheifComplaintLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                <h5 class="modal-title" id="appointedPatientModalLabel">Appointed Patient List</h5>
+                                <div class="modal-header  bg-success">
+                                <h5 class="modal-title" id="cheifComplaintModalLabel">Chief Complaint List</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="col-sm-12">
-                                        <h4 class="text-center">Appointment Information</h4>
-                                        <ul class="list-group search-list" id="appoin-patient-list">
-                                        </ul>
+                                        <h4 class="text-center">Complaint Information</h4>
+                                        <div class="row">
+                                            <div class="col-7 bg-primary" >
+                                                Prottoy
+                                            </div>
+                                            <div class="col-5 bg-secondary" style="min-height:500px;">
+                                                Khandakar
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
+                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+
                                 </div>
                             </div>
                         </div>
@@ -413,6 +421,12 @@ body * { visibility: hidden; }
             $('#birth_date').datetimepicker({
                 format: 'YYYY-MM-DD',
             });
+        });
+
+        $("#cheif-complaint-save").on('click',function(){
+            $('#cheifComplaint').modal('hide')
+
+
         });
         function setPatient(id){
             let patient_id = $("#patient-id"+id).text();

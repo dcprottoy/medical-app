@@ -23,7 +23,7 @@
                                   </select>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <div class="form-group">
                                     <label>Day Differece Range</label>
                                     <input type="number" class="form-control form-control-sm" name="day_diff" min="0" value="0">
@@ -35,7 +35,14 @@
                                     <input type="number" class="form-control form-control-sm" name="fee_amount" min="0" value="0">
                                 </div>
                             </div>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-2">
+                                <label>&nbsp;</label><br>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" type="checkbox" id="defaultCheckbox" name="is_default" value=1>
+                                    <label for="defaultCheckbox" class="custom-control-label">Default Fee</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-2">
                                 <label>Status</label><br>
                                 <div class="form-check form-check-inline">
                                   <input class="form-check-input" type="radio" name="status" value="Y" required checked>
@@ -73,14 +80,17 @@
                             <th style="width: 5%">
                                 SL
                             </th>
-                            <th style="width: 30%" class="text-center">
+                            <th style="width: 15%" class="text-center">
                                 Appointment Type
                             </th>
-                            <th style="width: 30%" class="text-center">
+                            <th style="width: 15%" class="text-center">
                                 Day Differece Range
                             </th>
                             <th style="width: 15%" class="text-center">
                                 Fee Amount
+                            </th>
+                            <th style="width: 15%" class="text-center">
+                                Default
                             </th>
                             <th style="width: 15%" class="text-center">
                                 Status
@@ -104,6 +114,9 @@
                                     </td>
                                 <td  class="text-center">
                                     {!! $item->fee_amount !!}
+                                </td>
+                                <td  class="text-center">
+                                    {!! $item->is_default  ? '<span class="badge badge-success">Default</span>' :'<span class="badge badge-warning">Not Default</span>' !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->status == 'Y' ? '<span class="badge badge-success">Active</span>' :'<span class="badge badge-warning">Dactive</span>' !!}
@@ -196,6 +209,13 @@
                                                 <input type="number" class="form-control form-control-sm" name="fee_amount" id="u-fee_amount" min="0" value="0">
                                             </div>
                                         </div>
+                                        <div class="form-group col-lg-2">
+                                            <label>&nbsp;</label><br>
+                                            <div class="custom-control custom-checkbox">
+                                                <input class="custom-control-input" type="checkbox" id="u-defaultCheckbox" name="is_default" value=1>
+                                                <label for="u-defaultCheckbox" class="custom-control-label">Default Fee</label>
+                                            </div>
+                                        </div>
                                         <div class="form-group col-lg-3">
                                             <label>Status</label><br>
                                             <div class="form-check  form-check-inline">
@@ -240,6 +260,11 @@
                         $('#u-appointment_type_id').val(result.appointment_type_id);
                         $('#u-day_diff').val(result.day_diff);
                         $('#u-fee_amount').val(result.fee_amount);
+                        if(result.is_default == 1){
+                            $('#u-defaultCheckbox').attr('checked','checked');
+                        }else{
+                            $('#u-defaultCheckbox').removeAttr('checked');
+                        }
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
                         }else if(result.status == 'N'){
