@@ -62,6 +62,12 @@
           </div>
         </div>
         <span style="color:red;display:block;" class="mb-3 text-center" id="err-match">Password Not Matched</span>
+        <div class="form-check m-3">
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input" type="checkbox" id="user_role" name="user_role" value="dr">
+                <label for="user_role" class="custom-control-label">Is Doctor ?</label>
+            </div>
+        </div>
         <div class="row">
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block" id="submit-btn">Register</button>

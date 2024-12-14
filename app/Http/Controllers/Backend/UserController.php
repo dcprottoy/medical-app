@@ -44,6 +44,9 @@ class UserController extends Controller
         $model = new User();
         $model->name = $data['name'];
         $model->user_id = $data['user_id'];
+        if($request->has('user_role')){
+            $model->user_role = $data['user_role'];
+        }
         $model->password = Hash::make($data['password']);
         $model->save();
         return redirect()->route('home');

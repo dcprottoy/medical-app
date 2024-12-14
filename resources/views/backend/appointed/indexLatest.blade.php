@@ -446,7 +446,7 @@ body * { visibility: hidden; }
             $('#appointedPatient').modal('hide')
         }
         $("#aptpantbtn").on('click',function(){
-            let doctor_id = 1;
+            let doctor_id = "{{Auth::user()->user_id}}";
                 $.ajax({
                     type:"GET",
                     url: "{{url('appointed/patientlist/')}}/"+doctor_id,

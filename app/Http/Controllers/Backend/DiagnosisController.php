@@ -5,18 +5,18 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\Symptomp;
+use App\Models\Backend\Diagnosis;
 use Illuminate\Support\Carbon;
 
-class SymptompsController extends Controller
+class DiagnosisController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['symptomps'] = Symptomp::paginate(5);
-        return view('backend.symptomps.index',$data);
+        $data['symptomps'] = Diagnosis::paginate(5);
+        return view('backend.diagnosis.index',$data);
     }
 
     /**
@@ -40,9 +40,9 @@ class SymptompsController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new Symptomp();
+            $advice = new Diagnosis();
             $advice->fill($request->all())->save();
-            return back()->with('success','New Symptomp Created Successfully');
+            return back()->with('success','New Diagnosis Created Successfully');
 
         }
     }
@@ -52,7 +52,7 @@ class SymptompsController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = Symptomp::findOrFail($id);
+        $lastid = Diagnosis::findOrFail($id);
         return $lastid;
     }
 
@@ -75,13 +75,13 @@ class SymptompsController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = Symptomp::findOrFail($id);
+            $advice = Diagnosis::findOrFail($id);
             $data = $request->only(['name_eng',
                                     'name_bang',
                                     'status']
                                 );
             $advice->fill($data)->save();
-            return back()->with('success','Symptomps '.$advice->name_eng.' Updated Successfully');
+            return back()->with('success','Diagnosis '.$advice->name_eng.' Updated Successfully');
         }
     }
 
@@ -90,13 +90,13 @@ class SymptompsController extends Controller
      */
     public function destroy(string $id)
     {
-        if(Symptomp::find($id)){
-            $createObject = Symptomp::find($id);
-            @unlink($createObject->Image);
+        if(Diagnosis::find($id)){
+            $createObject = Diagnosis::find($id);
+            @unlink($Diagnosis->Image);
             $createObject->delete();
-            return back()->with('success','Symptomps Remove Successfully');
+            return back()->with('success','Diagnosis Remove Successfully');
         }else{
-            return back()->with('danger','Symptomps Not Found');
+            return back()->with('danger','Diagnosis Not Found');
         }
     }
 }

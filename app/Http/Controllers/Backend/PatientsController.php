@@ -9,6 +9,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Backend\Appoinments;
 use App\Models\Backend\Doctors;
+use Illuminate\Support\Facades\Auth;
 
 
 class PatientsController extends Controller
@@ -78,7 +79,7 @@ class PatientsController extends Controller
                         $appoint_id = strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0001';
                     }
                     $patient_id = $patient->patient_id;
-                    $doctor_id = Doctors::where('id',1)->first()->doctor_id;
+                    $doctor_id = Auth::user()->user_id;
                     $serial_no = 1;
                     $serial = Appoinments::where('doctor_id',$doctor_id)->where('appointed_date',$date->format('Y-m-d'))->orderBy('serial','DESC')->first();
                     if($serial){

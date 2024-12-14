@@ -1,27 +1,27 @@
 @extends('backend.layout.main')
 @section('body-part')
 <div class="content-wrapper">
-    <x-breadcumb title="Symptomps"/>
+    <x-breadcumb title="Diagnosis"/>
     <div class="content">
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Symptomp Entry</h3>
+                    <h3 class="card-title">Diagnosis Entry</h3>
                 </div>
-                <form action="{{route('symptomps.save')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('diagnosis.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label> Symptomps Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Symptomps Name">
+                                    <label> Diagnosis Name</label>
+                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Diagnosis Name">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>লক্ষণ নাম</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="লক্ষণ নাম">
+                                    <label>রোগ নির্ণয় নাম</label>
+                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="রোগ নির্ণয় নাম">
                                 </div>
                             </div>
                             <div class="form-group col-lg-4">
@@ -45,7 +45,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Advice</h3>
+                    <h3 class="card-title">Diagnosis</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -63,10 +63,10 @@
                                 SL
                             </th>
                             <th style="width: 30%" class="text-center">
-                                Symptomps Name
+                                Diagnosis Name
                             </th>
                             <th style="width: 15%" class="text-center">
-                                লক্ষণ নাম
+                                রোগ নির্ণয় নাম
                             </th>
                             <th class="text-center" style="width: 25%">
                                 Action
@@ -121,7 +121,7 @@
                             @csrf
                             @method('DELETE')
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete Symptomps</h4>
+                                <h4 class="modal-title">Delete Diagnosis</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -144,7 +144,7 @@
                             @csrf
                             @method('PUT')
                             <div class="modal-header">
-                                <h4 class="modal-title">Update Symptomps Information</h4>
+                                <h4 class="modal-title">Update Diagnosis Information</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -155,14 +155,14 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Symptomps Name</label>
+                                                <label>Diagnosis Name</label>
                                                 <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Department Name" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>লক্ষন নাম</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="ডিপার্টমেন্ট নাম" >
+                                                <label>রোগ নির্ণয় নাম</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="রোগ নির্ণয় নাম" >
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
@@ -196,14 +196,14 @@
     $(document).ready(function(){
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('symptomps/')}}/"+id;
+            let link = "{{url('diagnosis/')}}/"+id;
             $('#modal-default-delete').modal('show');
             $('#delete-modal').attr('action',link);
         });
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('symptomps/')}}/"+id,
+                    url: "{{url('diagnosis/')}}/"+id,
                     success: function (result) {
                         console.log(result);
                         $('#u-name_eng').val(result.name_eng);
@@ -216,7 +216,7 @@
 
                     }
                 });
-            let link = "{{url('symptomps/')}}/"+id;
+            let link = "{{url('diagnosis/')}}/"+id;
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 

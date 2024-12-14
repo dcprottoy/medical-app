@@ -5,18 +5,18 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\OnExamination;
+use App\Models\Backend\Complaint;
 use Illuminate\Support\Carbon;
 
-class OnExaminationController extends Controller
+class ComplaintController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['examinations'] = OnExamination::paginate(5);
-        return view('backend.onexamination.index',$data);
+        $data['examinations'] = Complaint::paginate(5);
+        return view('backend.complaint.index',$data);
     }
 
     /**
@@ -40,9 +40,9 @@ class OnExaminationController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new OnExamination();
+            $advice = new Complaint();
             $advice->fill($request->all())->save();
-            return back()->with('success','New Examination Created Successfully');
+            return back()->with('success','New Complaint Created Successfully');
 
         }
     }
@@ -52,7 +52,7 @@ class OnExaminationController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = OnExamination::findOrFail($id);
+        $lastid = Complaint::findOrFail($id);
         return $lastid;
     }
 
@@ -75,13 +75,13 @@ class OnExaminationController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = OnExamination::findOrFail($id);
+            $advice = Complaint::findOrFail($id);
             $data = $request->only(['name_eng',
                                     'name_bang',
                                     'status']
                                 );
             $advice->fill($data)->save();
-            return back()->with('success','Examination '.$advice->name_eng.' Updated Successfully');
+            return back()->with('success','Complaint '.$advice->name_eng.' Updated Successfully');
         }
     }
 
@@ -90,13 +90,13 @@ class OnExaminationController extends Controller
      */
     public function destroy(string $id)
     {
-        if(OnExamination::find($id)){
-            $createObject = OnExamination::find($id);
+        if(Complaint::find($id)){
+            $createObject = Complaint::find($id);
             @unlink($createObject->Image);
             $createObject->delete();
-            return back()->with('success','Examination Remove Successfully');
+            return back()->with('success','Complaint Remove Successfully');
         }else{
-            return back()->with('danger','Examination Not Found');
+            return back()->with('danger','Complaint Not Found');
         }
     }
 }

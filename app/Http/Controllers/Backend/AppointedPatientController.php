@@ -76,8 +76,9 @@ class AppointedPatientController extends Controller
 
 
         $date = Carbon::now()->format('Y-m-d');
-
-        $appoinmentInfo = Appoinments::with('patient')->where('appoinments.appointed_date',$date)
+        $appoinmentInfo = Appoinments::with('patient')
+                        ->where('appoinments.appointed_date',$date)
+                        ->where('appoinments.doctor_id',$id)
                         ->orderBy('appoinments.serial','ASC')
                         ->get();
         return $appoinmentInfo;

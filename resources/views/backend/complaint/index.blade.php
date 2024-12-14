@@ -1,27 +1,27 @@
 @extends('backend.layout.main')
 @section('body-part')
 <div class="content-wrapper">
-    <x-breadcumb title="On Examination"/>
+    <x-breadcumb title="Complaint"/>
     <div class="content">
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">On Examination Entry</h3>
+                    <h3 class="card-title">Complaint Entry</h3>
                 </div>
-                <form action="{{route('onexaminations.save')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('complaint.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label> Examination Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Examination Name">
+                                    <label> Complaint Name</label>
+                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Complaint Name">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>পরীক্ষন এর নাম</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="পরীক্ষন নাম">
+                                    <label>অভিযোগ এর নাম</label>
+                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="অভিযোগ নাম">
                                 </div>
                             </div>
                             <div class="form-group col-lg-4">
@@ -63,10 +63,10 @@
                                 SL
                             </th>
                             <th style="width: 30%" class="text-center">
-                                Examination Name
+                                Complaint Name
                             </th>
                             <th style="width: 15%" class="text-center">
-                                পরীক্ষন এর নাম
+                                অভিযোগ এর নাম
                             </th>
                             <th class="text-center" style="width: 25%">
                                 Action
@@ -121,7 +121,7 @@
                             @csrf
                             @method('DELETE')
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete Examination</h4>
+                                <h4 class="modal-title">Delete Complaint</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -144,7 +144,7 @@
                             @csrf
                             @method('PUT')
                             <div class="modal-header">
-                                <h4 class="modal-title">Update Examination Information</h4>
+                                <h4 class="modal-title">Update Complaint Information</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -156,13 +156,13 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Examination Name</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Department Name" required>
+                                                <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Complaint Name" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>পরীক্ষণ এর নাম</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="ডিপার্টমেন্ট নাম" >
+                                                <label>অভিযোগ এর নাম</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="অভিযোগ নাম" >
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
@@ -196,14 +196,14 @@
     $(document).ready(function(){
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('onexaminations/')}}/"+id;
+            let link = "{{url('complaint/')}}/"+id;
             $('#modal-default-delete').modal('show');
             $('#delete-modal').attr('action',link);
         });
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('onexaminations/')}}/"+id,
+                    url: "{{url('complaint/')}}/"+id,
                     success: function (result) {
                         console.log(result);
                         $('#u-name_eng').val(result.name_eng);
@@ -216,7 +216,7 @@
 
                     }
                 });
-            let link = "{{url('onexaminations/')}}/"+id;
+            let link = "{{url('complaint/')}}/"+id;
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 

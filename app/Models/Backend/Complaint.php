@@ -5,7 +5,7 @@ namespace App\Models\Backend;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Symptomp extends Model
+class Complaint extends Model
 {
     use HasFactory;
 

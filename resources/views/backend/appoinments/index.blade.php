@@ -97,6 +97,14 @@ body * { visibility: hidden; }
                                         <textarea class="form-control" rows="5" placeholder="Enter ..." id="note-field"></textarea>
                                         </div>
                                     </div>
+                                    <div class="form-group col-sm-12">
+                                        @foreach($appointmenttypes as $apttype)
+                                            <div class="form-check m-2">
+                                                <input class="form-check-input" type="radio" name="appointment_type_id" value="{{$apttype->id}}" required {{$apttype->name_eng === "Consultation"?"checked":""}}>
+                                                <label class="form-check-label">{{$apttype->name_eng}}</label>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                                 <button class="btn btn-md btn-success col-sm-12" id="save-appointment">Save</button>
                             </div>

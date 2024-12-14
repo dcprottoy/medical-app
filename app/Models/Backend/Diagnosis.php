@@ -5,7 +5,7 @@ namespace App\Models\Backend;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OnExamination extends Model
+class Diagnosis extends Model
 {
     use HasFactory;
 

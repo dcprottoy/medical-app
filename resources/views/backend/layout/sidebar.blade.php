@@ -106,15 +106,15 @@
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('symptomps.home')}}" class="nav-link {{ Route::currentRouteName() == 'symptomps.home'||Route::currentRouteName() == 'symptomps.create'||Route::currentRouteName() == 'symptomps.edit' ? "active" : ""}}" >
+                        <a href="{{route('diagnosis.home')}}" class="nav-link {{ Route::currentRouteName() == 'diagnosis.home'||Route::currentRouteName() == 'diagnosis.create'||Route::currentRouteName() == 'diagnosis.edit' ? "active" : ""}}" >
                             <i class="nav-icon fas fa-user-md"></i>
-                            <p>Symptomps</p>
+                            <p>Diagnosis</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('onexaminations.home')}}" class="nav-link {{ Route::currentRouteName() == 'onexaminations.home'||Route::currentRouteName() == 'onexaminations.create'||Route::currentRouteName() == 'onexaminations.edit' ? "active" : ""}}" >
+                        <a href="{{route('complaint.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaint.home'||Route::currentRouteName() == 'complaint.create'||Route::currentRouteName() == 'complaint.edit' ? "active" : ""}}" >
                             <i class="nav-icon fas fa-user-md"></i>
-                            <p>On Examinations</p>
+                            <p>Complaint</p>
                         </a>
                     </li>
                     <li class="nav-item " >

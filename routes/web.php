@@ -9,8 +9,8 @@ use App\Http\Controllers\Backend\AppoinmentController;
 use App\Http\Controllers\Backend\AppointedPatientController;
 use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AdviceController;
-use App\Http\Controllers\Backend\SymptompsController;
-use App\Http\Controllers\Backend\OnExaminationController;
+use App\Http\Controllers\Backend\DiagnosisController;
+use App\Http\Controllers\Backend\ComplaintController;
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Auth\AuthenticationController;
@@ -107,21 +107,21 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'update'=>'advices.update',
             'destroy'=>'advices.delete'
         ]);
-        Route::resource('/symptomps',SymptompsController::class)->names([
-            'index'=>'symptomps.home',
-            'create'=>'symptomps.create',
-            'store'=>'symptomps.save',
-            'edit'=>'symptomps.edit',
-            'update'=>'symptomps.update',
-            'destroy'=>'symptomps.delete'
+        Route::resource('/diagnosis',DiagnosisController::class)->names([
+            'index'=>'diagnosis.home',
+            'create'=>'diagnosis.create',
+            'store'=>'diagnosis.save',
+            'edit'=>'diagnosis.edit',
+            'update'=>'diagnosis.update',
+            'destroy'=>'diagnosis.delete'
         ]);
-        Route::resource('/onexaminations',OnExaminationController::class)->names([
-            'index'=>'onexaminations.home',
-            'create'=>'onexaminations.create',
-            'store'=>'onexaminations.save',
-            'edit'=>'onexaminations.edit',
-            'update'=>'onexaminations.update',
-            'destroy'=>'onexaminations.delete'
+        Route::resource('/complaint',ComplaintController::class)->names([
+            'index'=>'complaint.home',
+            'create'=>'complaint.create',
+            'store'=>'complaint.save',
+            'edit'=>'complaint.edit',
+            'update'=>'complaint.update',
+            'destroy'=>'complaint.delete'
         ]);
 
         Route::resource('/appointtype',AppointmentTypeController::class)->names([

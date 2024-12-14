@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Backend\Doctors;
 use App\Models\Backend\Patients;
 use App\Models\Backend\Appoinments;
+use App\Models\Backend\AppointmentType;
 use Illuminate\Support\Carbon;
 
 class AppoinmentController extends Controller
@@ -20,6 +21,8 @@ class AppoinmentController extends Controller
         $data['doctors'] = Doctors::with('department')->get();
         // return $data;
         $data['patients'] = Patients::orderBy('id','DESC')->limit(100)->get();
+        $data['appointmenttypes'] = AppointmentType::where('status',TRUE)->get();
+
         return view('backend.appoinments.index',$data);
     }
 
