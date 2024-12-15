@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AdviceController;
 use App\Http\Controllers\Backend\DiagnosisController;
 use App\Http\Controllers\Backend\ComplaintController;
+use App\Http\Controllers\Backend\ComplaintDurationController;
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Auth\AuthenticationController;
@@ -122,6 +123,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'edit'=>'complaint.edit',
             'update'=>'complaint.update',
             'destroy'=>'complaint.delete'
+        ]);
+
+        Route::resource('/complaintduration',ComplaintDurationController::class)->names([
+            'index'=>'complaintduration.home',
+            'create'=>'complaintduration.create',
+            'store'=>'complaintduration.save',
+            'edit'=>'complaintduration.edit',
+            'update'=>'complaintduration.update',
+            'destroy'=>'complaintduration.delete'
         ]);
 
         Route::resource('/appointtype',AppointmentTypeController::class)->names([

@@ -118,6 +118,12 @@
                         </a>
                     </li>
                     <li class="nav-item " >
+                        <a href="{{route('complaintduration.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaintduration.home'||Route::currentRouteName() == 'complaintduration.create'||Route::currentRouteName() == 'complaintduration.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-user-md"></i>
+                            <p>Complaint Duration</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
                         <a href="{{route('appointtype.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointtype.home'||Route::currentRouteName() == 'appointtype.create'||Route::currentRouteName() == 'appointtype.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-user-md"></i>
                             <p>Appointment Type</p>

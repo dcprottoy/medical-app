@@ -1,27 +1,27 @@
 @extends('backend.layout.main')
 @section('body-part')
 <div class="content-wrapper">
-    <x-breadcumb title="Complaint"/>
+    <x-breadcumb title="Complaint Duration"/>
     <div class="content">
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Complaint Entry</h3>
+                    <h3 class="card-title">Complaint Duration Entry</h3>
                 </div>
-                <form action="{{route('complaint.save')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('complaintduration.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label> Complaint Name</label>
+                                    <label> Complaint Duration Name</label>
                                     <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Complaint Name">
                                 </div>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label>অভিযোগ এর নাম</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="অভিযোগ নাম">
+                                    <label>অভিযোগ স্থায়িত্ব এর নাম</label>
+                                    <input type="text" class="form-control form-control-sm" name='name_bang' placeholder="অভিযোগ স্থায়িত্ব নাম">
                                 </div>
                             </div>
                             <div class="form-group col-lg-4">
@@ -45,7 +45,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Complaint</h3>
+                    <h3 class="card-title">Advice</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -55,7 +55,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="card-body p-0" style = "min-height:300px;">
+                <div class="card-body p-0" style = "min-height:500px;">
                     <table class="table table-sm table-striped projects">
                         <thead>
                             <tr>
@@ -63,10 +63,10 @@
                                 SL
                             </th>
                             <th style="width: 30%" class="text-center">
-                                Complaint Name
+                                Complaint Duration Name
                             </th>
                             <th style="width: 15%" class="text-center">
-                                অভিযোগ এর নাম
+                                অভিযোগ স্থায়িত্ব এর নাম
                             </th>
                             <th class="text-center" style="width: 25%">
                                 Action
@@ -121,7 +121,7 @@
                             @csrf
                             @method('DELETE')
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete Complaint</h4>
+                                <h4 class="modal-title">Delete Complaint Duration</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -144,7 +144,7 @@
                             @csrf
                             @method('PUT')
                             <div class="modal-header">
-                                <h4 class="modal-title">Update Complaint Information</h4>
+                                <h4 class="modal-title">Update Complaint Duration Information</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -155,14 +155,14 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Complaint Name</label>
+                                                <label>Complaint Duration Name</label>
                                                 <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Complaint Name" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>অভিযোগ এর নাম</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="অভিযোগ নাম" >
+                                                <label>অভিযোগ স্থায়িত্ব এর নাম</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-name_bang' name='name_bang' placeholder="অভিযোগ স্থায়িত্ব নাম" >
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
@@ -196,14 +196,14 @@
     $(document).ready(function(){
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('complaint/')}}/"+id;
+            let link = "{{url('complaintduration/')}}/"+id;
             $('#modal-default-delete').modal('show');
             $('#delete-modal').attr('action',link);
         });
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('complaint/')}}/"+id,
+                    url: "{{url('complaintduration/')}}/"+id,
                     success: function (result) {
                         console.log(result);
                         $('#u-name_eng').val(result.name_eng);
@@ -216,7 +216,7 @@
 
                     }
                 });
-            let link = "{{url('complaint/')}}/"+id;
+            let link = "{{url('complaintduration/')}}/"+id;
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 

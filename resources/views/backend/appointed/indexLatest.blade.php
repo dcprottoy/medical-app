@@ -6,9 +6,23 @@
     overflow-x: hidden;
     overflow-y: scroll;
 }
+.complaint-search-list{
+    height:450px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
 .add-list{
     overflow-x: hidden;
     overflow-y: scroll;
+}
+.complaint-list-item:hover{
+    cursor: pointer;
+    background-color: beige;
+}
+
+.complaint-duration-list-item:hover{
+    cursor: pointer;
+    background-color: beige;
 }
 @media print
 {
@@ -18,6 +32,38 @@ body * { visibility: hidden; }
 
 #print-div { position: absolute; top: 40px; left: 30px; }
 }
+
+
+
+        /* Custom scrollbar for WebKit-based browsers (Chrome, Safari, Edge) */
+        .complaint-search-list::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        .complaint-search-list::-webkit-scrollbar-track {
+            background: #f1f1f1; /* Track color */
+            border-radius: 5px;
+        }
+
+        .complaint-search-list::-webkit-scrollbar-thumb {
+            background: #888; /* Scrollbar thumb color */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .complaint-search-list::-webkit-scrollbar-thumb:hover {
+            background: #555; /* Hover effect */
+        }
+
+        /* Custom scrollbar for Firefox */
+        .complaint-search-list {
+            scrollbar-width: thin; /* Thin scrollbar */
+            scrollbar-color: #888 #f1f1f1; /* Thumb color and track color */
+        }
+
+        /* Custom scrollbar for Internet Explorer (Optional) */
+        .complaint-search-list {
+            -ms-overflow-style: scrollbar; /* Custom IE scrollbar style */
+        }
 </style>
 <div class="content-wrapper">
     <x-breadcumb title="Prescription"/>
@@ -225,11 +271,11 @@ body * { visibility: hidden; }
             </div>
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-sm btn-success" data-toggle="modal" id="aptpantbtn" data-target="#cheifComplaint">Cheif Complaint</button>
+                    <button class="btn btn-sm btn-info" data-toggle="modal" id="chiefcomplaintbtn" data-target="#cheifComplaint">Cheif Complaint</button>
                     <div class="modal fade" id="cheifComplaint" tabindex="-1" role="dialog" aria-labelledby="cheifComplaintLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
-                                <div class="modal-header  bg-success">
+                                <div class="modal-header  bg-info">
                                 <h5 class="modal-title" id="cheifComplaintModalLabel">Chief Complaint List</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -239,11 +285,43 @@ body * { visibility: hidden; }
                                     <div class="col-sm-12">
                                         <h4 class="text-center">Complaint Information</h4>
                                         <div class="row">
-                                            <div class="col-7 bg-primary" >
-                                                Prottoy
+                                            <div class="col-9 border-right" >
+                                                <div class="row">
+                                                    <div class="col-5">
+                                                        <div class="form-group text-center">
+                                                            <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                                        </div>
+                                                        <ul class="list-group complaint-search-list" id="complaint-list">
+                                                            @foreach($complaints as $complaint)
+                                                                <li class="list-group-item complaint-list-item" data-value="{{$complaint->id}}">{{$complaint->name_eng}}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <div class="form-group text-center">
+                                                            <input type="text" class="form-control form-control-md" id="compalint-duration-search" placeholder="Search..">
+                                                        </div>
+                                                        <ul class="list-group complaint-search-list" id="complaint-duration-list">
+                                                            @foreach($complaintdurations as $complaintdration)
+                                                                <li class="list-group-item complaint-duration-list-item" data-value="{{$complaintdration->id}}">{{$complaintdration->name_eng}}</li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group mt-5">
+                                                            <label>Complaint Value</label>
+                                                            <input type="text" class="form-control form-control-md" name='complaint_value' placeholder="Complaint Value" id="complaint_value">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <button class="btn btn-md btn-success"  id="complaint-add" >Add Complaint</button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
-                                            <div class="col-5 bg-secondary" style="min-height:500px;">
-                                                Khandakar
+                                            <div class="col-3" style="min-height:500px;">
+                                                <ul id="complaint-list-text">
+                                                </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -261,38 +339,9 @@ body * { visibility: hidden; }
                         <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">On Examination</h3>
+                                    <h3 class="card-title" style="font-weight:800;">Cheif Complaint</h3>
                                 </div>
                                 <div class="card-body" style = "min-height:250px;">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <div class="form-group">
-                                                {{-- <select class="select2bs4" multiple="multiple" data-placeholder="Select a State"
-                                                        style="width: 100%;"> --}}
-                                                <select class="select2bs4" data-placeholder="Select a Symptomps" style="width: 100%;" id="onexam-dropdown">
-                                                    <option value="" >Select An Examination</option>
-                                                    <option value="Fever" >Fever</option>
-                                                    <option value="Chest Pain">Chest Pain</option>
-                                                    <option value="Joint Pain">Joint Pain</option>
-                                                    <option value="Caugh">Caugh</option>
-                                                    <option value="Blury Vission">Blury Vission</option>
-                                                    <option value="Pain In Stomach">Pain In Stomach</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control form-control-md" name='onexam_value' placeholder="value" id="onexam_value">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1">
-                                            <div class="form-group">
-                                                <a class="btn btn-info btn-sm p-2 add-exam">
-                                                    <i style="font-size:10px;" class="fas fa-check"></i>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <ul id="onexam-list">
                                     </ul>
                                 </div>
@@ -414,6 +463,13 @@ body * { visibility: hidden; }
 @push('scripts')
 <script>
     $(document).ready(function(){
+        let chiefComplaint = [];
+        let tempComplaintID;
+        let tempComplaintText;
+        let tempComplaintDurationID;
+        let tempComplaintDurationText;
+        let tempComplaintValue;
+        let tempCompleteComplaint;
         $(function () {
             $('.select2bs4').select2({
             theme: 'bootstrap4',
@@ -669,16 +725,26 @@ body * { visibility: hidden; }
                 $(this).closest("li").remove();
             });
         });
-        $(".add-exam").on('click',function(){
-            let test = $("#onexam-dropdown option:selected").val();
-            let value = $("#onexam_value").val();
-            $("#onexam-list").append(`
+
+        function removeComplaint(id){
+            chiefComplaint = chiefComplaint.filter(x=>{
+               return x.complaint_id != id;
+            });
+            renderComplaint();
+        }
+
+        function renderComplaint(){
+            $("#complaint-list-text").empty();
+            $("#onexam-list").empty();
+            let myElement = "";
+            chiefComplaint.forEach(x=>{
+                tempCompleteComplaint = x.complaint_text+" "+x.complaint_value+" "+x.complaint_duration_text;
+                myElement +=`
             <li style="list-style-type: none;">
                 <div class="row">
-                <div class="col-sm-8">${"-"+test}</div>
-                <div class="col-sm-2">${value}</div>
+                <div class="col-sm-10">${"- "+tempCompleteComplaint}</div>
                 <div class="col-sm-2">
-                    <button type="button" class="btn btn-xs remove-btn" title="Remove">
+                    <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${x.complaint_id} title="Remove">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -687,12 +753,113 @@ body * { visibility: hidden; }
 
 
                 </li>
-            `);
-
-            $('.remove-btn').on('click',function(e){
-                console.log("Prottoy");
-                $(this).closest("li").remove();
+            `;
             });
+
+            $("#complaint-list-text").append(myElement);
+            $("#onexam-list").append(myElement);
+
+            $('.remove-complaint-btn').on('click',function(e){
+                console.log("Prottoy");
+                let removeID = $(this).attr('data-id');
+                removeComplaint(removeID);
+            });
+
+           console.log(tempCompleteComplaint);
+        }
+
+        $("#chiefcomplaintbtn").on('click',function(){
+            renderComplaint();
+        });
+        $(".complaint-list-item").on('click',function(){
+           let text = $(this).text();
+           let id = $(this).attr('data-value');
+           $('.complaint-list-item').each(function(){
+            $(this).css("background-color", "white");
+           });
+           $(this).css("background-color", "beige");
+           tempComplaintID = id;
+           tempComplaintText = text;
+           console.log([tempComplaintID,tempComplaintText]);
+        });
+
+        $(".complaint-duration-list-item").on('click',function(){
+           let text = $(this).text();
+           let id = $(this).attr('data-value');
+           $('.complaint-duration-list-item').each(function(){
+            $(this).css("background-color", "white");
+           });
+           $(this).css("background-color", "beige");
+           tempComplaintDurationID = id;
+           tempComplaintDurationText = text;
+           console.log([tempComplaintDurationID,tempComplaintDurationText]);
+        });
+
+        $("#complaint-add").on('click',function(){
+            let text = $("#complaint_value").val();
+
+            let checkExistence = false;
+            chiefComplaint.forEach(x=>{
+                if(x.complaint_id == tempComplaintID){
+                    checkExistence =  true ;
+                }
+            });
+            if(tempComplaintID && tempComplaintText){
+                if(!checkExistence){
+                    chiefComplaint = [...chiefComplaint,{
+                    'complaint_id':tempComplaintID,
+                    'complaint_text':tempComplaintText,
+                    'complaint_duration_id':tempComplaintDurationID,
+                    'complaint_duration_text':tempComplaintDurationText,
+                    'complaint_value':text
+                    }]
+                }else{
+                    chiefComplaint = chiefComplaint.map( x =>{
+
+                        if(x.complaint_id == tempComplaintID){
+                            x.complaint_id = tempComplaintID,
+                            x.complaint_text = tempComplaintText,
+                            x.complaint_duration_id = tempComplaintDurationID,
+                            x.complaint_duration_text = tempComplaintDurationText,
+                            x.complaint_value = text
+                        }
+
+                        return x;
+
+
+                    });
+                }
+
+                console.log(chiefComplaint);
+                renderComplaint();
+                $('.complaint-duration-list-item').each(function(){
+                    $(this).css("background-color", "white");
+                });
+                $('.complaint-list-item').each(function(){
+                    $(this).css("background-color", "white");
+                });
+                $("#complaint_value").val('');
+                tempComplaintID = '';
+                tempComplaintText = '';
+                tempComplaintDurationID = '';
+                tempComplaintDurationText = '';
+                text = '';
+            }
+        });
+
+        $('#complaint-search').on('keyup', function() {
+                var value = $(this).val().toLowerCase(); // Get the search input value
+                $('#complaint-list li').filter(function() {
+                    // Show or hide list items based on the search query
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+        });
+        $('#compalint-duration-search').on('keyup', function() {
+                var value = $(this).val().toLowerCase(); // Get the search input value
+                $('#complaint-duration-list li').filter(function() {
+                    // Show or hide list items based on the search query
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
         });
 
     });
