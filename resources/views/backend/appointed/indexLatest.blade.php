@@ -333,52 +333,67 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-sm btn-warning" data-toggle="modal" id="onExaminationbtn" data-target="#onExamination">On Examination</button>
+                    <div class="modal fade" id="onExamination" tabindex="-1" role="dialog" aria-labelledby="onExaminationLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-md" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-warning">
+                                <h5 class="modal-title" id="onExaminationModalLabel">On Examination</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Blood Pressure </label>
+                                                    <input type="text" class="form-control form-control-sm" name='blood_pressure' placeholder="Pressure" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Body Temperature</label>
+                                                    <input type="text" class="form-control form-control-sm" name='body_temperature' placeholder="Temperature" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Body Weight</label>
+                                                    <input type="text" class="form-control form-control-sm" name='body_weight' placeholder="Weight" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body" style = "min-height:250px;">
                     <div class="row">
                         <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">Cheif Complaint</h3>
-                                </div>
-                                <div class="card-body" style = "min-height:250px;">
-                                    <ul id="onexam-list">
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">Tests</h3>
-                                </div>
-                                <div class="card-body" style = "min-height:250px;">
-                                    <div class="form-group">
-                                        {{-- <select class="select2bs4" multiple="multiple" data-placeholder="Select a State"
-                                                style="width: 100%;"> --}}
-                                        <select class="select2bs4" data-placeholder="Select a Test" style="width: 100%;" id="test-dropdown">
-                                            <option value="" >Select An Test</option>
-                                            <option value="CBC" >CBC</option>
-                                            <option value="RBS">RBS</option>
-                                            <option value="Dengue(NS1)">Dengue(NS1)</option>
-                                        </select>
-                                    </div>
-                                    <ul id="test-list">
-                                    </ul>
-                                </div>
-                            </div>
+                            <h6>Cheif Complaint</h6>
+                            <ul class="border-top pt-2" id="onexam-list" style="min-height:200px;">
+                            </ul>
+                            <h6>On Examination</h6>
+                            <ul class="border-top pt-2" id="onexam-list" style="min-height:200px;">
+                            </ul>
+                            <h6>Investigation</h6>
+                            <ul class="border-top pt-2" id="test-list" style="min-height:200px;">
+                            </ul>
                         </div>
-                        <div class="card col-sm-6">
-                            <div class="card-header">
-                                <h3 class="card-title" style="font-weight:800;">Treatment</h3>
-                                <div class="card-tools">
-
-                                    <button type="button" class="btn" title="Remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body" style = "min-height:500px;">
-
-                            </div>
+                        <div class=" col-sm-6 border-left">
+                                <h6>Diagnosis</h6>
+                                <ul class="border-top pt-2" id="diagnosis-list" style="min-height:200px;">
+                                </ul>
+                                <h5>Rx</h5>
+                                <ul id="treatment-list">
+                                </ul>
                         </div>
                         <div class="col-sm-3">
                             <div class="card">
@@ -464,12 +479,12 @@ body * { visibility: hidden; }
 <script>
     $(document).ready(function(){
         let chiefComplaint = [];
-        let tempComplaintID;
-        let tempComplaintText;
-        let tempComplaintDurationID;
-        let tempComplaintDurationText;
-        let tempComplaintValue;
-        let tempCompleteComplaint;
+        let tempComplaintID = '';
+        let tempComplaintText = '';
+        let tempComplaintDurationID = '';
+        let tempComplaintDurationText = '';
+        let tempComplaintValue = '';
+        let tempCompleteComplaint = '';
         $(function () {
             $('.select2bs4').select2({
             theme: 'bootstrap4',
@@ -481,8 +496,6 @@ body * { visibility: hidden; }
 
         $("#cheif-complaint-save").on('click',function(){
             $('#cheifComplaint').modal('hide')
-
-
         });
         function setPatient(id){
             let patient_id = $("#patient-id"+id).text();
@@ -742,7 +755,7 @@ body * { visibility: hidden; }
                 myElement +=`
             <li style="list-style-type: none;">
                 <div class="row">
-                <div class="col-sm-10">${"- "+tempCompleteComplaint}</div>
+                <div class="col-sm-10">${"- &ensp;"+tempCompleteComplaint}</div>
                 <div class="col-sm-2">
                     <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${x.complaint_id} title="Remove">
                         <i class="fas fa-times"></i>
@@ -782,7 +795,6 @@ body * { visibility: hidden; }
            tempComplaintText = text;
            console.log([tempComplaintID,tempComplaintText]);
         });
-
         $(".complaint-duration-list-item").on('click',function(){
            let text = $(this).text();
            let id = $(this).attr('data-value');
@@ -794,7 +806,6 @@ body * { visibility: hidden; }
            tempComplaintDurationText = text;
            console.log([tempComplaintDurationID,tempComplaintDurationText]);
         });
-
         $("#complaint-add").on('click',function(){
             let text = $("#complaint_value").val();
 
@@ -846,7 +857,6 @@ body * { visibility: hidden; }
                 text = '';
             }
         });
-
         $('#complaint-search').on('keyup', function() {
                 var value = $(this).val().toLowerCase(); // Get the search input value
                 $('#complaint-list li').filter(function() {
