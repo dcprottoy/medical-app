@@ -350,24 +350,24 @@ body * { visibility: hidden; }
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Blood Pressure </label>
-                                                    <input type="text" class="form-control form-control-sm" name='blood_pressure' placeholder="Pressure" required>
+                                                    <input type="text" class="form-control form-control-sm" id="bloodPressure" name='blood_pressure' placeholder="Pressure">
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Body Temperature</label>
-                                                    <input type="text" class="form-control form-control-sm" name='body_temperature' placeholder="Temperature" required>
+                                                    <input type="text" class="form-control form-control-sm" id="bodyTemperature" name='body_temperature' placeholder="Temperature">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <label>Body Weight</label>
-                                                    <input type="text" class="form-control form-control-sm" name='body_weight' placeholder="Weight" required>
+                                                    <input type="text" class="form-control form-control-sm" id='bodyWeight' name='body_weight' placeholder="Weight">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+                                <button class="btn btn-sm btn-success" id="on-examination-save">&nbsp;Save&nbsp;</button>
 
                                 </div>
                             </div>
@@ -494,7 +494,7 @@ body * { visibility: hidden; }
 
                     <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="referredbtn" data-target="#referred">Referred</button>
                     <div class="modal fade" id="referred" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
-                        <div class="modal-dialog"  style="min-width:90%;" role="document">
+                        <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-secondary">
                                 <h5 class="modal-title" id="referredModalLabel">Referred List</h5>
@@ -537,7 +537,7 @@ body * { visibility: hidden; }
                             <ul class="border-top pt-2" id="onexam-list" style="min-height:200px;">
                             </ul>
                             <h6>On Examination</h6>
-                            <ul class="border-top pt-2" id="onexam-list" style="min-height:200px;">
+                            <ul class="border-top pt-2" id="onexamination-list" style="min-height:200px;">
                             </ul>
                             <h6>Investigation</h6>
                             <ul class="border-top pt-2" id="test-list" style="min-height:200px;">
@@ -554,73 +554,13 @@ body * { visibility: hidden; }
                         <div class="col-sm-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">Initial Examination</h3>
+                                    <h3 class="card-title" style="font-weight:800;">Previous Appointments</h3>
                                 </div>
-                                <div class="card-body" style = "min-height:100px;">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Blood Pressure </label>
-                                                <input type="text" class="form-control form-control-sm" name='blood_pressure' placeholder="Pressure" required>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Body Temperature</label>
-                                                <input type="text" class="form-control form-control-sm" name='body_temperature' placeholder="Temperature" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Body Weight</label>
-                                                <input type="text" class="form-control form-control-sm" name='body_weight' placeholder="Weight" required>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="card-body" style = "min-height:80vh;">
+
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">Symptomps</h3>
-                                </div>
-                                <div class="card-body" style = "min-height:200px;">
-                                    <div class="form-group">
-                                        {{-- <select class="select2bs4" multiple="multiple" data-placeholder="Select a State"
-                                                style="width: 100%;"> --}}
-                                        <select class="select2bs4" data-placeholder="Select a Symptomps" style="width: 100%;" id="symptom-dropdown">
-                                            <option value="" >Select An Symptomps</option>
-                                            <option value="Fever" >Fever</option>
-                                            <option value="Chest Pain">Chest Pain</option>
-                                            <option value="Joint Pain">Joint Pain</option>
-                                            <option value="Caugh">Caugh</option>
-                                            <option value="Blury Vission">Blury Vission</option>
-                                        </select>
-                                    </div>
-                                    <ul id="symptomp-list">
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">Advices</h3>
-                                </div>
-                                <div class="card-body" style = "min-height:200px;">
-                                    <div class="form-group">
-                                        {{-- <select class="select2bs4" multiple="multiple" data-placeholder="Select a State"
-                                                style="width: 100%;"> --}}
-                                        <select class="select2bs4" data-placeholder="Select a Advice" style="width: 100%;" id="advice-dropdown">
-                                            <option value="" >Select An Advice</option>
-                                            <option value="Avoid Cold" >Avoid Cold</option>
-                                            <option value="Bed Rest For 7 Days">Bed Rest For 7 Days</option>
-                                            <option value="Bed Rest For 14 Days">Bed Rest For 14 Days</option>
-                                            <option value="Bed Rest For 1 Month">Bed Rest For 1 Month</option>
-                                            <option value="Visit After 7 Days">Visit After 7 Days</option>
-                                            <option value="Visit After 14 Days">Visit After 14 Days</option>
-                                            <option value="Visit After 1 Month">Visit After 1 Month</option>
-                                        </select>
-                                    </div>
-                                    <ul id="advice-list">
-                                    </ul>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -641,6 +581,12 @@ body * { visibility: hidden; }
         let tempComplaintDurationText = '';
         let tempComplaintValue = '';
         let tempCompleteComplaint = '';
+        let onExamination = {
+                            blood_pressure:'',
+                            body_temperature:'',
+                            body_weight:''
+                            };
+
         $(function () {
             $('.select2bs4').select2({
             theme: 'bootstrap4',
@@ -653,6 +599,7 @@ body * { visibility: hidden; }
         $("#cheif-complaint-save").on('click',function(){
             $('#cheifComplaint').modal('hide')
         });
+
         function setPatient(id){
             let patient_id = $("#patient-id"+id).text();
             let patient_name = $("#patient-name"+id).text();
@@ -1027,6 +974,82 @@ body * { visibility: hidden; }
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
                 });
         });
+        function removeOnExamination(id){
+            onExamination[id]='';
+            renderOnExamination();
+        }
+        function renderOnExamination(){
+            $("#onexamination-list").empty();
+            $("#bloodPressure").val(onExamination.blood_pressure);
+            $("#bodyTemperature").val(onExamination.body_temperature);
+            $("#bodyWeight").val(onExamination.body_weight);
+            let myElement = "";
+
+            if(onExamination.blood_pressure!=''){
+                myElement +=`
+                <li style="list-style-type: none;">
+                    <div class="row">
+                    <div class="col-sm-10">Blood Pressure${":&ensp;"+onExamination.blood_pressure}</div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='blood_pressure' title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    </div>
+                </li>
+                `;
+            }
+            if(onExamination.body_temperature!=''){
+                myElement +=`
+                <li style="list-style-type: none;">
+                    <div class="row">
+                    <div class="col-sm-10">Body Temperature${":&ensp;"+onExamination.body_temperature}<sup>o</sup></div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='body_temperature' title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    </div>
+                </li>
+                `;
+            }
+            if(onExamination.body_weight!=''){
+                myElement +=`
+                <li style="list-style-type: none;">
+                    <div class="row">
+                    <div class="col-sm-10">Body Weight${":&ensp;"+onExamination.body_weight} kg</div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='body_weight' title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    </div>
+                </li>
+                `;
+            }
+
+            $("#onexamination-list").append(myElement);
+
+            $('.remove-onexamination-btn').on('click',function(e){
+                console.log("Prottoy");
+                let removeID = $(this).attr('data-id');
+                removeOnExamination(removeID);
+            });
+
+        }
+
+        $("#on-examination-save").on('click',function(){
+            onExamination.blood_pressure = $("#bloodPressure").val();
+            onExamination.body_temperature = $("#bodyTemperature").val();
+            onExamination.body_weight = $("#bodyWeight").val();
+            renderOnExamination();
+            $('#onExamination').modal('hide');
+        });
+
+        $("#onExaminationbtn").on('click',function(){
+            renderOnExamination();
+        });
+
 
     });
 

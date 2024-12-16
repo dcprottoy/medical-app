@@ -564,7 +564,7 @@ body * { visibility: hidden; }
                     },
                     success: function (result) {
                         if(result.message == "Already Appointed"){
-                            toastr.info('Already Appointed');
+                            toastr.warning('Already Appointed');
                             $("#serial-no").text(result.data.serial);
                             $("#appoint-no").text(result.data.appoint_id);
                             $("#note").text(result.data.note);
