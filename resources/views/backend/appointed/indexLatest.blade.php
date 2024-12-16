@@ -271,7 +271,7 @@ body * { visibility: hidden; }
             </div>
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-sm btn-info" data-toggle="modal" id="chiefcomplaintbtn" data-target="#cheifComplaint">Cheif Complaint</button>
+                    <button class="btn btn-sm btn-info" style="min-width:115px;" data-toggle="modal" id="chiefcomplaintbtn" data-target="#cheifComplaint">Cheif Complaint</button>
                     <div class="modal fade" id="cheifComplaint" tabindex="-1" role="dialog" aria-labelledby="cheifComplaintLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
@@ -334,7 +334,7 @@ body * { visibility: hidden; }
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-warning" data-toggle="modal" id="onExaminationbtn" data-target="#onExamination">On Examination</button>
+                    <button class="btn btn-sm btn-warning" style="min-width:115px;" data-toggle="modal" id="onExaminationbtn" data-target="#onExamination">On Examination</button>
                     <div class="modal fade" id="onExamination" tabindex="-1" role="dialog" aria-labelledby="onExaminationLabel" aria-hidden="true">
                         <div class="modal-dialog modal-md" role="document">
                             <div class="modal-content">
@@ -373,6 +373,162 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
+
+                    <button class="btn btn-sm btn-success" style="min-width:115px;" data-toggle="modal" id="diagnosisbtn" data-target="#diagnosis">Diagnosis</button>
+                    <div class="modal fade" id="diagnosis" tabindex="-1" role="dialog" aria-labelledby="diagnosisLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-success">
+                                <h5 class="modal-title" id="diagnosisModalLabel">Diagnosis List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Diagnosis Information</h4>
+                                        <div class="row">
+                                            <div class="col-7 border-right">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                                </div>
+                                                <ul class="list-group complaint-search-list" id="complaint-list">
+                                                    @foreach($diagnosis as $diagnos)
+                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="col-5" style="min-height:500px;">
+                                                <ul id="complaint-list-text">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm btn-danger" style="min-width:115px;" data-toggle="modal" id="medecinebtn" data-target="#medecine">Medecine</button>
+                    <div class="modal fade" id="medecine" tabindex="-1" role="dialog" aria-labelledby="medecineLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-danger">
+                                <h5 class="modal-title" id="medecineModalLabel">Medecine List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Medecine Information</h4>
+                                        <div class="row">
+                                            <div class="col-7 border-right">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                                </div>
+                                                <ul class="list-group complaint-search-list" id="complaint-list">
+                                                    @foreach($diagnosis as $diagnos)
+                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="col-5" style="min-height:500px;">
+                                                <ul id="complaint-list-text">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button class="btn btn-sm btn-primary" style="min-width:115px;" data-toggle="modal" id="advicebtn" data-target="#advice">Advice</button>
+                    <div class="modal fade" id="advice" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-primary">
+                                <h5 class="modal-title" id="adviceModalLabel">Diagnosis List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Diagnosis Information</h4>
+                                        <div class="row">
+                                            <div class="col-7 border-right">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                                </div>
+                                                <ul class="list-group complaint-search-list" id="complaint-list">
+                                                    @foreach($diagnosis as $diagnos)
+                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="col-5" style="min-height:500px;">
+                                                <ul id="complaint-list-text">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="referredbtn" data-target="#referred">Referred</button>
+                    <div class="modal fade" id="referred" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
+                        <div class="modal-dialog"  style="min-width:90%;" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-secondary">
+                                <h5 class="modal-title" id="referredModalLabel">Referred List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                        <h4 class="text-center">Referred Information</h4>
+                                        <div class="row">
+                                            <div class="col-7 border-right">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                                </div>
+                                                <ul class="list-group complaint-search-list" id="complaint-list">
+                                                    @foreach($diagnosis as $diagnos)
+                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                            <div class="col-5" style="min-height:500px;">
+                                                <ul id="complaint-list-text">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-body" style = "min-height:250px;">
                     <div class="row">

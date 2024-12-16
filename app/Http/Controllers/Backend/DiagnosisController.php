@@ -39,10 +39,19 @@ class DiagnosisController extends Controller
             return back()->with('error','Something went wrong !!')->withInput();
             // return back()->withErrors($validated)->withInput();
         }else{
-            // return $request->input();
+            return $request->input();
             $advice = new Diagnosis();
             $advice->fill($request->all())->save();
             return back()->with('success','New Diagnosis Created Successfully');
+
+            // $lists = ["Hypertension","Diabetes Mellitus","Anemia","Hypothyroidism","Hyperlipidemia","Myocardial Infarction","Congestive Heart Failure","Atrial Fibrillation","Coronary Artery Disease","Cardiomyopathy","Asthma","Chronic Obstructive Pulmonary Disease (COPD)","Pneumonia","Pulmonary Embolism","Tuberculosis","Stroke (Cerebrovascular Accident)","Epilepsy","Parkinson's Disease","Multiple Sclerosis","Migraine","Gastroesophageal Reflux Disease (GERD)","Irritable Bowel Syndrome (IBS)","Crohn’s Disease","Ulcerative Colitis","Hepatitis","Major Depressive Disorder","Generalized Anxiety Disorder","Schizophrenia","Bipolar Disorder","Post-Traumatic Stress Disorder (PTSD)","Osteoarthritis","Rheumatoid Arthritis","Fractures","Scoliosis","Osteoporosis","Cushing's Syndrome","Addison's Disease","Hyperthyroidism","Type 1 Diabetes","Polycystic Ovary Syndrome (PCOS)","Psoriasis","Eczema (Atopic Dermatitis)","Acne Vulgaris","Vitiligo","Melanoma","Breast Cancer","Lung Cancer","Leukemia","Lymphoma","Prostate Cancer"];
+            // foreach( $lists as $item){
+            // $advice = new Diagnosis();
+            // $advice->name_eng = $item;
+            // $advice->status = 1;
+            // $advice->save();
+            // }
+            // return back()->with('success','New Diagnosis Created Successfully');
 
         }
     }

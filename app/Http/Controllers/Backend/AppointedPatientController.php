@@ -11,6 +11,7 @@ use App\Models\Backend\Appoinments;
 use App\Models\Backend\AppointmentType;
 use App\Models\Backend\Complaint;
 use App\Models\Backend\ComplaintDuration;
+use App\Models\Backend\Diagnosis;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 class AppointedPatientController extends Controller
@@ -25,6 +26,7 @@ class AppointedPatientController extends Controller
         $data['appointmenttypes'] = AppointmentType::where('status',TRUE)->get();
         $data['complaints'] = Complaint::where('status',TRUE)->get();
         $data['complaintdurations'] = ComplaintDuration::where('status',TRUE)->get();
+        $data['diagnosis'] = Diagnosis::where('status',TRUE)->get();
         return view('backend.appointed.indexLatest',$data);
     }
 
