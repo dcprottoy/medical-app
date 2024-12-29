@@ -154,9 +154,9 @@
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('patients.home')}}" class="nav-link {{ Route::currentRouteName() == 'patients.home'||Route::currentRouteName() == 'patients.create'||Route::currentRouteName() == 'patients.edit' ? "active" : ""}}" >
+                        <a href="{{route('investigationtype.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationtype.home'||Route::currentRouteName() == 'investigationtype.create'||Route::currentRouteName() == 'investigationtype.edit' ? "active" : ""}}" >
                             <i class="nav-icon fas fa-procedures"></i>
-                            <p>Patients</p>
+                            <p>Investigation Type</p>
                         </a>
                     </li>
                     <li class="nav-item " >

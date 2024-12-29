@@ -15,6 +15,7 @@ use App\Http\Controllers\Backend\ComplaintDurationController;
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
+use App\Http\Controllers\Backend\InvestigationTypeControllers;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -160,6 +161,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'edit'=>'investigationequipments.edit',
             'update'=>'investigationequipments.update',
             'destroy'=>'investigationequipments.delete'
+        ]);
+
+        Route::resource('/investigationtype',InvestigationTypeControllers::class)->names([
+            'index'=>'investigationtype.home',
+            'create'=>'investigationtype.create',
+            'store'=>'investigationtype.save',
+            'edit'=>'investigationtype.edit',
+            'update'=>'investigationtype.update',
+            'destroy'=>'investigationtype.delete'
         ]);
 
     });
