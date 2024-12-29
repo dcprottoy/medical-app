@@ -57,7 +57,7 @@
                     </li>
                 </ul>
             </li>
-          <li class="nav-item menu-open">
+          <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>Hospital Management
@@ -91,7 +91,7 @@
                     </li>
                 </ul>
           </li>
-          <li class="nav-item menu-open">
+          <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
                 <p>Prescription Setup
@@ -137,6 +137,45 @@
                     </li>
                 </ul>
           </li>
+
+          <!-- Investigation Setup Start -->
+          <li class="nav-item">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-table"></i>
+                <p>Investigation Setup
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item " >
+                        <a href="{{route('investigationequipments.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationequipments.home'||Route::currentRouteName() == 'investigationequipments.create'||Route::currentRouteName() == 'investigationequipments.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-user-md"></i>
+                            <p>Investigation Equipment</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('patients.home')}}" class="nav-link {{ Route::currentRouteName() == 'patients.home'||Route::currentRouteName() == 'patients.create'||Route::currentRouteName() == 'patients.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-procedures"></i>
+                            <p>Patients</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('departments.home')}}" class="nav-link {{ Route::currentRouteName() == 'departments.home'||Route::currentRouteName() == 'departments.create'||Route::currentRouteName() == 'departments.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-procedures"></i>
+                            <p>Departments</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('appoinments.home')}}" class="nav-link {{ Route::currentRouteName() == 'appoinments.home'||Route::currentRouteName() == 'appoinments.create'||Route::currentRouteName() == 'appoinments.edit' ? "active" : ""}}" >
+                            <i class="nav-icon fas fa-calendar-check"></i>
+                            <p>Appoinments</p>
+                        </a>
+                    </li>
+                </ul>
+          </li>
+          <!-- Investigation Setup End -->
+
+          <!-- Log Out Button Start -->
           <li class="nav-item">
 
             <a href="{{route('logout.get')}}" class="nav-link">
@@ -146,6 +185,8 @@
               </p>
             </a>
           </li>
+          <!-- Log Out Button End -->
+
         </ul>
       </nav>
     </div>

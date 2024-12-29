@@ -14,6 +14,7 @@ use App\Http\Controllers\Backend\ComplaintController;
 use App\Http\Controllers\Backend\ComplaintDurationController;
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
+use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -108,6 +109,7 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'update'=>'advices.update',
             'destroy'=>'advices.delete'
         ]);
+
         Route::resource('/diagnosis',DiagnosisController::class)->names([
             'index'=>'diagnosis.home',
             'create'=>'diagnosis.create',
@@ -149,6 +151,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'edit'=>'appointfee.edit',
             'update'=>'appointfee.update',
             'destroy'=>'appointfee.delete'
+        ]);
+
+        Route::resource('/investigationequipments',InvestigationEquipmentControllers::class)->names([
+            'index'=>'investigationequipments.home',
+            'create'=>'investigationequipments.create',
+            'store'=>'investigationequipments.save',
+            'edit'=>'investigationequipments.edit',
+            'update'=>'investigationequipments.update',
+            'destroy'=>'investigationequipments.delete'
         ]);
 
     });
