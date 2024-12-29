@@ -150,7 +150,7 @@
                     <li class="nav-item " >
                         <a href="{{route('investigationequipments.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationequipments.home'||Route::currentRouteName() == 'investigationequipments.create'||Route::currentRouteName() == 'investigationequipments.edit' ? "active" : ""}}" >
                             <i class="nav-icon fas fa-user-md"></i>
-                            <p>Investigation Equipment</p>
+                            <p>Equipment</p>
                         </a>
                     </li>
                     <li class="nav-item " >
@@ -160,9 +160,9 @@
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('departments.home')}}" class="nav-link {{ Route::currentRouteName() == 'departments.home'||Route::currentRouteName() == 'departments.create'||Route::currentRouteName() == 'departments.edit' ? "active" : ""}}" >
+                        <a href="{{route('investigationmain.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationmain.home'||Route::currentRouteName() == 'investigationmain.create'||Route::currentRouteName() == 'investigationmain.edit' ? "active" : ""}}" >
                             <i class="nav-icon fas fa-procedures"></i>
-                            <p>Departments</p>
+                            <p>Investigation</p>
                         </a>
                     </li>
                     <li class="nav-item " >

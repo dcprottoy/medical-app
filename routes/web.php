@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
 use App\Http\Controllers\Backend\InvestigationTypeControllers;
+use App\Http\Controllers\Backend\InvenstigationMainController;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -170,6 +171,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'edit'=>'investigationtype.edit',
             'update'=>'investigationtype.update',
             'destroy'=>'investigationtype.delete'
+        ]);
+
+        Route::resource('/investigationmain',InvenstigationMainController::class)->names([
+            'index'=>'investigationmain.home',
+            'create'=>'investigationmain.create',
+            'store'=>'investigationmain.save',
+            'edit'=>'investigationmain.edit',
+            'update'=>'investigationmain.update',
+            'destroy'=>'investigationmain.delete'
         ]);
 
     });

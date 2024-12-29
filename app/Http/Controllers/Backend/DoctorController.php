@@ -19,7 +19,7 @@ class DoctorController extends Controller
     {
 
         $data['images'] = Doctors::paginate(5);
-        $data['departments'] = Departments::paginate(5);
+        $data['departments'] = Departments::all();
 
         return view('backend.doctors.index',$data);
     }

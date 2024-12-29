@@ -565,8 +565,6 @@ body * { visibility: hidden; }
                     </div>
                 </div>
             </div>
-
-
         </div>
     </div>
 </div>
@@ -904,10 +902,16 @@ body * { visibility: hidden; }
            $('.complaint-duration-list-item').each(function(){
             $(this).css("background-color", "white");
            });
-           $(this).css("background-color", "beige");
-           tempComplaintDurationID = id;
-           tempComplaintDurationText = text;
-           console.log([tempComplaintDurationID,tempComplaintDurationText]);
+           if(tempComplaintDurationID != id){
+                $(this).css("background-color", "beige");
+            tempComplaintDurationID = id;
+            tempComplaintDurationText = text;
+            console.log([tempComplaintDurationID,tempComplaintDurationText]);
+           }else{
+            tempComplaintDurationID = '';
+            tempComplaintDurationText = '';
+           }
+
         });
         $("#complaint-add").on('click',function(){
             let text = $("#complaint_value").val();
