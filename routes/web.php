@@ -167,6 +167,8 @@ use App\Http\Controllers\Auth\AuthenticationController;
         Route::resource('/investigationtype',InvestigationTypeControllers::class)->names([
             'index'=>'investigationtype.home',
             'create'=>'investigationtype.create',
+            'create'=>'investigationtype.create',
+            'show'=>'investigationtype.show',
             'store'=>'investigationtype.save',
             'edit'=>'investigationtype.edit',
             'update'=>'investigationtype.update',

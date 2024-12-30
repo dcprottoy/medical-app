@@ -72,8 +72,10 @@ class InvenstigationMainController extends Controller
     public function edit(string $id)
     {
 
-        $data['doctor'] = InvestigationMain::find($id);
-        return view('backend.doctors.edit',$data);
+        $data['inv_main'] = InvestigationMain::with('type')->find($id);
+        $data['inv_types'] = InvestigationType::all();
+
+        return view('backend.investigationmain.show',$data);
     }
 
     /**
