@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('investigation_equip_setups', function (Blueprint $table) {
             $table->id();
+            $table->integer('investigation_main_id');
+            $table->integer('quantity');
+            $table->enum('status',['Y','N'])->default('Y');
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

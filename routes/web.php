@@ -17,6 +17,7 @@ use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
 use App\Http\Controllers\Backend\InvestigationTypeControllers;
 use App\Http\Controllers\Backend\InvenstigationMainController;
+use App\Http\Controllers\Backend\InvestigationSectionControllers;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -182,6 +183,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'edit'=>'investigationmain.edit',
             'update'=>'investigationmain.update',
             'destroy'=>'investigationmain.delete'
+        ]);
+
+        Route::resource('/investsection',InvestigationSectionControllers::class)->names([
+            // 'index'=>'investsection.home',
+            // 'create'=>'investsection.create',
+            'store'=>'investsection.save',
+            // 'edit'=>'investsection.edit',
+            // 'update'=>'investsection.update',
+            // 'destroy'=>'investsection.delete'
         ]);
 
     });

@@ -5,7 +5,7 @@
     <x-upper-right-button title="Back" link="investigationmain.home" icon="fas fa-arrow-left"/>
     <div class="content">
         <div class="container-fluid">
-        <div class="row justify-content-center">
+            <div class="row justify-content-center">
                 <div class="col-lg-12">
                     <div class="card card">
                         <div class="card-header">
@@ -33,102 +33,138 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Investigation Setup</h3>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="container border p-2 shadow-sm bg-white" style="min-height:350px;">
+                        <form action="{{route('investsection.save')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                            <h5> <b> Sections Setup</b></h5><hr>
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <input type="hidden" class="form-control form-control-sm" name='investigation_main_id' value="{{$inv_main->id}}">
+                                        <input type="text" class="form-control form-control-sm" name='section_name' id='section-name' placeholder="Section Name"  required>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <button type="reset" class="btn btn-sm btn-danger  float-left">&nbsp;Clear&nbsp;</button>
+                                    <button type="submit" class="btn btn-sm btn-warning float-right">&nbsp;Save&nbsp;</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="card-body"> --}}
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="container border pt-2 shadow-sm bg-white">
-                                <h5> <b> Sections Setup</b></h5><hr>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-sm" name='section_name' id='section-name' placeholder="Section Name"  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="submit" class="btn btn-sm btn-warning w-100">Save</button>
-                                    </div>
+                <div class="col-sm-5">
+                    <div class="container border pt-2 shadow-sm bg-white" style="min-height:350px;">
+                        <h5><b>Details Setup</b></h5><hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                <select class="form-control form-control-sm"  name="investigation_type_id">
+                                    <option value="" selected disabled>Investigation Section</option>
+                                    @foreach($inv_sections as $inv_sec)
+                                    <option value="{{$inv_sec->id}}">{{$inv_sec->section_name}}</option>
+                                    @endforeach
+                                </select>
                                 </div>
                             </div>
-                            <br>
-                            <div class="container border pt-2 shadow-sm bg-white">
-                                <h5><b>Equipment Setup</b></h5><hr>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                          <select class="form-control form-control-sm"  name="investigation_type_id">
-                                            <option value="" selected disabled>Investigation Equipment</option>
-                                            @foreach($inv_types as $inv_type)
-                                            <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
-                                            @endforeach
-                                          </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control form-control-sm" name='qty' id='detail-name' placeholder="Detail's Name"  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="submit" class="btn btn-sm btn-info w-100">Save</button>
-                                    </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-sm" name='detail_name' id='detail-name' placeholder="Detail's Name"  required>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-sm-6 text-center container border pt-2 shadow-sm bg-white">
-                            Details<hr>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="container border pt-2 shadow-sm bg-white">
-                                <h5><b>Details Setup</b></h5><hr>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                          <select class="form-control form-control-sm"  name="investigation_type_id">
-                                            <option value="" selected disabled>Investigation Section</option>
-                                            @foreach($inv_types as $inv_type)
-                                            <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
-                                            @endforeach
-                                          </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control form-control-sm" name='detail_name' id='detail-name' placeholder="Detail's Name"  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <textarea class="form-control" rows="4" placeholder="Refference Range" id="note-field"></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="col-8">
-                                        <div class="form-group">
-                                            <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <button type="submit" class="btn btn-sm btn-primary w-100">Save</button>
-                                    </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <textarea class="form-control" rows="4" placeholder="Refference Range" id="note-field"></textarea>
                                 </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-sm btn-primary w-100">Save</button>
                             </div>
                         </div>
                     </div>
-                {{-- </div>
-            </div> --}}
+                </div>
+                <div class="col-sm-3">
+                    <div class="container border pt-2 shadow-sm bg-white" style="min-height:350px;">
+                        <h5><b>Equipment Setup</b></h5><hr>
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <select class="form-control form-control-sm"  name="investigation_type_id">
+                                    <option value="" selected disabled>Investigation Equipment</option>
+                                    @foreach($inv_types as $inv_type)
+                                    <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <input type="number" class="form-control form-control-sm" name='qty' id='detail-name' placeholder="Quantity"  required>
+                                </div>
+                            </div>
+                            <div class="col-8"></div>
+                            <div class="col-4">
+                                <button type="submit" class="btn btn-sm btn-info w-100">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-2">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row text-center">
+                                <div class="col-sm-4 border p-2" style="min-height:300px;">
+                                    <h5><em>Investigation Section Information</em></h5><hr>
+                                    <table class="table table-sm table-striped">
+                                    <thead>
+                                        <th>SL.</th>
+                                        <th>Section Name</th>
+                                        <th>Order No.</th>
+                                        <th>Actions</th>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($inv_sections as $inv_sec)
+                                        <tr>
+                                            <td>#</td>
+                                            <td>{{ $inv_sec->section_name }}</td>
+                                            <td>{{ $inv_sec->serial }}</td>
+                                            <td>
+                                                <i class="fas fa-edit p-1" style="color:#004369;" data-id="{{$inv_sec->id}}"></i>
+                                                <i class="fas fa-trash p-1" style="color:#DB1F48" data-id="{{$inv_sec->id}}"></i>
+                                            </a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-sm-5 border p-2" style="min-height:300px;">
+                                    <h5><em>Investigation Details Information</em></h5><hr>
+                                </div>
+                                <div class="col-sm-3 border p-2" style="min-height:300px;">
+                                    <h5><em>Investigation Equipment Information</em></h5><hr>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="modal fade" id="modal-default-update">
                 <div class="modal-dialog modal-xl">
                     <div class="modal-content">

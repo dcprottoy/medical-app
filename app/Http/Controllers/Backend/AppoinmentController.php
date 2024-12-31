@@ -112,7 +112,7 @@ class AppoinmentController extends Controller
         ]);
         if($validated->fails()){
             // return back()->with('error','Something went wrong !!')->withInput();
-            return back()->withErrors($validator)->withInput();
+            return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
             $doctor = Doctors::find($id);
@@ -149,8 +149,8 @@ class AppoinmentController extends Controller
      */
     public function destroy(string $id)
     {
-        if(BrandImage::find($id)){
-            $createObject = BrandImage::find($id);
+        if(Appoinments::find($id)){
+            $createObject = Appoinments::find($id);
             @unlink($createObject->Image);
             $createObject->delete();
             return back()->with('success','Brand Image Remove Successfully');

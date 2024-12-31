@@ -5,23 +5,16 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\InvestigationMain;
-use App\Models\Backend\InvestigationType;
 use App\Models\Backend\InvestigationSection;
 
-
-class InvenstigationMainController extends Controller
+class InvestigationSectionControllers extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-        $data['inv_types'] = InvestigationType::all();
-        $data['inv_main'] = InvestigationMain::paginate(5);
-
-        return view('backend.investigationmain.index',$data);
+        return "Working";
     }
 
     /**
@@ -29,7 +22,7 @@ class InvenstigationMainController extends Controller
      */
     public function create()
     {
-        return view('backend.investigationmain.index');
+        return view('backend.doctors.create');
     }
 
     /**
@@ -40,9 +33,9 @@ class InvenstigationMainController extends Controller
 
 
         $validated = Validator::make($request->all(),[
-            'investigation_name' => 'required',
-            'investigation_type_id' => 'required',
-            'price' => 'required',
+            'investigation_main_id' => 'required',
+            'section_name' => 'required',
+            'serial' => 'required',
         ]);
         // return $request->all();
         if($validated->fails()){
@@ -50,8 +43,8 @@ class InvenstigationMainController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_main = new InvestigationMain();
-            $inv_main->fill($request->all())->save();
+            $inv_section = new InvestigationSection();
+            $inv_section->fill($request->all())->save();
             return back()->with('success','New Investigation Registered Successfully');
 
         }
@@ -62,7 +55,7 @@ class InvenstigationMainController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = InvestigationMain::with('department')->findOrFail($id);
+        $lastid = InvestigationSection::with('department')->findOrFail($id);
         return $lastid;
     }
 
@@ -72,9 +65,8 @@ class InvenstigationMainController extends Controller
     public function edit(string $id)
     {
 
-        $data['inv_main'] = InvestigationMain::with('type')->find($id);
-        $data['inv_types'] = InvestigationType::all();
-        $data['inv_sections'] = InvestigationSection::all();
+        $data['inv_main'] = InvestigationSection::with('type')->find($id);
+        $data['inv_types'] = InvestigationSection::all();
 
         return view('backend.investigationmain.show',$data);
     }
@@ -95,7 +87,7 @@ class InvenstigationMainController extends Controller
             return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_main = InvestigationMain::find($id);
+            $inv_main = InvestigationSection::find($id);
             $inv_main->fill($request->all())->save();
             return back()->with('success','Investigation Information Updated Successfully');
         }
@@ -103,7 +95,7 @@ class InvenstigationMainController extends Controller
     }
     public function search(Request $request)
     {
-        $lastid = InvestigationMain::where('name', 'like', '%'.$request->search.'%')->get();
+        $lastid = InvestigationSection::where('name', 'like', '%'.$request->search.'%')->get();
         return $lastid;
     }
     /**
@@ -111,8 +103,8 @@ class InvenstigationMainController extends Controller
      */
     public function destroy(string $id)
     {
-        if(InvestigationMain::find($id)){
-            $createObject = InvestigationMain::find($id);
+        if(InvestigationSection::find($id)){
+            $createObject = InvestigationSection::find($id);
             $createObject->delete();
             return back()->with('success','Investigation Remove Successfully');
         }else{
