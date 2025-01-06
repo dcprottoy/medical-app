@@ -1,5 +1,13 @@
 @extends('backend.layout.main')
 @section('body-part')
+<style>
+    .edit-delete-icon:hover{
+        cursor: pointer;
+        scale: 1.1;
+        transition-duration: 0.1s ease;
+    }
+
+</style>
 <div class="content-wrapper">
     <!-- <x-breadcumb title="Investigation Details"/> -->
     <x-upper-right-button title="Back" link="investigationmain.home" icon="fas fa-arrow-left"/>
@@ -51,7 +59,6 @@
                                         <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
                                     </div>
                                 </div>
-
                                 <div class="col-12">
                                     <button type="reset" class="btn btn-sm btn-danger  float-left">&nbsp;Clear&nbsp;</button>
                                     <button type="submit" class="btn btn-sm btn-warning float-right">&nbsp;Save&nbsp;</button>
@@ -63,62 +70,71 @@
                 <div class="col-sm-5">
                     <div class="container border pt-2 shadow-sm bg-white" style="min-height:350px;">
                         <h5><b>Details Setup</b></h5><hr>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="form-group">
-                                <select class="form-control form-control-sm"  name="investigation_type_id">
-                                    <option value="" selected disabled>Investigation Section</option>
-                                    @foreach($inv_sections as $inv_sec)
-                                    <option value="{{$inv_sec->id}}">{{$inv_sec->section_name}}</option>
-                                    @endforeach
-                                </select>
+                        <form action="{{route('investdetails.save')}}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                    <select class="form-control form-control-sm"  name="investigation_section_id">
+                                        <option value="" selected disabled>Investigation Section</option>
+                                        @foreach($inv_sections as $inv_sec)
+                                        <option value="{{$inv_sec->id}}">{{$inv_sec->section_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-sm" name='details_name' id='details-name' placeholder="Detail's Name"  required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="4" placeholder="Refference Range" id="note-field" name="refference_value"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <input type="hidden" class="form-control form-control-sm" name='investigation_main_id' value="{{$inv_main->id}}">
+                                    <button type="reset" class="btn btn-sm btn-danger  float-left">&nbsp;Clear&nbsp;</button>
+                                    <button type="submit" class="btn btn-sm btn-warning float-right">&nbsp;Save&nbsp;</button>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <input type="text" class="form-control form-control-sm" name='detail_name' id='detail-name' placeholder="Detail's Name"  required>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="4" placeholder="Refference Range" id="note-field"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <input type="number" class="form-control form-control-sm" name='serial' id='serial' placeholder="Serial No."  required>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <button type="submit" class="btn btn-sm btn-primary w-100">Save</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-sm-3">
                     <div class="container border pt-2 shadow-sm bg-white" style="min-height:350px;">
                         <h5><b>Equipment Setup</b></h5><hr>
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="form-group">
-                                    <select class="form-control form-control-sm"  name="investigation_type_id">
-                                    <option value="" selected disabled>Investigation Equipment</option>
-                                    @foreach($inv_types as $inv_type)
-                                    <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
-                                    @endforeach
-                                    </select>
+                        <form action="{{route('investequipset.save')}}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <select class="form-control form-control-sm"  name="investigation_equip_id">
+                                        <option value="" selected disabled>Investigation Equipment</option>
+                                        @foreach($inv_equips as $inv_equip)
+                                            <option value="{{$inv_equip->id}}">{{$inv_equip->equipment_name}}</option>
+                                        @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <input type="number" class="form-control form-control-sm" name='quantity' id='equip-qty' placeholder="Quantity"  required>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <input type="hidden" class="form-control form-control-sm" name='investigation_main_id' value="{{$inv_main->id}}">
+                                    <button type="reset" class="btn btn-sm btn-danger  float-left">&nbsp;Clear&nbsp;</button>
+                                    <button type="submit" class="btn btn-sm btn-warning float-right">&nbsp;Save&nbsp;</button>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <input type="number" class="form-control form-control-sm" name='qty' id='detail-name' placeholder="Quantity"  required>
-                                </div>
-                            </div>
-                            <div class="col-8"></div>
-                            <div class="col-4">
-                                <button type="submit" class="btn btn-sm btn-info w-100">Save</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -130,36 +146,281 @@
                                 <div class="col-sm-4 border p-2" style="min-height:300px;">
                                     <h5><em>Investigation Section Information</em></h5><hr>
                                     <table class="table table-sm table-striped">
-                                    <thead>
-                                        <th>SL.</th>
-                                        <th>Section Name</th>
-                                        <th>Order No.</th>
-                                        <th>Actions</th>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($inv_sections as $inv_sec)
-                                        <tr>
-                                            <td>#</td>
-                                            <td>{{ $inv_sec->section_name }}</td>
-                                            <td>{{ $inv_sec->serial }}</td>
-                                            <td>
-                                                <i class="fas fa-edit p-1" style="color:#004369;" data-id="{{$inv_sec->id}}"></i>
-                                                <i class="fas fa-trash p-1" style="color:#DB1F48" data-id="{{$inv_sec->id}}"></i>
-                                            </a>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
+                                        <thead>
+                                            <th>SL.</th>
+                                            <th>Section Name</th>
+                                            <th>Order No.</th>
+                                            <th>Actions</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($inv_sections as $inv_sec)
+                                            <tr>
+                                                <td>#</td>
+                                                <td>{{ $inv_sec->section_name }}</td>
+                                                <td>{{ $inv_sec->serial }}</td>
+                                                <td>
+                                                    <i class="fas fa-edit p-1 edit-delete-icon section-edit" style="color:#004369;" data-id="{{$inv_sec->id}}"></i>
+                                                    <i class="fas fa-trash p-1 edit-delete-icon section-delete" style="color:#DB1F48" data-id="{{$inv_sec->id}}"></i>
+                                                </a>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
+                                    <div class="modal fade" id="modal-section-update">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <form action="" method="post" id="update-modal-section">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Update Investigation Section Information</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <div class="form-group">
+                                                                    <input type="hidden" class="form-control form-control-sm" name='investigation_main_id' value="{{$inv_main->id}}">
+                                                                    <input type="text" class="form-control form-control-sm" name='section_name' id='u-section_name' placeholder="Section Name"  required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="form-group">
+                                                                    <input type="number" class="form-control form-control-sm" name='serial' id='u-serial' placeholder="Serial No."  required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-info">Update</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="modal-section-delete">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <form action="" method="post" id="delete-modal-section">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Delete Section</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>One fine body&hellip;</p>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-5 border p-2" style="min-height:300px;">
                                     <h5><em>Investigation Details Information</em></h5><hr>
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <th>Name</th>
+                                            <th>Serial</th>
+                                            <th>Reference Value</th>
+                                            <th>Actions</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($inv_sections as $inv_sec)
+                                                <tr>
+                                                    <td><b>Section : </b>{{ $inv_sec->section_name }}</td>
+                                                    <td colspan="3"></td>
+                                                </tr>
+                                                @php
+                                                    $details = collect($inv_details)->where('investigation_section_id',$inv_sec->id)->sortBy('serial');
+                                                    // dd($inv_details);
+                                                @endphp
+
+                                                @foreach($details as $item)
+                                                    <tr>
+                                                        <td>{{ $item->details_name }}</td>
+                                                        <td>{{ $item->serial }}</td>
+                                                        <td><textarea class="form-control bg-transparent" rows="4" readonly >{!! $item->refference_value !!}</textarea></td>
+                                                        <td>
+                                                            <i class="fas fa-edit p-1 edit-delete-icon detail-edit" style="color:#004369;" data-id="{{$item->id}}"></i>
+                                                            <i class="fas fa-trash p-1 edit-delete-icon detail-delete" style="color:#DB1F48" data-id="{{$item->id}}"></i>
+                                                        </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="modal fade" id="modal-detail-update">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <form action="" method="post" id="update-modal-detail">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Update Investigation Section Information</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                <select class="form-control form-control-sm"  name="investigation_section_id" id="u-investigation-section-id">
+                                                                    <option value="" selected disabled>Investigation Section</option>
+                                                                    @foreach($inv_sections as $inv_sec)
+                                                                    <option value="{{$inv_sec->id}}">{{$inv_sec->section_name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="form-group">
+                                                                    <input type="number" class="form-control form-control-sm" name='serial' id='u-detail-serial' placeholder="Serial No."  required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <input type="text" class="form-control form-control-sm" name='details_name' id='u-detail-name' placeholder="Detail's Name"  required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <textarea class="form-control" rows="4" placeholder="Refference Range" id="u-refference-value" name="refference_value"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="hidden" class="form-control form-control-sm" name='investigation_main_id' value="{{$inv_main->id}}">
+                                                                <button type="reset" class="btn btn-sm btn-danger  float-left">&nbsp;Clear&nbsp;</button>
+                                                                <button type="submit" class="btn btn-sm btn-warning float-right">&nbsp;Save&nbsp;</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="modal-detail-delete">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <form action="" method="post" id="delete-modal-detail">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Delete Detail</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>One fine body&hellip;</p>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-sm-3 border p-2" style="min-height:300px;">
                                     <h5><em>Investigation Equipment Information</em></h5><hr>
+                                    <table class="table table-sm table-striped">
+                                        <thead>
+                                            <th>Name</th>
+                                            <th>Quantity</th>
+                                            <th>Actions</th>
+                                        </thead>
+                                        <tbody>
+                                            @foreach($inv_equip_sets as $item)
+                                                <tr>
+                                                    <td>{{ $item->equip->equipment_name }}</td>
+                                                    <td>{{ $item->quantity }}</td>
+                                                    <td>
+                                                        <i class="fas fa-edit p-1 edit-delete-icon equipt-edit" style="color:#004369;" data-id="{{$item->id}}"></i>
+                                                        <i class="fas fa-trash p-1 edit-delete-icon equipt-delete" style="color:#DB1F48" data-id="{{$item->id}}"></i>
+                                                    </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    <div class="modal fade" id="modal-equipt-update">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <form action="" method="post" id="update-modal-equipt">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Update Investigation Section Information</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="row">
+                                                            <div class="col-8">
+                                                                <div class="form-group">
+                                                                    <select class="form-control form-control-sm"  name="investigation_equip_id" id="u-investigation-equip-id">
+                                                                    <option value="" selected disabled>Investigation Equipment</option>
+                                                                    @foreach($inv_equips as $inv_equip)
+                                                                        <option value="{{$inv_equip->id}}">{{$inv_equip->equipment_name}}</option>
+                                                                    @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <div class="form-group">
+                                                                    <input type="number" class="form-control form-control-sm" name='quantity' id='u-equip-qty' placeholder="Quantity"  required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <input type="hidden" class="form-control form-control-sm" name='investigation_main_id' value="{{$inv_main->id}}">
+                                                                <button type="reset" class="btn btn-sm btn-danger  float-left">&nbsp;Clear&nbsp;</button>
+                                                                <button type="submit" class="btn btn-sm btn-warning float-right">&nbsp;Save&nbsp;</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal fade" id="modal-equipt-delete">
+                                        <div class="modal-dialog modal-md">
+                                            <div class="modal-content">
+                                                <form action="" method="post" id="delete-modal-equipt">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Delete Equipment</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>One fine body&hellip;</p>
+                                                        </div>
+                                                        <div class="modal-footer justify-content-between">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
@@ -300,41 +561,71 @@
 </script>
 <script>
     $(document).ready(function(){
-        $(".update").on('click',function(e){
+        $(".section-edit").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('investigationmain/')}}/"+id,
+                    url: "{{url('investsection/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-                        $('#u-name').val(result.name);
-                        $('#u-contact_no').val(result.contact_no);
-                        $('#u-emr_cont_no').val(result.emr_cont_no);
-                        $('#u-address').val(result.address);
-                        $('#u-date').val(result.birth_date);
-                        $('#u-department_id').val(result.department_id);
-                        $('#u-degree').val(result.degree);
-                        $('#u-specialities').val(result.specialities);
-                        if(result.sex == 'M'){
-                            $('#u-male').attr('checked','checked');
-                        }else if(result.sex == 'F'){
-                            $('#u-female').attr('checked','checked');
-                        }else if(result.sex == 'O'){
-                            $('#u-other').attr('checked','checked');
-                        }
+                        $('#u-section_name').val(result.section_name);
+                        $('#u-serial').val(result.serial);
+                    }
+                });
+            let link = "{{url('investsection/')}}/"+id;
+            $('#update-modal-section').attr('action',link);
+            $('#modal-section-update').modal('show');
+        });
+
+        $(".section-delete").on('click',function(e){
+            let id = $(this).attr("data-id");
+            let link = "{{url('investsection/')}}/"+id;
+            $('#modal-section-delete').modal('show');
+            $('#delete-modal-section').attr('action',link);
+        });
+
+        $(".detail-edit").on('click',function(e){
+            let id = $(this).attr("data-id");
+                $.ajax({
+                    url: "{{url('investdetails/')}}/"+id,
+                    success: function (result) {
+                        console.log(result);
+                        $('#u-investigation-section-id').val(result.investigation_section_id);
+                        $('#u-detail-serial').val(result.serial);
+                        $('#u-detail-name').val(result.details_name);
+                        $('#u-refference-value').val(result.refference_value);
+                    }
+                });
+            let link = "{{url('investdetails/')}}/"+id;
+            $('#update-modal-detail').attr('action',link);
+            $('#modal-detail-update').modal('show');
+        });
+        $(".detail-delete").on('click',function(e){
+            let id = $(this).attr("data-id");
+            let link = "{{url('investdetails/')}}/"+id;
+            $('#modal-detail-delete').modal('show');
+            $('#delete-modal-detail').attr('action',link);
+        });
+
+        $(".equipt-edit").on('click',function(e){
+            let id = $(this).attr("data-id");
+                $.ajax({
+                    url: "{{url('investequipset/')}}/"+id,
+                    success: function (result) {
+                        console.log(result);
+                        $('#u-investigation-equip-id').val(result.investigation_equip_id);
+                        $('#u-equip-qty').val(result.quantity);
 
                     }
                 });
-            let link = "{{url('investigationmain/')}}/"+id;
-            $('#update-modal').attr('action',link);
-            $('#modal-default-update').modal('show');
-
+            let link = "{{url('investequipset/')}}/"+id;
+            $('#update-modal-equipt').attr('action',link);
+            $('#modal-equipt-update').modal('show');
         });
-
-        $(".delete").on('click',function(e){
+        $(".equipt-delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('investigationmain/')}}/"+id;
-            $('#modal-default-delete').modal('show');
-            $('#delete-modal').attr('action',link);
+            let link = "{{url('investequipset/')}}/"+id;
+            $('#modal-equipt-delete').modal('show');
+            $('#delete-modal-equipt').attr('action',link);
         });
     });
 </script>

@@ -10,13 +10,13 @@ class InvestigationDetails extends Model
 {
     use HasFactory;
 
- protected $fillable = [
-    'investigation_main_id',
-    'investigation_section_id',
-    'details_name',
-    'refference_value',
-    'serial'
-];
+    protected $fillable = [
+                'investigation_main_id',
+                'investigation_section_id',
+                'details_name',
+                'refference_value',
+                'serial'
+    ];
 
     public function main(): BelongsTo
         {

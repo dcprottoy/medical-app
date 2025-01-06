@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\Backend\InvestigationMain;
 use App\Models\Backend\InvestigationType;
 use App\Models\Backend\InvestigationSection;
+use App\Models\Backend\InvestigationDetails;
+use App\Models\Backend\InvestigationEquipment;
+use App\Models\Backend\InvestigationEquipSetup;
 
 
 class InvenstigationMainController extends Controller
@@ -62,7 +65,7 @@ class InvenstigationMainController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = InvestigationMain::with('department')->findOrFail($id);
+        $lastid = InvestigationMain::findOrFail($id);
         return $lastid;
     }
 
@@ -74,7 +77,11 @@ class InvenstigationMainController extends Controller
 
         $data['inv_main'] = InvestigationMain::with('type')->find($id);
         $data['inv_types'] = InvestigationType::all();
-        $data['inv_sections'] = InvestigationSection::all();
+        $data['inv_equips'] = InvestigationEquipment::all();
+
+        $data['inv_sections'] = InvestigationSection::where('investigation_main_id','=',$id)->orderBy('serial')->get();
+        $data['inv_details'] = InvestigationDetails::where('investigation_main_id','=',$id)->get();
+        $data['inv_equip_sets'] = InvestigationEquipSetup::where('investigation_main_id','=',$id)->get();
 
         return view('backend.investigationmain.show',$data);
     }
@@ -111,12 +118,17 @@ class InvenstigationMainController extends Controller
      */
     public function destroy(string $id)
     {
-        if(InvestigationMain::find($id)){
-            $createObject = InvestigationMain::find($id);
+        $createObject = InvestigationMain::find($id);
+        $sec = InvestigationSection::where('investigation_main_id','=',$id)->first();
+        $det = InvestigationDetails::where('investigation_main_id','=',$id)->first();
+        $eqp = InvestigationEquipSetup::where('investigation_main_id','=',$id)->first();
+        if($sec || $det || $eqp){
+            return back()->with('error','Investigation set up completed');
+        }elseif($createObject){
             $createObject->delete();
             return back()->with('success','Investigation Remove Successfully');
         }else{
-            return back()->with('danger','Investigation Not Found');
+            return back()->with('error','Investigation Not Found');
         }
     }
 }

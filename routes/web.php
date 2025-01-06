@@ -18,6 +18,8 @@ use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
 use App\Http\Controllers\Backend\InvestigationTypeControllers;
 use App\Http\Controllers\Backend\InvenstigationMainController;
 use App\Http\Controllers\Backend\InvestigationSectionControllers;
+use App\Http\Controllers\Backend\InvestigstionDetailsController;
+use App\Http\Controllers\Backend\InvestigationEquiSetController;
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -190,6 +192,24 @@ use App\Http\Controllers\Auth\AuthenticationController;
             // 'create'=>'investsection.create',
             'store'=>'investsection.save',
             // 'edit'=>'investsection.edit',
+            // 'update'=>'investsection.update',
+            // 'destroy'=>'investsection.delete'
+        ]);
+
+        Route::resource('/investdetails',InvestigstionDetailsController::class)->names([
+            // 'index'=>'investsection.home',
+            // 'create'=>'investsection.create',
+            'store'=>'investdetails.save',
+            // 'edit'=>'investdetails.edit',
+            // 'update'=>'investsection.update',
+            // 'destroy'=>'investsection.delete'
+        ]);
+
+        Route::resource('/investequipset',InvestigationEquiSetController::class)->names([
+            // 'index'=>'investsection.home',
+            // 'create'=>'investsection.create',
+            'store'=>'investequipset.save',
+            // 'edit'=>'investdetails.edit',
             // 'update'=>'investsection.update',
             // 'destroy'=>'investsection.delete'
         ]);

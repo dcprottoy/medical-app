@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\InvestigationSection;
-
-class InvestigationSectionControllers extends Controller
+use App\Models\Backend\InvestigationDetails;
+class InvestigstionDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +33,7 @@ class InvestigationSectionControllers extends Controller
 
         $validated = Validator::make($request->all(),[
             'investigation_main_id' => 'required',
-            'section_name' => 'required',
+            'details_name' => 'required',
             'serial' => 'required',
         ]);
         // return $request->all();
@@ -43,9 +42,9 @@ class InvestigationSectionControllers extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_section = new InvestigationSection();
-            $inv_section->fill($request->all())->save();
-            return back()->with('success','New Investigation Section Created Successfully');
+            $inv_details = new InvestigationDetails();
+            $inv_details->fill($request->all())->save();
+            return back()->with('success','New Investigation Details Created Successfully');
 
         }
     }
@@ -55,7 +54,7 @@ class InvestigationSectionControllers extends Controller
      */
     public function show(string $id)
     {
-        $lastid = InvestigationSection::findOrFail($id);
+        $lastid = InvestigationDetails::findOrFail($id);
         return $lastid;
     }
 
@@ -65,8 +64,8 @@ class InvestigationSectionControllers extends Controller
     public function edit(string $id)
     {
 
-        $data['inv_main'] = InvestigationSection::with('type')->find($id);
-        $data['inv_types'] = InvestigationSection::all();
+        $data['inv_main'] = InvestigationDetails::with('type')->find($id);
+        $data['inv_types'] = InvestigationDetails::all();
 
         return view('backend.investigationmain.show',$data);
     }
@@ -79,7 +78,7 @@ class InvestigationSectionControllers extends Controller
 
         $validated = Validator::make($request->all(),[
             'investigation_main_id' => 'required',
-            'section_name' => 'required',
+            'details_name' => 'required',
             'serial' => 'required',
         ]);
         if($validated->fails()){
@@ -87,15 +86,15 @@ class InvestigationSectionControllers extends Controller
             return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_main = InvestigationSection::find($id);
+            $inv_main = InvestigationDetails::find($id);
             $inv_main->fill($request->all())->save();
-            return back()->with('success','Investigation Section Updated Successfully');
+            return back()->with('success','Investigation Detail Updated Successfully');
         }
 
     }
     public function search(Request $request)
     {
-        $lastid = InvestigationSection::where('name', 'like', '%'.$request->search.'%')->get();
+        $lastid = InvestigationDetails::where('name', 'like', '%'.$request->search.'%')->get();
         return $lastid;
     }
     /**
@@ -103,12 +102,12 @@ class InvestigationSectionControllers extends Controller
      */
     public function destroy(string $id)
     {
-        if(InvestigationSection::find($id)){
-            $createObject = InvestigationSection::find($id);
+        $createObject = InvestigationDetails::find($id);
+        if($createObject){
             $createObject->delete();
-            return back()->with('success','Investigation Section Remove Successfully');
+            return back()->with('success','Investigation Details Remove Successfully');
         }else{
-            return back()->with('danger','Investigation Section Not Found');
+            return back()->with('danger','Investigation Details Not Found');
         }
     }
 }

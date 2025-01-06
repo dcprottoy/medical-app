@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\InvestigationSection;
+use App\Models\Backend\InvestigationEquipSetup;
 
-class InvestigationSectionControllers extends Controller
+class InvestigationEquiSetController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -33,9 +33,9 @@ class InvestigationSectionControllers extends Controller
 
 
         $validated = Validator::make($request->all(),[
-            'investigation_main_id' => 'required',
-            'section_name' => 'required',
-            'serial' => 'required',
+                'investigation_main_id' => 'required',
+                'investigation_equip_id' => 'required',
+                'quantity' => 'required',
         ]);
         // return $request->all();
         if($validated->fails()){
@@ -43,9 +43,9 @@ class InvestigationSectionControllers extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_section = new InvestigationSection();
-            $inv_section->fill($request->all())->save();
-            return back()->with('success','New Investigation Section Created Successfully');
+            $inv_eqp = new InvestigationEquipSetup();
+            $inv_eqp->fill($request->all())->save();
+            return back()->with('success','New Investigation Equipment Setup Created Successfully');
 
         }
     }
@@ -55,7 +55,7 @@ class InvestigationSectionControllers extends Controller
      */
     public function show(string $id)
     {
-        $lastid = InvestigationSection::findOrFail($id);
+        $lastid = InvestigationEquipSetup::findOrFail($id);
         return $lastid;
     }
 
@@ -65,8 +65,8 @@ class InvestigationSectionControllers extends Controller
     public function edit(string $id)
     {
 
-        $data['inv_main'] = InvestigationSection::with('type')->find($id);
-        $data['inv_types'] = InvestigationSection::all();
+        $data['inv_main'] = InvestigationEquipSetup::with('type')->find($id);
+        $data['inv_types'] = InvestigationEquipSetup::all();
 
         return view('backend.investigationmain.show',$data);
     }
@@ -78,24 +78,24 @@ class InvestigationSectionControllers extends Controller
     {
 
         $validated = Validator::make($request->all(),[
-            'investigation_main_id' => 'required',
-            'section_name' => 'required',
-            'serial' => 'required',
+                'investigation_main_id' => 'required',
+                'investigation_equip_id' => 'required',
+                'quantity' => 'required',
         ]);
         if($validated->fails()){
             // return back()->with('error','Something went wrong !!')->withInput();
             return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_main = InvestigationSection::find($id);
-            $inv_main->fill($request->all())->save();
-            return back()->with('success','Investigation Section Updated Successfully');
+            $inv_eqp = InvestigationEquipSetup::find($id);
+            $inv_eqp->fill($request->all())->save();
+            return back()->with('success','Investigation Detail Updated Successfully');
         }
 
     }
     public function search(Request $request)
     {
-        $lastid = InvestigationSection::where('name', 'like', '%'.$request->search.'%')->get();
+        $lastid = InvestigationEquipSetup::where('name', 'like', '%'.$request->search.'%')->get();
         return $lastid;
     }
     /**
@@ -103,12 +103,12 @@ class InvestigationSectionControllers extends Controller
      */
     public function destroy(string $id)
     {
-        if(InvestigationSection::find($id)){
-            $createObject = InvestigationSection::find($id);
+        $createObject = InvestigationEquipSetup::find($id);
+        if($createObject){
             $createObject->delete();
-            return back()->with('success','Investigation Section Remove Successfully');
+            return back()->with('success','Investigation Equipment Setup Remove Successfully');
         }else{
-            return back()->with('danger','Investigation Section Not Found');
+            return back()->with('danger','Investigation Equipment Setup Not Found');
         }
     }
 }
