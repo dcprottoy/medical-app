@@ -259,6 +259,26 @@
                                                     </tr>
                                                 @endforeach
                                             @endforeach
+                                            @php
+                                                $details_without_section = collect($inv_details)->whereNull('investigation_section_id')->sortBy('serial');
+
+                                            @endphp
+                                             <tr>
+                                                <td><b>Section:</b>N/A</td>
+                                                <td colspan="3"></td>
+                                            </tr>
+                                            @foreach($details_without_section as $item)
+                                            <tr>
+                                                <td>{{ $item->details_name }}</td>
+                                                <td>{{ $item->serial }}</td>
+                                                <td><textarea class="form-control bg-transparent" rows="4" readonly >{!! $item->refference_value !!}</textarea></td>
+                                                <td>
+                                                    <i class="fas fa-edit p-1 edit-delete-icon detail-edit" style="color:#004369;" data-id="{{$item->id}}"></i>
+                                                    <i class="fas fa-trash p-1 edit-delete-icon detail-delete" style="color:#DB1F48" data-id="{{$item->id}}"></i>
+                                                </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                     <div class="modal fade" id="modal-detail-update">
