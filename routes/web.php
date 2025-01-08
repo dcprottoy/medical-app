@@ -20,6 +20,15 @@ use App\Http\Controllers\Backend\InvenstigationMainController;
 use App\Http\Controllers\Backend\InvestigationSectionControllers;
 use App\Http\Controllers\Backend\InvestigstionDetailsController;
 use App\Http\Controllers\Backend\InvestigationEquiSetController;
+use App\Http\Controllers\Backend\ExaminationController;
+use App\Http\Controllers\Backend\ReferredController;
+
+use App\Http\Controllers\Backend\UsageController;
+use App\Http\Controllers\Backend\DoseController;
+use App\Http\Controllers\Backend\DoseDurationController;
+use App\Http\Controllers\Backend\ServiceCategoryController;
+use App\Http\Controllers\Backend\ServiceTypeController;
+
 use App\Http\Controllers\Auth\AuthenticationController;
 
 /*
@@ -170,7 +179,6 @@ use App\Http\Controllers\Auth\AuthenticationController;
         Route::resource('/investigationtype',InvestigationTypeControllers::class)->names([
             'index'=>'investigationtype.home',
             'create'=>'investigationtype.create',
-            'create'=>'investigationtype.create',
             'show'=>'investigationtype.show',
             'store'=>'investigationtype.save',
             'edit'=>'investigationtype.edit',
@@ -188,31 +196,80 @@ use App\Http\Controllers\Auth\AuthenticationController;
         ]);
 
         Route::resource('/investsection',InvestigationSectionControllers::class)->names([
-            // 'index'=>'investsection.home',
-            // 'create'=>'investsection.create',
-            'store'=>'investsection.save',
-            // 'edit'=>'investsection.edit',
-            // 'update'=>'investsection.update',
-            // 'destroy'=>'investsection.delete'
+            'store'=>'investsection.save'
         ]);
 
         Route::resource('/investdetails',InvestigstionDetailsController::class)->names([
-            // 'index'=>'investsection.home',
-            // 'create'=>'investsection.create',
-            'store'=>'investdetails.save',
-            // 'edit'=>'investdetails.edit',
-            // 'update'=>'investsection.update',
-            // 'destroy'=>'investsection.delete'
+            'store'=>'investdetails.save'
         ]);
 
         Route::resource('/investequipset',InvestigationEquiSetController::class)->names([
-            // 'index'=>'investsection.home',
-            // 'create'=>'investsection.create',
-            'store'=>'investequipset.save',
-            // 'edit'=>'investdetails.edit',
-            // 'update'=>'investsection.update',
-            // 'destroy'=>'investsection.delete'
+            'store'=>'investequipset.save'
         ]);
+
+        Route::resource('/examination',ExaminationController::class)->names([
+            'index'=>'examination.home',
+            'create'=>'examination.create',
+            'store'=>'examination.save',
+            'edit'=>'examination.edit',
+            'update'=>'examination.update',
+            'destroy'=>'examination.delete'
+        ]);
+
+        Route::resource('/referred',ReferredController::class)->names([
+            'index'=>'referred.home',
+            'create'=>'referred.create',
+            'store'=>'referred.save',
+            'edit'=>'referred.edit',
+            'update'=>'referred.update',
+            'destroy'=>'referred.delete'
+        ]);
+
+        Route::resource('/usage',UsageController::class)->names([
+            'index'=>'usage.home',
+            'create'=>'usage.create',
+            'store'=>'usage.save',
+            'edit'=>'usage.edit',
+            'update'=>'usage.update',
+            'destroy'=>'usage.delete'
+        ]);
+
+        Route::resource('/dose',DoseController::class)->names([
+            'index'=>'dose.home',
+            'create'=>'dose.create',
+            'store'=>'dose.save',
+            'edit'=>'dose.edit',
+            'update'=>'dose.update',
+            'destroy'=>'dose.delete'
+        ]);
+
+        Route::resource('/doseduration',DoseDurationController::class)->names([
+            'index'=>'doseduration.home',
+            'create'=>'doseduration.create',
+            'store'=>'doseduration.save',
+            'edit'=>'doseduration.edit',
+            'update'=>'doseduration.update',
+            'destroy'=>'doseduration.delete'
+        ]);
+
+        Route::resource('/servicecategory',ServiceCategoryController::class)->names([
+            'index'=>'servicecategory.home',
+            'create'=>'servicecategory.create',
+            'store'=>'servicecategory.save',
+            'edit'=>'servicecategory.edit',
+            'update'=>'servicecategory.update',
+            'destroy'=>'servicecategory.delete'
+        ]);
+
+        Route::resource('/servicetype',ServiceTypeController::class)->names([
+            'index'=>'servicetype.home',
+            'create'=>'servicetype.create',
+            'store'=>'servicetype.save',
+            'edit'=>'servicetype.edit',
+            'update'=>'servicetype.update',
+            'destroy'=>'servicetype.delete'
+        ]);
+
 
     });
 
