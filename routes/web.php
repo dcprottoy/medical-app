@@ -270,6 +270,15 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'destroy'=>'servicetype.delete'
         ]);
 
+        Route::resource('/service',ServiceTypeController::class)->names([
+            'index'=>'service.home',
+            'create'=>'service.create',
+            'store'=>'service.save',
+            'edit'=>'service.edit',
+            'update'=>'service.update',
+            'destroy'=>'service.delete'
+        ]);
+
 
     });
 

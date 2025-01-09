@@ -11,7 +11,6 @@ class Referred extends Model
 
     protected $fillable = [
         'name_eng',
-        'name_bang',
         'status'
     ];
 }

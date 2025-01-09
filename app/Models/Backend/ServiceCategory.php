@@ -10,7 +10,6 @@ class ServiceCategory extends Model
     use HasFactory;
     protected $fillable = [
         'name_eng',
-        'name_bang',
         'status'
     ];
 }

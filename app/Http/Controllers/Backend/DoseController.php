@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Models\Backend\Dose;
 
 class DoseController extends Controller
 {
@@ -12,7 +14,8 @@ class DoseController extends Controller
      */
     public function index()
     {
-        //
+        $data['dose'] = Dose::paginate(5);
+        return view('backend.dose.index',$data);
     }
 
     /**
@@ -20,7 +23,7 @@ class DoseController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -28,7 +31,19 @@ class DoseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = Validator::make($request->all(),[
+            'name_eng' => 'required',
+        ]);
+        if($validated->fails()){
+            return back()->with('error','Something went wrong !!')->withInput();
+            // return back()->withErrors($validated)->withInput();
+        }else{
+            // return $request->input();
+            $advice = new Dose();
+            $advice->fill($request->all())->save();
+            return back()->with('success','New Advice Created Successfully');
+
+        }
     }
 
     /**
@@ -36,7 +51,8 @@ class DoseController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $lastid = Dose::findOrFail($id);
+        return $lastid;
     }
 
     /**
@@ -52,7 +68,20 @@ class DoseController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = Validator::make($request->all(),[
+            'name_eng' => 'required',
+        ]);
+        if($validated->fails()){
+            return back()->with('error','Something went wrong !!')->withInput();
+        }else{
+            $advice = Dose::findOrFail($id);
+            $data = $request->only(['name_eng',
+                                    'name_bang',
+                                    'status']
+                                );
+            $advice->fill($data)->save();
+            return back()->with('success','Advice '.$advice->name_eng.' Updated Successfully');
+        }
     }
 
     /**
@@ -60,6 +89,12 @@ class DoseController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if(Dose::find($id)){
+            $createObject = Dose::find($id);
+            $createObject->delete();
+            return back()->with('success','Diagnosis Remove Successfully');
+        }else{
+            return back()->with('danger','Diagnosis Not Found');
+        }
     }
 }

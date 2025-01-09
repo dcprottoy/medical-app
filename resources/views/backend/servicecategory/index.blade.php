@@ -1,44 +1,21 @@
 @extends('backend.layout.main')
 @section('body-part')
 <div class="content-wrapper">
-    <x-breadcumb title="On Examination"/>
+    <x-breadcumb title="Service Category"/>
     <div class="content">
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">On Examination Entry</h3>
+                    <h3 class="card-title">Service Category</h3>
                 </div>
-                <form action="{{route('examination.save')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('servicecategory.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label> Examination Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Examination Name">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label> Symbol</label>
-                                    <input type="text" class="form-control form-control-sm" name='symbol' placeholder="Symbol">
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label> Serial</label>
-                                    <input type="text" class="form-control form-control-sm" name='serial' placeholder="Symbol">
-                                </div>
-                            </div>
-                            <div class="form-group col-lg-4">
-                                <label>Side</label><br>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="side" value="L" required checked>
-                                  <label class="form-check-label">Left</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="side" value="R">
-                                  <label class="form-check-label">Right</label>
+                                    <label> Service Category Name</label>
+                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Service Category Name">
                                 </div>
                             </div>
                             <div class="form-group col-lg-4">
@@ -62,7 +39,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Advice</h3>
+                    <h3 class="card-title">Service Category</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -80,19 +57,7 @@
                                 SL
                             </th>
                             <th style="width: 30%" class="text-center">
-                                Examination Name
-                            </th>
-                            <th style="width: 10%" class="text-center">
-                                Symbol
-                            </th>
-                            <th style="width: 10%" class="text-center">
-                                Serial
-                            </th>
-                            <th style="width: 10%" class="text-center">
-                                Side
-                            </th>
-                            <th style="width: 15%" class="text-center">
-                                Status
+                                Service Category Name
                             </th>
                             <th class="text-center" style="width: 25%">
                                 Action
@@ -100,22 +65,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($examination as $item)
+                        @foreach($service_category as $item)
                             <tr>
                                 <td>
                                    #
                                 </td>
                                 <td class="text-center" style="font-weight:bold;">
                                 {!! $item->name_eng !!}
-                                </td>
-                                <td  class="text-center">
-                                    {!! $item->symbol !!}
-                                </td>
-                                <td  class="text-center">
-                                    {!! $item->serial !!}
-                                </td>
-                                <td  class="text-center">
-                                    {!! $item->side == 'L' ? '<span class="badge badge-info">Left</span>' :'<span class="badge badge-primary">Right</span>' !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->status == 'Y' ? '<span class="badge badge-success">Active</span>' :'<span class="badge badge-warning">Dactive</span>' !!}
@@ -143,7 +99,7 @@
                     </table>
                 </div>
                 <div class="m-3">
-                    {{ $examination->links('pagination::bootstrap-4')}}
+                    {{ $service_category->links('pagination::bootstrap-4')}}
                 </div>
             </div>
             <div class="modal fade" id="modal-default-delete">
@@ -153,7 +109,7 @@
                             @csrf
                             @method('DELETE')
                             <div class="modal-header">
-                                <h4 class="modal-title">Delete Advice</h4>
+                                <h4 class="modal-title">Delete Service Category</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -176,7 +132,7 @@
                             @csrf
                             @method('PUT')
                             <div class="modal-header">
-                                <h4 class="modal-title">Update Advice Information</h4>
+                                <h4 class="modal-title">Update Service Category Information</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -185,46 +141,23 @@
                                 @csrf
                                 <div class="card-body">
                                     <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label> Examination Name</label>
-                                            <input type="text" class="form-control form-control-sm" name='name_eng' id="u-name_eng" placeholder="Examination Name">
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Service Category Name</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Service Category Name" required>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label> Symbol</label>
-                                            <input type="text" class="form-control form-control-sm" name='symbol' id="u-symbol" placeholder="Symbol">
+                                        <div class="form-group col-lg-4">
+                                            <label>Status</label><br>
+                                            <div class="form-check  form-check-inline">
+                                                <input class="form-check-input" type="radio" id="u-active" name="status" value="Y" required>
+                                                <label class="form-check-label">Active</label>
+                                            </div>
+                                            <div class="form-check  form-check-inline">
+                                                <input class="form-check-input" type="radio" name="status" id="u-deactive" value="N">
+                                                <label class="form-check-label">Deactive</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <label> Serial</label>
-                                            <input type="text" class="form-control form-control-sm" name='serial' id="u-serial" placeholder="Symbol">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-4">
-                                        <label>Side</label><br>
-                                        <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="side" id="u-left" value="L" required checked>
-                                        <label class="form-check-label">Left</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="side" id="id-right" value="R">
-                                        <label class="form-check-label">Right</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-lg-4">
-                                        <label>Status</label><br>
-                                        <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="u-active" value="Y" required checked>
-                                        <label class="form-check-label">Active</label>
-                                        </div>
-                                        <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="status" id="u-deactive" value="N">
-                                        <label class="form-check-label">Deactive</label>
-                                        </div>
-                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -245,37 +178,26 @@
     $(document).ready(function(){
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('examination/')}}/"+id;
+            let link = "{{url('servicecategory/')}}/"+id;
             $('#modal-default-delete').modal('show');
             $('#delete-modal').attr('action',link);
         });
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('examination/')}}/"+id,
+                    url: "{{url('servicecategory/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-
-                        $("#u-name_eng").val(result.name_eng);
-                        $("#u-symbol").val(result.symbol);
-                        $("#u-serial").val(result.serial);
-                        if(result.side == 'R'){
-                            $('#u-right').attr('checked','checked');
-                        }else if(result.side == 'L'){
-                            $('#u-left').attr('checked','checked');
-                        }
+                        $('#u-name_eng').val(result.name_eng);
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
-                        }else if(result.status == 'N'){
+                        }else if(result.sex == 'N'){
                             $('#u-deactive').attr('checked','checked');
                         }
 
-
-
-
                     }
                 });
-            let link = "{{url('examination/')}}/"+id;
+            let link = "{{url('servicecategory/')}}/"+id;
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 

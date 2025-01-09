@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
+            $table->string('service_name')->nullable();
+            $table->integer('service_type_id');
+            $table->enum('status',['Y','N'])->default('Y');
+            $table->decimal('price',18,2)->nullable();
+            $table->decimal('discount_per',18,2)->nullable();
+            $table->decimal('discount_amount',18,2)->nullable();
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

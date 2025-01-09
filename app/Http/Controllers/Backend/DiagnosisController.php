@@ -39,7 +39,6 @@ class DiagnosisController extends Controller
             return back()->with('error','Something went wrong !!')->withInput();
             // return back()->withErrors($validated)->withInput();
         }else{
-            return $request->input();
             $advice = new Diagnosis();
             $advice->fill($request->all())->save();
             return back()->with('success','New Diagnosis Created Successfully');
@@ -101,7 +100,6 @@ class DiagnosisController extends Controller
     {
         if(Diagnosis::find($id)){
             $createObject = Diagnosis::find($id);
-            @unlink($Diagnosis->Image);
             $createObject->delete();
             return back()->with('success','Diagnosis Remove Successfully');
         }else{

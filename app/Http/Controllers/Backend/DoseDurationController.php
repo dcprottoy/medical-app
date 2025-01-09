@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Models\Backend\DoseDuration;
 
 class DoseDurationController extends Controller
 {
@@ -12,7 +14,8 @@ class DoseDurationController extends Controller
      */
     public function index()
     {
-        //
+        $data['doseduration'] = DoseDuration::paginate(5);
+        return view('backend.doseduration.index',$data);
     }
 
     /**
@@ -20,7 +23,7 @@ class DoseDurationController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -28,7 +31,19 @@ class DoseDurationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = Validator::make($request->all(),[
+            'name_eng' => 'required',
+        ]);
+        if($validated->fails()){
+            return back()->with('error','Something went wrong !!')->withInput();
+            // return back()->withErrors($validated)->withInput();
+        }else{
+            // return $request->input();
+            $advice = new DoseDuration();
+            $advice->fill($request->all())->save();
+            return back()->with('success','New Advice Created Successfully');
+
+        }
     }
 
     /**
@@ -36,7 +51,8 @@ class DoseDurationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $lastid = DoseDuration::findOrFail($id);
+        return $lastid;
     }
 
     /**
@@ -52,7 +68,20 @@ class DoseDurationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = Validator::make($request->all(),[
+            'name_eng' => 'required',
+        ]);
+        if($validated->fails()){
+            return back()->with('error','Something went wrong !!')->withInput();
+        }else{
+            $advice = DoseDuration::findOrFail($id);
+            $data = $request->only(['name_eng',
+                                    'name_bang',
+                                    'status']
+                                );
+            $advice->fill($data)->save();
+            return back()->with('success','Advice '.$advice->name_eng.' Updated Successfully');
+        }
     }
 
     /**
@@ -60,6 +89,12 @@ class DoseDurationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        if(DoseDuration::find($id)){
+            $createObject = DoseDuration::find($id);
+            $createObject->delete();
+            return back()->with('success','Diagnosis Remove Successfully');
+        }else{
+            return back()->with('danger','Diagnosis Not Found');
+        }
     }
 }
