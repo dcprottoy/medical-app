@@ -24,7 +24,7 @@
             </a>
           </li> -->
           <!-- <li class="nav-item " >
-            <a href="{{route('brand-image.home')}}" class="nav-link {{ Route::currentRouteName() == 'brand-image.home'||Route::currentRouteName() == 'brand-image.create'||Route::currentRouteName() == 'brand-image.edit' ? "active" : ""}}" >
+            <a href="{{route('brand-image.home')}}" class="nav-link {{ Route::currentRouteName() == 'brand-image.home'||Route::currentRouteName() == 'brand-image.create'||Route::currentRouteName() == 'brand-image.edit' ? 'active' : ''}}" >
                 <i class="nav-icon fab fa-forumbee"></i>
               <p>
                 Brand Image
@@ -34,7 +34,7 @@
           <li class="nav-item menu-open">
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
-                        <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? "active" : ""}}" >
+                        <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-user"></i>
                         <p>
                             Profile
@@ -53,13 +53,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
-                        <a href="{{route('servicecategory.home')}}" class="nav-link {{ Route::currentRouteName() == 'servicecategory.home'||Route::currentRouteName() == 'servicecategory.create'||Route::currentRouteName() == 'servicecategory.edit' ? "active" : ""}}" >
+                        <a href="{{route('servicecategory.home')}}" class="nav-link {{ Route::currentRouteName() == 'servicecategory.home'||Route::currentRouteName() == 'servicecategory.create'||Route::currentRouteName() == 'servicecategory.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Service Category</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('investigationequipments.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationequipments.home'||Route::currentRouteName() == 'investigationequipments.create'||Route::currentRouteName() == 'investigationequipments.edit' ? "active" : ""}}" >
+                        <a href="{{route('investigationequipments.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationequipments.home'||Route::currentRouteName() == 'investigationequipments.create'||Route::currentRouteName() == 'investigationequipments.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Equipment</p>
                         </a>
@@ -99,13 +99,13 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
-                        <a href="{{route('investigationtype.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationtype.home'||Route::currentRouteName() == 'investigationtype.create'||Route::currentRouteName() == 'investigationtype.edit' ? "active" : ""}}" >
+                        <a href="{{route('investigationtype.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationtype.home'||Route::currentRouteName() == 'investigationtype.create'||Route::currentRouteName() == 'investigationtype.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Investigation Type</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('investigationmain.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationmain.home'||Route::currentRouteName() == 'investigationmain.create'||Route::currentRouteName() == 'investigationmain.edit' ? "active" : ""}}" >
+                        <a href="{{route('investigationmain.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationmain.home'||Route::currentRouteName() == 'investigationmain.create'||Route::currentRouteName() == 'investigationmain.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Investigation</p>
                         </a>
@@ -122,9 +122,15 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
-                        <a href="{{route('servicetype.home')}}" class="nav-link {{ Route::currentRouteName() == 'servicetype.home'||Route::currentRouteName() == 'servicetype.create'||Route::currentRouteName() == 'servicetype.edit' ? "active" : ""}}" >
+                        <a href="{{route('servicetype.home')}}" class="nav-link {{ Route::currentRouteName() == 'servicetype.home'||Route::currentRouteName() == 'servicetype.create'||Route::currentRouteName() == 'servicetype.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Service Type</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('service.home')}}" class="nav-link {{ Route::currentRouteName() == 'service.home'||Route::currentRouteName() == 'service.create'||Route::currentRouteName() == 'service.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Service</p>
                         </a>
                     </li>
                 </ul>
@@ -139,53 +145,53 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
-                        <a href="{{route('advices.home')}}" class="nav-link {{ Route::currentRouteName() == 'advices.home'||Route::currentRouteName() == 'advices.create'||Route::currentRouteName() == 'advices.edit' ? "active" : ""}}" >
+                        <a href="{{route('advices.home')}}" class="nav-link {{ Route::currentRouteName() == 'advices.home'||Route::currentRouteName() == 'advices.create'||Route::currentRouteName() == 'advices.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Advices</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('diagnosis.home')}}" class="nav-link {{ Route::currentRouteName() == 'diagnosis.home'||Route::currentRouteName() == 'diagnosis.create'||Route::currentRouteName() == 'diagnosis.edit' ? "active" : ""}}" >
+                        <a href="{{route('diagnosis.home')}}" class="nav-link {{ Route::currentRouteName() == 'diagnosis.home'||Route::currentRouteName() == 'diagnosis.create'||Route::currentRouteName() == 'diagnosis.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Diagnosis</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('examination.home')}}" class="nav-link {{ Route::currentRouteName() == 'examination.home'||Route::currentRouteName() == 'examination.create'||Route::currentRouteName() == 'examination.edit' ? "active" : ""}}" >
+                        <a href="{{route('examination.home')}}" class="nav-link {{ Route::currentRouteName() == 'examination.home'||Route::currentRouteName() == 'examination.create'||Route::currentRouteName() == 'examination.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Examination</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('referred.home')}}" class="nav-link {{ Route::currentRouteName() == 'referred.home'||Route::currentRouteName() == 'referred.create'||Route::currentRouteName() == 'referred.edit' ? "active" : ""}}" >
+                        <a href="{{route('referred.home')}}" class="nav-link {{ Route::currentRouteName() == 'referred.home'||Route::currentRouteName() == 'referred.create'||Route::currentRouteName() == 'referred.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Referred</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('usage.home')}}" class="nav-link {{ Route::currentRouteName() == 'usage.home'||Route::currentRouteName() == 'usage.create'||Route::currentRouteName() == 'usage.edit' ? "active" : ""}}" >
+                        <a href="{{route('usage.home')}}" class="nav-link {{ Route::currentRouteName() == 'usage.home'||Route::currentRouteName() == 'usage.create'||Route::currentRouteName() == 'usage.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Usage</p>
                         </a>
                     </li><li class="nav-item " >
-                        <a href="{{route('dose.home')}}" class="nav-link {{ Route::currentRouteName() == 'dose.home'||Route::currentRouteName() == 'dose.create'||Route::currentRouteName() == 'dose.edit' ? "active" : ""}}" >
+                        <a href="{{route('dose.home')}}" class="nav-link {{ Route::currentRouteName() == 'dose.home'||Route::currentRouteName() == 'dose.create'||Route::currentRouteName() == 'dose.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Dose</p>
                         </a>
                     </li><li class="nav-item " >
-                        <a href="{{route('doseduration.home')}}" class="nav-link {{ Route::currentRouteName() == 'doseduration.home'||Route::currentRouteName() == 'doseduration.create'||Route::currentRouteName() == 'doseduration.edit' ? "active" : ""}}" >
+                        <a href="{{route('doseduration.home')}}" class="nav-link {{ Route::currentRouteName() == 'doseduration.home'||Route::currentRouteName() == 'doseduration.create'||Route::currentRouteName() == 'doseduration.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Dose Duration</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('complaint.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaint.home'||Route::currentRouteName() == 'complaint.create'||Route::currentRouteName() == 'complaint.edit' ? "active" : ""}}" >
+                        <a href="{{route('complaint.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaint.home'||Route::currentRouteName() == 'complaint.create'||Route::currentRouteName() == 'complaint.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Complaint</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('complaintduration.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaintduration.home'||Route::currentRouteName() == 'complaintduration.create'||Route::currentRouteName() == 'complaintduration.edit' ? "active" : ""}}" >
+                        <a href="{{route('complaintduration.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaintduration.home'||Route::currentRouteName() == 'complaintduration.create'||Route::currentRouteName() == 'complaintduration.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Complaint Duration</p>
                         </a>
@@ -202,31 +208,31 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
-                        <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? "active" : ""}}" >
+                        <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Doctors</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('patients.home')}}" class="nav-link {{ Route::currentRouteName() == 'patients.home'||Route::currentRouteName() == 'patients.create'||Route::currentRouteName() == 'patients.edit' ? "active" : ""}}" >
+                        <a href="{{route('patients.home')}}" class="nav-link {{ Route::currentRouteName() == 'patients.home'||Route::currentRouteName() == 'patients.create'||Route::currentRouteName() == 'patients.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Patients</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('departments.home')}}" class="nav-link {{ Route::currentRouteName() == 'departments.home'||Route::currentRouteName() == 'departments.create'||Route::currentRouteName() == 'departments.edit' ? "active" : ""}}" >
+                        <a href="{{route('departments.home')}}" class="nav-link {{ Route::currentRouteName() == 'departments.home'||Route::currentRouteName() == 'departments.create'||Route::currentRouteName() == 'departments.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Departments</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('appoinments.home')}}" class="nav-link {{ Route::currentRouteName() == 'appoinments.home'||Route::currentRouteName() == 'appoinments.create'||Route::currentRouteName() == 'appoinments.edit' ? "active" : ""}}" >
+                        <a href="{{route('appoinments.home')}}" class="nav-link {{ Route::currentRouteName() == 'appoinments.home'||Route::currentRouteName() == 'appoinments.create'||Route::currentRouteName() == 'appoinments.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-calendar-check"></i>
                             <p>Appoinments</p>
                         </a>
                     </li>
                     <li class="nav-item " >
-                        <a href="{{route('appointed.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointed.home'||Route::currentRouteName() == 'appointed.create'||Route::currentRouteName() == 'appointed.edit' ? "active" : ""}}" >
+                        <a href="{{route('appointed.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointed.home'||Route::currentRouteName() == 'appointed.create'||Route::currentRouteName() == 'appointed.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                         <p>
                             Today Appointments

@@ -28,6 +28,8 @@ use App\Http\Controllers\Backend\DoseController;
 use App\Http\Controllers\Backend\DoseDurationController;
 use App\Http\Controllers\Backend\ServiceCategoryController;
 use App\Http\Controllers\Backend\ServiceTypeController;
+use App\Http\Controllers\Backend\ServiceController;
+
 
 use App\Http\Controllers\Auth\AuthenticationController;
 
@@ -270,7 +272,7 @@ use App\Http\Controllers\Auth\AuthenticationController;
             'destroy'=>'servicetype.delete'
         ]);
 
-        Route::resource('/service',ServiceTypeController::class)->names([
+        Route::resource('/service',ServiceController::class)->names([
             'index'=>'service.home',
             'create'=>'service.create',
             'store'=>'service.save',
