@@ -43,6 +43,9 @@ use App\Http\Controllers\Auth\AuthenticationController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+use App\Http\Controllers\PDFController;
+
+Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
 
 
     Route::get('login',[UserController::class,'index'])->name('login');
