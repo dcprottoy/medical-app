@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price',18,2)->nullable();
             $table->decimal('discount_per',18,2)->nullable();
             $table->decimal('discount_amount',18,2)->nullable();
+            $table->decimal('final_price',18,2)->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

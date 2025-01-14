@@ -218,14 +218,7 @@ body * { visibility: hidden; }
                                                             <label class="form-check-label">Other</label>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group col-lg-6 d-flex">
-                                                        @foreach($appointmenttypes as $apttype)
-                                                            <div class="form-check m-2">
-                                                                <input class="form-check-input" type="radio" name="appointment_type_id" value="{{$apttype->id}}" required {{$apttype->name_eng === "Consultation"?"checked":""}}>
-                                                                <label class="form-check-label">{{$apttype->name_eng}}</label>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="card-footer text-right">
@@ -267,10 +260,10 @@ body * { visibility: hidden; }
                           <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Investigation</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Equipment</a>
+                          <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Services</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Service</a>
+                          <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Equipments</a>
                         </li>
 
                       </ul>
@@ -281,7 +274,7 @@ body * { visibility: hidden; }
                             <div class="tab-content" id="custom-tabs-four-tabContent">
                                 <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                                     <div>
-                                        <h6>Equipment</h6>
+                                        {{-- <h6>Investigation</h6> --}}
 
                                         <div class="form-group text-center">
                                             <input type="text" class="form-control form-control-sm" id="investigation" name="investigation" placeholder="Investigation Name">
@@ -312,7 +305,7 @@ body * { visibility: hidden; }
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
                                     <div>
-                                        <h6>Equipment</h6>
+                                        {{-- <h6>Service</h6> --}}
 
                                         <div class="form-group text-center">
                                             <input type="text" class="form-control form-control-sm" id="investigation" name="investigation" placeholder="Investigation Name">
@@ -326,9 +319,9 @@ body * { visibility: hidden; }
                                                 <th class="text-center" style="width:20%;">Action</th>
                                             </thead>
                                             <tbody id="investigation-table-list">
-                                                @foreach($inv_mains as $inv_main)
+                                                @foreach($services as $service)
                                                     <tr>
-                                                        <td>{!! $inv_main->investigation_name !!}</td>
+                                                        <td>{!! $service->service_name !!}</td>
                                                         <td>{!! $inv_main->final_price !!}</td>
                                                         <td class="text-center">
                                                             {{-- <button class="btn btn-sm m-0 btn-info inv-select text-center" data-id="{!! $inv_main->id !!}"> --}}
@@ -343,7 +336,7 @@ body * { visibility: hidden; }
                                 </div>
                                 <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
                                     <div>
-                                        <h6>Equipment</h6>
+                                        {{-- <h6>Equipment</h6> --}}
 
                                         <div class="form-group text-center">
                                             <input type="text" class="form-control form-control-sm" id="investigation" name="investigation" placeholder="Investigation Name">
@@ -357,10 +350,10 @@ body * { visibility: hidden; }
                                                 <th class="text-center" style="width:20%;">Action</th>
                                             </thead>
                                             <tbody id="investigation-table-list">
-                                                @foreach($inv_mains as $inv_main)
+                                                @foreach($inv_equips as $inv_equip)
                                                     <tr>
-                                                        <td>{!! $inv_main->investigation_name !!}</td>
-                                                        <td>{!! $inv_main->final_price !!}</td>
+                                                        <td>{!! $inv_equip->equipment_name !!}</td>
+                                                        <td>{!! $inv_equip->final_price !!}</td>
                                                         <td class="text-center">
                                                             {{-- <button class="btn btn-sm m-0 btn-info inv-select text-center" data-id="{!! $inv_main->id !!}"> --}}
                                                                 <i class="fas fa-check-square inv-select edit-delete-icon" style="color:#175c81;font-size:16px;" data-id="{{$inv_main->id}}"></i>

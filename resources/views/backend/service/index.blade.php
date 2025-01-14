@@ -20,7 +20,8 @@
                             </div>
                             <div class="col-6">
                                     <div class="form-group">
-                                    <select class="form-control form-control-sm"  name="investigation_section_id">
+                                    <label>Service Type</label>
+                                    <select class="form-control form-control-sm"  name="service_type_id">
                                         <option value="" selected disabled>Service Type</option>
                                         @foreach($service_types as $service_type)
                                         <option value="{{$service_type->id}}">{{$service_type->name_eng}}</option>
@@ -31,20 +32,24 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input type="text" class="form-control form-control-sm" name='price' placeholder="Price">
+                                    <input type="number" class="form-control form-control-sm price" name='price' id="price" placeholder="Price">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label>Discount Percentage</label>
-                                    <input type="text" class="form-control form-control-sm" name='discount_per' placeholder="Discount Percentage">
+                                    <input type="number" class="form-control form-control-sm price" name='discount_per' id="discount_per" placeholder="Discount Percentage">
                                 </div>
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label> Discount Amount</label>
-                                    <input type="text" class="form-control form-control-sm" name='discount_amount' placeholder="Discount Amount">
+                                    <input type="number" class="form-control form-control-sm price" name='discount_amount' id="discount_amount" placeholder="Discount Amount">
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Final Price</label>
+                                <input type="number" class="form-control form-control-sm price" name='final_price' id="final_price" placeholder="Final Price">
                             </div>
                             <div class="form-group col-lg-3">
                                 <label>Status</label><br>
@@ -81,34 +86,46 @@
                     <table class="table table-sm table-striped projects">
                         <thead>
                             <tr>
-                            <th style="width: 5%">
+                            <th style="width: 4%">
                                 SL
                             </th>
-                            <th style="width: 30%" class="text-center">
+                            <th style="width: 15%" class="text-center">
                                 Service Name
                             </th>
                             <th style="width: 15%" class="text-center">
+                                Service Type
+                            </th>
+                            <th style="width: 10%" class="text-center">
                                 Price
                             </th>
-                            <th style="width: 15%" class="text-center">
+                            <th style="width:10%" class="text-center">
                                 Discount Percentage
                             </th>
-                            <th style="width: 15%" class="text-center">
+                            <th style="width: 10%" class="text-center">
                                 Discount Amouont
                             </th>
-                            <th class="text-center" style="width: 25%">
+                            <th style="width: 10%" class="text-center">
+                                Final Price
+                            </th>
+                            <th style="width: 5%" class="text-center">
+                                Status
+                            </th>
+                            <th class="text-center" style="width: 15%">
                                 Action
                             </th>
                             </tr>
                         </thead>
                         <tbody>
-                        @foreach($inv_equip as $item)
+                        @foreach($services as $item)
                             <tr>
                                 <td>
                                    #
                                 </td>
                                 <td class="text-center" style="font-weight:bold;">
-                                {!! $item->equipment_name !!}
+                                {!! $item->service_name !!}
+                                </td>
+                                <td  class="text-center">
+                                    {!! $item->type->name_eng !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->price !!}
@@ -118,6 +135,9 @@
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->discount_amount !!}
+                                </td>
+                                <td  class="text-center">
+                                    {!! $item->final_price !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->status == 'Y' ? '<span class="badge badge-success">Active</span>' :'<span class="badge badge-warning">Dactive</span>' !!}
@@ -139,7 +159,7 @@
                     </table>
                 </div>
                 <div class="m-3">
-                    {{ $inv_equip->links('pagination::bootstrap-4')}}
+                    {{ $services->links('pagination::bootstrap-4')}}
                 </div>
             </div>
             <div class="modal fade" id="modal-default-delete">
@@ -184,25 +204,42 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Service Name</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-service_name' name='service_name' placeholder="Service Name" required>
+                                                <input type="text" class="form-control form-control-sm" id='u-service-name' name='service_name' placeholder="Service Name" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                            <label>Service Type</label>
+                                            <select class="form-control form-control-sm"  name="service_type_id" id="u-service-type-id">
+                                                <option value="" selected disabled>Service Type</option>
+                                                @foreach($service_types as $service_type)
+                                                <option value="{{$service_type->id}}">{{$service_type->name_eng}}</option>
+                                                @endforeach
+                                            </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Price</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-price' name='price' placeholder="Price" >
+                                                <input type="number" class="form-control form-control-sm u-price" id='u-price' name='price' placeholder="Price" >
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Discount Percentage</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-discount_per' name='discount_per' placeholder="Discount Percentage" >
+                                                <input type="number" class="form-control form-control-sm u-price" id='u-discount-per' name='discount_per' placeholder="Discount Percentage" >
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Discount Amount</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-discount_amount' name='discount_amount' placeholder="Discount Amount" >
+                                                <input type="number" class="form-control form-control-sm u-price" id='u-discount-amount' name='discount_amount' placeholder="Discount Amount" >
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Final Price</label>
+                                                <input type="number" class="form-control form-control-sm u-price" id='u-final-price' name='final_price' placeholder="Final Price" >
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
@@ -246,10 +283,12 @@
                     url: "{{url('service/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-                        $('#u-service_name').val(result.service_name);
+                        $('#u-service-name').val(result.service_name);
                         $('#u-price').val(result.price);
-                        $('#u-discount_per').val(result.discount_per);
-                        $('#u-discount_amount').val(result.discount_amount);
+                        $('#u-service-type-id').val(result.service_type_id);
+                        $('#u-discount-per').val(result.discount_per);
+                        $('#u-discount-amount').val(result.discount_amount);
+                        $('#u-final-price').val(result.final_price);
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
                         }else if(result.sex == 'N'){
@@ -262,6 +301,62 @@
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 
+        });
+
+        $(".price").on('keyup',function(e){
+            let price = $("#price").val();
+            let discountPer = $("#discount_per").val();
+            let discountAmount = $("#discount_amount").val();
+            let finalPrice = $("#final_price").val();
+            if(e.target.name=="price"){
+                $("#discount_amount").val(0);
+                $("#discount_per").val(0);
+                $("#final_price").val(price);
+
+            }else if(e.target.name=="discount_per"){
+
+                let calPrice = Number(price)-(Number(price)*Number(discountPer))/100;
+                $("#final_price").val(calPrice.toFixed(2));
+                let discount = Number(price)-Number(calPrice);
+                $("#discount_amount").val(discount.toFixed(2));
+
+            }else if(e.target.name=="discount_amount"){
+
+                let calPrice = Number(price)-Number(discountAmount);
+                $("#final_price").val(calPrice.toFixed(2));
+                let discount = (Number(discountAmount)/Number(price))*100;
+                $("#discount_per").val(discount.toFixed(2));
+
+            }
+            console.log(e.target.name);
+        });
+
+        $(".u-price").on('keyup',function(e){
+            let price = $("#u-price").val();
+            let discountPer = $("#u-discount-per").val();
+            let discountAmount = $("#u-discount-amount").val();
+            let finalPrice = $("#u-final-price").val();
+            if(e.target.name=="price"){
+                $("#u-discount-amount").val(0);
+                $("#u-discount-per").val(0);
+                $("#u-final-price").val(price);
+
+            }else if(e.target.name=="discount_per"){
+
+                let calPrice = Number(price)-(Number(price)*Number(discountPer))/100;
+                $("#u-final-price").val(calPrice.toFixed(2));
+                let discount = Number(price)-Number(calPrice);
+                $("#u-discount-amount").val(discount.toFixed(2));
+
+            }else if(e.target.name=="discount_amount"){
+
+                let calPrice = Number(price)-Number(discountAmount);
+                $("#u-final-price").val(calPrice.toFixed(2));
+                let discount = (Number(discountAmount)/Number(price))*100;
+                $("#u-discount-per").val(discount.toFixed(2));
+
+            }
+            console.log(e.target.name);
         });
 
 

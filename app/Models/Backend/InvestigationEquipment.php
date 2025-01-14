@@ -14,6 +14,7 @@ class InvestigationEquipment extends Model
             'status',
             'price',
             'discount_per',
-            'discount_amount'
+            'discount_amount',
+            'final_price'
     ];
 }

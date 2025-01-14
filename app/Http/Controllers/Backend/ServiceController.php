@@ -16,7 +16,7 @@ class ServiceController extends Controller
     public function index()
     {
         $data['service_types'] = ServiceType::all();
-        $data['service'] = Service::paginate(5);
+        $data['services'] = Service::paginate(5);
 
         return view('backend.service.index',$data);
     }
@@ -35,16 +35,16 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $validated = Validator::make($request->all(),[
-            'name_eng' => 'required',
+            'service_name' => 'required',
         ]);
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new ServiceType();
-            $advice->fill($request->all())->save();
-            return back()->with('success','New Advice Created Successfully');
+            $service = new Service();
+            $service->fill($request->all())->save();
+            return back()->with('success','New Service Created Successfully');
 
         }
     }
@@ -54,7 +54,7 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = ServiceType::findOrFail($id);
+        $lastid = Service::findOrFail($id);
         return $lastid;
     }
 
@@ -72,17 +72,22 @@ class ServiceController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = Validator::make($request->all(),[
-            'name_eng' => 'required',
+            'service_name' => 'required',
         ]);
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = ServiceType::findOrFail($id);
-            $data = $request->only(['name_eng',
-                                    'status']
+            $service = Service::findOrFail($id);
+            $data = $request->only(['service_name',
+                                    'service_type_id',
+                                    'status',
+                                    'price',
+                                    'discount_per',
+                                    'discount_amount',
+                                    'final_price']
                                 );
-            $advice->fill($data)->save();
-            return back()->with('success','Advice '.$advice->name_eng.' Updated Successfully');
+            $service->fill($data)->save();
+            return back()->with('success','Service '.$service->name_eng.' Updated Successfully');
         }
     }
 
@@ -91,12 +96,12 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        if(ServiceType::find($id)){
-            $createObject = ServiceType::find($id);
+        if(Service::find($id)){
+            $createObject = Service::find($id);
             $createObject->delete();
-            return back()->with('success','Diagnosis Remove Successfully');
+            return back()->with('success','Service Remove Successfully');
         }else{
-            return back()->with('danger','Diagnosis Not Found');
+            return back()->with('danger','Service Not Found');
         }
     }
 }

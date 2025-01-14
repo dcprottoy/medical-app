@@ -80,7 +80,8 @@ class InvestigationEquipmentControllers extends Controller
                                     'price',
                                     'discount_per',
                                     'discount_amount',
-                                    'status']
+                                    'status',
+                                    'final_price']
                                 );
             $inv_equip->fill($data)->save();
             return back()->with('success','Advice '.$inv_equip->equipment_name.' Updated Successfully');

@@ -5,12 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\Doctors;
+use App\Models\Backend\Service;
 use App\Models\Backend\Patients;
-use App\Models\Backend\Appoinments;
-use App\Models\Backend\AppointmentType;
-use App\Models\Backend\Complaint;
-use App\Models\Backend\ComplaintDuration;
+use App\Models\Backend\InvestigationEquipment;
 use App\Models\Backend\InvestigationMain;
 use App\Models\Backend\BillMain;
 use App\Models\Backend\Diagnosis;
@@ -24,13 +21,10 @@ class BillingController extends Controller
      */
     public function index()
     {
-        $data['doctors'] = Doctors::all();
         $data['patients'] = Patients::orderBy('id','DESC')->limit(20)->get();
-        $data['appointmenttypes'] = AppointmentType::where('status',TRUE)->get();
-        $data['complaints'] = Complaint::where('status',TRUE)->get();
-        $data['complaintdurations'] = ComplaintDuration::where('status',TRUE)->get();
-        $data['diagnosis'] = Diagnosis::where('status',TRUE)->get();
         $data['inv_mains'] = InvestigationMain::all();
+        $data['services'] = Service::all();
+        $data['inv_equips'] = InvestigationEquipment::all();
 
         return view('backend.billing.index',$data);
     }
