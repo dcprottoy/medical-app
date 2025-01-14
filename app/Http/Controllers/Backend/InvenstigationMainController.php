@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\InvestigationMain;
 use App\Models\Backend\InvestigationType;
+use App\Models\Backend\InvestigationGroup;
 use App\Models\Backend\InvestigationSection;
 use App\Models\Backend\InvestigationDetails;
 use App\Models\Backend\InvestigationEquipment;
@@ -22,6 +23,7 @@ class InvenstigationMainController extends Controller
     {
 
         $data['inv_types'] = InvestigationType::all();
+        $data['inv_groups'] = InvestigationGroup::all();
         $data['inv_main'] = InvestigationMain::paginate(5);
 
         return view('backend.investigationmain.index',$data);
@@ -94,12 +96,12 @@ class InvenstigationMainController extends Controller
 
         $validated = Validator::make($request->all(),[
             'investigation_name' => 'required',
-            'investigation_type_id' => 'required',
             'price' => 'required',
         ]);
+        // return $request->all();
         if($validated->fails()){
-            // return back()->with('error','Something went wrong !!')->withInput();
-            return back()->withErrors($validated)->withInput();
+            return back()->with('error','Something went wrong !!')->withInput();
+            // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
             $inv_main = InvestigationMain::find($id);

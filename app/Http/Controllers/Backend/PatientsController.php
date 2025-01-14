@@ -8,6 +8,7 @@ use App\Models\Backend\Patients;
 use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Backend\Appoinments;
+use App\Models\Backend\BillMain;
 use App\Models\Backend\Doctors;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,8 +57,8 @@ class PatientsController extends Controller
         $birthDate = $date->subYears($request->year)->subMonths($request->month)->subDays($request->day)->toDateString();
         // return $birthDate;
         if($validated->fails()){
-            // return back()->with('error','Something went wrong !!')->withInput();
-            return back()->withErrors($validated)->withInput();
+            return back()->with('error','Something went wrong !!')->withInput();
+            // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
             $patient = new Patients();
@@ -99,7 +100,13 @@ class PatientsController extends Controller
                     ]);
 
                     // return response()->json(["success"=>$date->format('Y-m-d')]);
-                    return response()->json(["success"=>$date->format('Y-m-d')]);
+                }elseif($request->save_type == 3){
+
+                    return response()->json($patient);
+
+
+
+                    // return response()->json(["success"=>$date->format('Y-m-d')]);
                 }
             }else{
                 return back()->with('success','New Patient Created Successfully');
@@ -160,7 +167,7 @@ class PatientsController extends Controller
 
     public function search(Request $request)
     {
-        $lastid = Patients::where('name', 'like', '%'.$request->search.'%')->get();
+        $lastid = Patients::where('patient_id', 'like', '%'.$request->search.'%')->get();
         return $lastid;
     }
     /**

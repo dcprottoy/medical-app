@@ -17,6 +17,7 @@
 body * { visibility: hidden; }
 #print-div * { visibility: visible; }
 #print-button { visibility: hidden; }
+#print-buttons { visibility: hidden; }
 
 #print-div { position: absolute; top: 40px; left: 30px; }
 }
@@ -118,7 +119,7 @@ body * { visibility: hidden; }
                                     <li class="list-group-item"><b>Doctor ID :</b> <em id="doctor-id"></em><br><b>Name :</b><span id="doctor-name"></span><br><b>Degree :</b><span id="doctor-department"></span> <br><b>Contact No :</b><span id="doctor-contact"></span></li>
                                     <li class="list-group-item">Appointment Details</li>
                                     <li class="list-group-item"><b>Date :</b> <em id="appon-date"></em><br><b>Serial No :</b><span id="serial-no"></span><br><b>Note :</b><em id="note"> </li>
-                                    <li class="list-group-item"><button class="btn btn-md btn-danger col-sm-12" id="print-button">Print</button></li>
+                                    <li class="list-group-item" id="print-buttons"><button class="btn btn-md btn-danger col-sm-12" id="print-button">Print</button></li>
                                 </ul>
 
                             </div>

@@ -28,13 +28,15 @@
                                     <b>Discount Percentage :</b>  {!! $inv_main->discount_per !!}
                                 </div>
                                 <div class="col-sm-4">
-                                    <b style="color:brown">Price : </b>  {!! $inv_main->price !!}
+                                    <b >Price : </b>  {!! $inv_main->price !!}
                                 </div>
                                 <div class="col-sm-4">
-                                    <b>Investigation Type :</b>  {!! $inv_main->type->name_eng !!}
+                                    <b>Investigation Type :</b>  {!! @$inv_main->type->name_eng !!}
                                 </div>
                                 <div class="col-sm-4">
                                     <b>Discount Amount :</b>  {!! $inv_main->discount_amount !!}
+                                </div><div class="col-sm-4">
+                                    <b style="color:brown">Final Price : </b>  {!! $inv_main->final_price !!}
                                 </div>
                             </div>
                         </div>

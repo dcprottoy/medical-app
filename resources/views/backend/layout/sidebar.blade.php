@@ -105,6 +105,12 @@
                         </a>
                     </li>
                     <li class="nav-item " >
+                        <a href="{{route('investigationgroup.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationgroup.home'||Route::currentRouteName() == 'investigationgroup.create'||Route::currentRouteName() == 'investigationgroup.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Investigation Group</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
                         <a href="{{route('investigationmain.home')}}" class="nav-link {{ Route::currentRouteName() == 'investigationmain.home'||Route::currentRouteName() == 'investigationmain.create'||Route::currentRouteName() == 'investigationmain.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Investigation</p>
@@ -241,7 +247,23 @@
                     </li>
                 </ul>
             </li>
-
+            <!-- Billing Setup -->
+            <li class="nav-item ">
+                <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-cash-register"></i>
+                <p>Billing Setup
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item " >
+                        <a href="{{route('billing.home')}}" class="nav-link {{ Route::currentRouteName() == 'billing.home'||Route::currentRouteName() == 'billing.create'||Route::currentRouteName() == 'billing.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Billing</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
           <!-- Log Out Button Start -->
           <li class="nav-item">
 

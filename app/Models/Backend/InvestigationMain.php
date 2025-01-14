@@ -12,16 +12,23 @@ class InvestigationMain extends Model
     protected $fillable = [
         'investigation_name',
         'investigation_type_id',
+        'investigation_group_id',
         'status',
         'price',
         'discount_per',
-        'discount_amount'
+        'discount_amount',
+        'final_price',
+
 ];
 
-public function type(): BelongsTo
+    public function type(): BelongsTo
     {
         return $this->BelongsTo(InvestigationType::class, 'investigation_type_id');
     }
 
+    public function group(): BelongsTo
+    {
+        return $this->BelongsTo(InvestigationGroup::class, 'investigation_group_id');
+    }
 
 }

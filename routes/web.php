@@ -16,6 +16,7 @@ use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
 use App\Http\Controllers\Backend\InvestigationTypeControllers;
+use App\Http\Controllers\Backend\InvestigationGroupController;
 use App\Http\Controllers\Backend\InvenstigationMainController;
 use App\Http\Controllers\Backend\InvestigationSectionControllers;
 use App\Http\Controllers\Backend\InvestigstionDetailsController;
@@ -29,6 +30,8 @@ use App\Http\Controllers\Backend\DoseDurationController;
 use App\Http\Controllers\Backend\ServiceCategoryController;
 use App\Http\Controllers\Backend\ServiceTypeController;
 use App\Http\Controllers\Backend\ServiceController;
+use App\Http\Controllers\Backend\BillingController;
+
 
 
 use App\Http\Controllers\Auth\AuthenticationController;
@@ -191,6 +194,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'investigationtype.delete'
         ]);
 
+        Route::resource('/investigationgroup',InvestigationGroupController::class)->names([
+            'index'=>'investigationgroup.home',
+            'create'=>'investigationgroup.create',
+            'show'=>'investigationgroup.show',
+            'store'=>'investigationgroup.save',
+            'edit'=>'investigationgroup.edit',
+            'update'=>'investigationgroup.update',
+            'destroy'=>'investigationgroup.delete'
+        ]);
         Route::resource('/investigationmain',InvenstigationMainController::class)->names([
             'index'=>'investigationmain.home',
             'create'=>'investigationmain.create',
@@ -282,6 +294,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'service.edit',
             'update'=>'service.update',
             'destroy'=>'service.delete'
+        ]);
+
+        Route::resource('/billing',BillingController::class)->names([
+            'index'=>'billing.home',
+            'create'=>'billing.create',
+            'store'=>'billing.save',
+            'edit'=>'billing.edit',
+            'update'=>'billing.update',
+            'destroy'=>'billing.delete'
         ]);
 
 
