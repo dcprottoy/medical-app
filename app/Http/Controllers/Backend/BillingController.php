@@ -10,7 +10,7 @@ use App\Models\Backend\Patients;
 use App\Models\Backend\InvestigationEquipment;
 use App\Models\Backend\InvestigationMain;
 use App\Models\Backend\BillMain;
-use App\Models\Backend\Diagnosis;
+use App\Models\Backend\ServiceCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -25,6 +25,8 @@ class BillingController extends Controller
         $data['inv_mains'] = InvestigationMain::all();
         $data['services'] = Service::all();
         $data['inv_equips'] = InvestigationEquipment::all();
+        $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
+
 
         return view('backend.billing.index',$data);
     }

@@ -8,6 +8,10 @@
         transition-duration: 0.1s ease;
 
     }
+.bill-item-list tr:hover{
+
+    background-color:rgb(241, 242, 248);
+}
 .search-list{
     height:550px;
     overflow-x: hidden;
@@ -248,133 +252,72 @@ body * { visibility: hidden; }
                         <div class="col-sm-4">
                             <b>Date :</b> <em id="bill-date"></em>
                             <br>
-                            <b>Serial No :</b><span id="bill-no"></span>
+                            <b>Bill No :</b><span id="bill-no"></span>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" id="custom-tabs-four-home-tab" data-toggle="pill" href="#custom-tabs-four-home" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">Investigation</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-four-profile-tab" data-toggle="pill" href="#custom-tabs-four-profile" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Services</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="custom-tabs-four-messages-tab" data-toggle="pill" href="#custom-tabs-four-messages" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Equipments</a>
-                        </li>
 
-                      </ul>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="tab-content" id="custom-tabs-four-tabContent">
-                                <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
-                                    <div>
-                                        {{-- <h6>Investigation</h6> --}}
-
-                                        <div class="form-group text-center">
-                                            <input type="text" class="form-control form-control-sm" id="investigation" name="investigation" placeholder="Investigation Name">
-                                        </div>
-                                    </div>
-                                    <div id="investigation-list" style="height:450px;font-size:14px;">
-                                        <table class="table table-sm table-striped">
-                                            <thead style="position: sticky;top: 0;background:white;">
-                                                <th style="width:70%;">Name</th>
-                                                <th style="width:10%;">Price</th>
-                                                <th class="text-center" style="width:20%;">Action</th>
-                                            </thead>
-                                            <tbody id="investigation-table-list">
-                                                @foreach($inv_mains as $inv_main)
-                                                    <tr>
-                                                        <td>{!! $inv_main->investigation_name !!}</td>
-                                                        <td>{!! $inv_main->final_price !!}</td>
-                                                        <td class="text-center">
-                                                            {{-- <button class="btn btn-sm m-0 btn-info inv-select text-center" data-id="{!! $inv_main->id !!}"> --}}
-                                                                <i class="fas fa-check-square inv-select edit-delete-icon" style="color:#175c81;font-size:16px;" data-id="{{$inv_main->id}}"></i>
-                                                            {{-- </button> --}}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="custom-tabs-four-profile" role="tabpanel" aria-labelledby="custom-tabs-four-profile-tab">
-                                    <div>
-                                        {{-- <h6>Service</h6> --}}
-
-                                        <div class="form-group text-center">
-                                            <input type="text" class="form-control form-control-sm" id="investigation" name="investigation" placeholder="Investigation Name">
-                                        </div>
-                                    </div>
-                                    <div id="investigation-list" style="height:450px;font-size:14px;">
-                                        <table class="table table-sm table-striped">
-                                            <thead style="position: sticky;top: 0;background:white;">
-                                                <th style="width:70%;">Name</th>
-                                                <th style="width:10%;">Price</th>
-                                                <th class="text-center" style="width:20%;">Action</th>
-                                            </thead>
-                                            <tbody id="investigation-table-list">
-                                                @foreach($services as $service)
-                                                    <tr>
-                                                        <td>{!! $service->service_name !!}</td>
-                                                        <td>{!! $inv_main->final_price !!}</td>
-                                                        <td class="text-center">
-                                                            {{-- <button class="btn btn-sm m-0 btn-info inv-select text-center" data-id="{!! $inv_main->id !!}"> --}}
-                                                                <i class="fas fa-check-square inv-select edit-delete-icon" style="color:#175c81;font-size:16px;" data-id="{{$inv_main->id}}"></i>
-                                                            {{-- </button> --}}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="custom-tabs-four-messages" role="tabpanel" aria-labelledby="custom-tabs-four-messages-tab">
-                                    <div>
-                                        {{-- <h6>Equipment</h6> --}}
-
-                                        <div class="form-group text-center">
-                                            <input type="text" class="form-control form-control-sm" id="investigation" name="investigation" placeholder="Investigation Name">
-                                        </div>
-                                    </div>
-                                    <div id="investigation-list" style="height:450px;font-size:14px;">
-                                        <table class="table table-sm table-striped">
-                                            <thead style="position: sticky;top: 0;background:white;">
-                                                <th style="width:70%;">Name</th>
-                                                <th style="width:10%;">Price</th>
-                                                <th class="text-center" style="width:20%;">Action</th>
-                                            </thead>
-                                            <tbody id="investigation-table-list">
-                                                @foreach($inv_equips as $inv_equip)
-                                                    <tr>
-                                                        <td>{!! $inv_equip->equipment_name !!}</td>
-                                                        <td>{!! $inv_equip->final_price !!}</td>
-                                                        <td class="text-center">
-                                                            {{-- <button class="btn btn-sm m-0 btn-info inv-select text-center" data-id="{!! $inv_main->id !!}"> --}}
-                                                                <i class="fas fa-check-square inv-select edit-delete-icon" style="color:#175c81;font-size:16px;" data-id="{{$inv_main->id}}"></i>
-                                                            {{-- </button> --}}
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                              </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="card"  style="min-height:550px;">
+                        <div class="card-header">
+                            <h6>Select Item</h6>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="card-body pt-1">
+                            <div class="row">
+                                <div class="col-sm-4 form-group m-0">
+                                    <select class="form-control form-control-sm"  name="investigation_type_id">
+                                    <option value="0" selected >All</option>
+                                    @foreach($service_category as $item)
+                                    <option value="{{$item->id}}">{{$item->name_eng}}</option>
+                                    @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group text-center col-sm-8">
+                                    <input type="text" class="form-control form-control-sm" id="patient" name="patient" placeholder="Item Name Search">
+                                </div>
+                                <div class="col-sm-12" style="font-size:14px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <th style="width:10%;">SL</th>
+                                            <th style="width:50%;">Name</th>
+                                            <th style="width:30%;">Price</th>
+                                            <th style="width:10%;">Action</th>
+                                        </thead>
+                                        <tbody class="bill-item-list">
+                                        @foreach($inv_mains as $item)
+                                        <tr>
+                                            <td>{!! $item->id !!}</td>
+                                            <td>{!! $item->investigation_name !!}</td>
+                                            <td>{!! $item->final_price !!}</td>
+                                            <td>
+                                                <button class="btn btn-sm  p-0" data-id="{!! $patient->id !!}">
+                                                    <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$patient->id}}"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
 
                         </div>
-
-
                     </div>
                 </div>
+                <div class="col-sm-9">
+                    <div class="card"  style="min-height:550px;">
+                        <div class="card-header">
+                            <h6>Billing Section</h6>
+                        </div>
+                        <div class="card-body">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
