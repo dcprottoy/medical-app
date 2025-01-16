@@ -15,7 +15,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label> Service Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='service_name' placeholder="Service Name">
+                                    <input type="text" class="form-control form-control-sm" name='item_name' placeholder="Service Name">
                                 </div>
                             </div>
                             <div class="col-6">
@@ -65,6 +65,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
+                        <input type="hidden" name='service_category_id' value="2">
                         <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
                         <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
                     </div>
@@ -122,10 +123,10 @@
                                    #
                                 </td>
                                 <td class="text-center" style="font-weight:bold;">
-                                {!! $item->service_name !!}
+                                {!! $item->item_name !!}
                                 </td>
                                 <td  class="text-center">
-                                    {!! $item->type->name_eng !!}
+                                    {!! @$item->type->name_eng !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->price !!}
@@ -204,7 +205,7 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Service Name</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-service-name' name='service_name' placeholder="Service Name" required>
+                                                <input type="text" class="form-control form-control-sm" id='u-item-name' name='item_name' placeholder="Service Name" required>
                                             </div>
                                         </div>
                                         <div class="col-6">
@@ -257,6 +258,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between" id="up-pl">
+                                <input type="hidden" name='service_category_id' value="2">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-warning">Update</button>
                             </div>
@@ -283,7 +285,7 @@
                     url: "{{url('service/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-                        $('#u-service-name').val(result.service_name);
+                        $('#u-item-name').val(result.item_name);
                         $('#u-price').val(result.price);
                         $('#u-service-type-id').val(result.service_type_id);
                         $('#u-discount-per').val(result.discount_per);

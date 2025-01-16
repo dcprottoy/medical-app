@@ -15,7 +15,7 @@
                             <div class="col-sm-3">
                                 <div class="form-group">
                                     <label> Equipment Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='equipment_name' placeholder="Equipment Name">
+                                    <input type="text" class="form-control form-control-sm" name='item_name' placeholder="Equipment Name">
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -56,6 +56,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
+                        <input type="hidden" name='service_category_id'  value="3">
                         <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
                         <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
                     </div>
@@ -110,7 +111,7 @@
                                    #
                                 </td>
                                 <td class="text-center" style="font-weight:bold;">
-                                {!! $item->equipment_name !!}
+                                {!! $item->item_name !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->price !!}
@@ -189,7 +190,7 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Equipment Name</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-equipment-name' name='equipment_name' placeholder="Equipment Name" required>
+                                                <input type="text" class="form-control form-control-sm" id='u-item-name' name='item_name' placeholder="Equipment Name" required>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -231,6 +232,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between" id="up-pl">
+                                <input type="hidden" name='service_category_id' value="3">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-warning">Update</button>
                             </div>
@@ -257,7 +259,7 @@
                     url: "{{url('investigationequipments/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-                        $('#u-equipment-name').val(result.equipment_name);
+                        $('#u-item-name').val(result.item_name);
                         $('#u-price').val(result.price);
                         $('#u-discount-per').val(result.discount_per);
                         $('#u-discount-amount').val(result.discount_amount);

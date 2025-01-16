@@ -20,6 +20,6 @@ class BillDetails extends Model
         'final_price',
         'discount_percent',
         'discount_amount'
-        ]
+    ];
 
 }

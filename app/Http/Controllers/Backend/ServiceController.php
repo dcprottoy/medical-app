@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\ServiceType;
-use App\Models\Backend\Service;
+use App\Models\Backend\BillItems;
 
 class ServiceController extends Controller
 {
@@ -16,7 +16,7 @@ class ServiceController extends Controller
     public function index()
     {
         $data['service_types'] = ServiceType::all();
-        $data['services'] = Service::paginate(5);
+        $data['services'] = BillItems::where('service_category_id',2)->paginate(5);
 
         return view('backend.service.index',$data);
     }
@@ -35,14 +35,14 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $validated = Validator::make($request->all(),[
-            'service_name' => 'required',
+            'item_name' => 'required',
         ]);
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $service = new Service();
+            $service = new BillItems();
             $service->fill($request->all())->save();
             return back()->with('success','New Service Created Successfully');
 
@@ -54,7 +54,7 @@ class ServiceController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = Service::findOrFail($id);
+        $lastid = BillItems::findOrFail($id);
         return $lastid;
     }
 
@@ -72,13 +72,13 @@ class ServiceController extends Controller
     public function update(Request $request, string $id)
     {
         $validated = Validator::make($request->all(),[
-            'service_name' => 'required',
+            'item_name' => 'required',
         ]);
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $service = Service::findOrFail($id);
-            $data = $request->only(['service_name',
+            $service = BillItems::findOrFail($id);
+            $data = $request->only(['item_name',
                                     'service_type_id',
                                     'status',
                                     'price',
@@ -96,8 +96,8 @@ class ServiceController extends Controller
      */
     public function destroy(string $id)
     {
-        if(Service::find($id)){
-            $createObject = Service::find($id);
+        if(BillItems::find($id)){
+            $createObject = BillItems::find($id);
             $createObject->delete();
             return back()->with('success','Service Remove Successfully');
         }else{
