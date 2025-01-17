@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use App\Models\Backend\BillItems;
 use App\Models\Backend\InvestigationMain;
 use App\Models\Backend\InvestigationType;
 use App\Models\Backend\InvestigationGroup;
@@ -24,7 +25,7 @@ class InvenstigationMainController extends Controller
 
         $data['inv_types'] = InvestigationType::all();
         $data['inv_groups'] = InvestigationGroup::all();
-        $data['inv_main'] = InvestigationMain::paginate(5);
+        $data['bill_items'] = BillItems::where('service_category_id',2)->paginate(5);
 
         return view('backend.investigationmain.index',$data);
     }
@@ -45,7 +46,7 @@ class InvenstigationMainController extends Controller
 
 
         $validated = Validator::make($request->all(),[
-            'investigation_name' => 'required',
+            'item_name' => 'required',
             'investigation_type_id' => 'required',
             'price' => 'required',
         ]);
@@ -55,7 +56,7 @@ class InvenstigationMainController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_main = new InvestigationMain();
+            $inv_main = new BillItems();
             $inv_main->fill($request->all())->save();
             return back()->with('success','New Investigation Registered Successfully');
 
@@ -67,7 +68,7 @@ class InvenstigationMainController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = InvestigationMain::findOrFail($id);
+        $lastid = BillItems::findOrFail($id);
         return $lastid;
     }
 
@@ -77,9 +78,9 @@ class InvenstigationMainController extends Controller
     public function edit(string $id)
     {
 
-        $data['inv_main'] = InvestigationMain::with('type')->find($id);
+        $data['inv_main'] = BillItems::with('investigationType')->find($id);
         $data['inv_types'] = InvestigationType::all();
-        $data['inv_equips'] = InvestigationEquipment::all();
+        $data['inv_equips'] = BillItems::where('service_category_id','=',3)->get();
 
         $data['inv_sections'] = InvestigationSection::where('investigation_main_id','=',$id)->orderBy('serial')->get();
         $data['inv_details'] = InvestigationDetails::where('investigation_main_id','=',$id)->get();
@@ -95,7 +96,7 @@ class InvenstigationMainController extends Controller
     {
 
         $validated = Validator::make($request->all(),[
-            'investigation_name' => 'required',
+            'item_name' => 'required',
             'price' => 'required',
         ]);
         // return $request->all();
@@ -104,7 +105,7 @@ class InvenstigationMainController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_main = InvestigationMain::find($id);
+            $inv_main = BillItems::find($id);
             $inv_main->fill($request->all())->save();
             return back()->with('success','Investigation Information Updated Successfully');
         }
@@ -112,7 +113,7 @@ class InvenstigationMainController extends Controller
     }
     public function search(Request $request)
     {
-        $lastid = InvestigationMain::where('name', 'like', '%'.$request->search.'%')->get();
+        $lastid = BillItems::where('name', 'like', '%'.$request->search.'%')->get();
         return $lastid;
     }
     /**
@@ -120,7 +121,7 @@ class InvenstigationMainController extends Controller
      */
     public function destroy(string $id)
     {
-        $createObject = InvestigationMain::find($id);
+        $createObject = BillItems::find($id);
         $sec = InvestigationSection::where('investigation_main_id','=',$id)->first();
         $det = InvestigationDetails::where('investigation_main_id','=',$id)->first();
         $eqp = InvestigationEquipSetup::where('investigation_main_id','=',$id)->first();

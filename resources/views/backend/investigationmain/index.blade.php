@@ -17,7 +17,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input type="text" class="form-control form-control-sm" name='investigation_name' placeholder="Investigation Name" required>
+                                            <input type="text" class="form-control form-control-sm" name='item_name' placeholder="Investigation Name" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -45,30 +45,31 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Price</label>
-                                            <input type="number" class="form-control form-control-sm price" name='price' id="price"  placeholder="Price" required>
+                                            <input type="number" step="any" class="form-control form-control-sm price" name='price' id="price"  placeholder="Price" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Discount Percentage</label>
-                                            <input type="number" class="form-control form-control-sm price" name='discount_per' id="discount_per"  placeholder="Discount Percentage">
+                                            <input type="number" step="any" class="form-control form-control-sm price" name='discount_per' id="discount_per"  placeholder="Discount Percentage">
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Discount Amount</label>
-                                            <input type="number" class="form-control form-control-sm price" name='discount_amount' id="discount_amount"  placeholder="Discount Amount" required>
+                                            <input type="number" step="any" class="form-control form-control-sm price" name='discount_amount' id="discount_amount"  placeholder="Discount Amount" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Final Price</label>
-                                            <input type="number" class="form-control form-control-sm price" name='final_price' id="final_price"  placeholder="Final Price" required>
+                                            <input type="number" step="any" class="form-control form-control-sm price" name='final_price' id="final_price"  placeholder="Final Price" required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer text-right">
+                                <input type="hidden" name='service_category_id' value="2">
                                 <button type="reset" class="btn btn-danger float-left">&nbsp;Clear&nbsp;</button>
                                 <button type="submit" class="btn btn-success">&nbsp;Save&nbsp;</button>
                             </div>
@@ -119,19 +120,19 @@
                           </tr>
                       </thead>
                       <tbody>
-                        @foreach($inv_main as $item)
+                        @foreach($bill_items as $item)
                           <tr>
                               <td>
                                   #
                               </td>
                               <td class="project-state text-center">
-                                {!! $item->investigation_name !!}
+                                {!! $item->item_name !!}
                               </td>
                               <td class="project-state text-center">
-                                {!! @$item->type->name_eng !!}
+                                {!! @$item->investigationType->name_eng !!}
                               </td>
                               <td class="project-state text-center">
-                                {!! @$item->group->name_eng !!}--{!! @$item->group->room_no !!}
+                                {!! @$item->investigationGroup->name_eng !!}--{!! @$item->investigationGroup->room_no !!}
                               </td>
                               <td class="project-state text-center">
                                 {!! $item->price !!}
@@ -169,7 +170,7 @@
                   </table>
                 </div>
                 <div class="m-3">
-                    {{ $inv_main->links('pagination::bootstrap-4')}}
+                    {{ $bill_items->links('pagination::bootstrap-4')}}
                 </div>
             </div>
             <div class="modal fade" id="modal-default-update">
@@ -189,7 +190,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <label>Name</label>
-                                            <input type="text" class="form-control form-control-sm" name='investigation_name' id="u-investigation-name" placeholder="Investigation Name" required>
+                                            <input type="text" class="form-control form-control-sm" name='item_name' id="u-item-name" placeholder="Investigation Name" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -217,30 +218,31 @@
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Price</label>
-                                            <input type="number" class="form-control form-control-sm u-price" name='price' id="u-price" placeholder="Price" required>
+                                            <input type="number" step="any" class="form-control form-control-sm u-price" name='price' id="u-price" placeholder="Price" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Discount Percentage</label>
-                                            <input type="number" class="form-control form-control-sm u-price" name='discount_per' id="u-discount-per" placeholder="Discount Percentage">
+                                            <input type="number" step="any" class="form-control form-control-sm u-price" name='discount_per' id="u-discount-per" placeholder="Discount Percentage">
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Discount Amount</label>
-                                            <input type="number" class="form-control form-control-sm u-price" name='discount_amount' id="u-discount-amount" placeholder="Discount Amount" required>
+                                            <input type="number" step="any" class="form-control form-control-sm u-price" name='discount_amount' id="u-discount-amount" placeholder="Discount Amount" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Final Price</label>
-                                            <input type="number" class="form-control form-control-sm u-price" name='final_price' id="u-final-price" placeholder="Final Price" required>
+                                            <input type="number" step="any" class="form-control form-control-sm u-price" name='final_price' id="u-final-price" placeholder="Final Price" required>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between">
+                                <input type="hidden" name='service_category_id' value="2">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-info">Update</button>
                             </div>
@@ -284,7 +286,7 @@
                     url: "{{url('investigationmain/')}}/"+id,
                     success: function (result) {
                         console.log(result);
-                        $('#u-investigation-name').val(result.investigation_name);
+                        $('#u-item-name').val(result.item_name);
                         $('#u-investigation-type-id').val(result.investigation_type_id);
                         $('#u-investigation-group-id').val(result.investigation_group_id);
                         $('#u-price').val(result.price);

@@ -16,7 +16,7 @@ class ServiceController extends Controller
     public function index()
     {
         $data['service_types'] = ServiceType::all();
-        $data['services'] = BillItems::where('service_category_id',2)->paginate(5);
+        $data['services'] = BillItems::where('service_category_id',4)->paginate(5);
 
         return view('backend.service.index',$data);
     }

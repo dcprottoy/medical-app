@@ -8,7 +8,7 @@
         transition-duration: 0.1s ease;
 
     }
-.bill-item-list tr:hover{
+.bill-item-list-cl tr:hover{
 
     background-color:rgb(241, 242, 248);
 }
@@ -260,7 +260,7 @@ body * { visibility: hidden; }
 
             <div class="row">
                 <div class="col-sm-3">
-                    <div class="card"  style="min-height:550px;">
+                    <div class="card">
                         <div class="card-header">
                             <h6>Select Item</h6>
                         </div>
@@ -275,9 +275,9 @@ body * { visibility: hidden; }
                                     </select>
                                 </div>
                                 <div class="form-group text-center col-sm-8">
-                                    <input type="text" class="form-control form-control-sm" id="patient" name="patient" placeholder="Item Name Search">
+                                    <input type="text" class="form-control form-control-sm" id="bill-item-search" name="bill_item_search" placeholder="Item Name Search">
                                 </div>
-                                <div class="col-sm-12" style="font-size:14px;">
+                                <div class="col-sm-12 search-list" style="font-size:14px;height:430px;">
                                     <table class="table table-sm">
                                         <thead>
                                             <th style="width:10%;">SL</th>
@@ -285,14 +285,14 @@ body * { visibility: hidden; }
                                             <th style="width:30%;">Price</th>
                                             <th style="width:10%;">Action</th>
                                         </thead>
-                                        <tbody class="bill-item-list">
-                                        @foreach($inv_mains as $item)
+                                        <tbody class="bill-item-list-cl" id="bill-item-list">
+                                        @foreach($bill_items as $item)
                                         <tr>
                                             <td>{!! $item->id !!}</td>
-                                            <td>{!! $item->investigation_name !!}</td>
+                                            <td>{!! $item->item_name !!}</td>
                                             <td>{!! $item->final_price !!}</td>
                                             <td>
-                                                <button class="btn btn-sm  p-0" data-id="{!! $patient->id !!}">
+                                                <button class="btn btn-sm  p-0 bill-item-add" data-id="{!! $item->id !!}">
                                                     <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$patient->id}}"></i>
                                                 </button>
                                             </td>
@@ -308,12 +308,60 @@ body * { visibility: hidden; }
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-6">
                     <div class="card"  style="min-height:550px;">
                         <div class="card-header">
                             <h6>Billing Section</h6>
                         </div>
                         <div class="card-body">
+                            <table class="table table-sm" style="min-height: 300px;">
+                                <thead>
+                                    <th style="width:60%">Name</th>
+                                    <th style="width:10%">Price</th>
+                                    <th style="width:10%">Quantity</th>
+                                    <th style="width:10%">Amount</th>
+                                    <th style="width:10%">Action</th>
+                                </thead>
+                                <tbody id="bill-item-add-list">
+
+                                </tbody>
+                                <tbody id="bill-equip-add-list">
+
+                                </tbody>
+
+                            </table>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td style="width:60%"></td>
+                                    <td style="width:10%"></td>
+                                    <td style="width:10%"></td>
+                                    <td style="width:10%"></td>
+                                    <td style="width:10%"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>total:</td>
+                                    <td><input type="number"  value="0.00"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>discount:</td>
+                                    <td><input type="number"  value="0.00"></td>
+                                    <td></td>
+                                </tr><tr>
+                                    <td colspan="2"></td>
+                                    <td>paid:</td>
+                                    <td><input type="number"  value="0.00"></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
+                                    <td>Due:</td>
+                                    <td><input type="number"  value="0.00"></td>
+                                    <td></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -645,6 +693,80 @@ body * { visibility: hidden; }
 
         $("#onExaminationbtn").on('click',function(){
             renderOnExamination();
+        });
+        $("#bill-item-search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#bill-item-list tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+        $(".bill-item-add").on('click',function(){
+            let id = $(this).attr('data-id');
+            myElement='';
+            myElement2='';
+            $.ajax({
+                    url: "{{url('billingitems/')}}/"+id,
+                    success: function (result) {
+                        console.log(result);
+                        if($("#qty"+result.item.id).val()){
+                                    console.log($("#qty"+result.item.id).val())
+                                    let qty = $("#qty"+result.item.id).val();
+                                    let amt = $("#amt"+result.item.id).val();
+                                    $("#qty"+result.item.id).val(Number(qty)+1);
+                                    $("#amt"+result.item.id).val(Number(amt)+Number(result.item.final_price));
+                        }else{
+                        myElement +=`<tr>
+                            <td>${result.item.item_name}</td>
+                            <td>${result.item.final_price}</td>
+                            <td><input type="number" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
+                            <td><input type="number" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.final_price)}"></td>
+                            <td>
+                                <button type="button" class="btn btn-xs remove-btn" title="Remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </td>
+
+                            </tr>
+                        `;
+                        $("#bill-item-add-list").append(myElement);
+                        }
+                        if(result.equipments){
+                            result.equipments.map(x=>{
+                                if($("#qty"+x.equip.id).val()){
+                                    console.log($("#qty"+x.equip.id).val())
+                                    let qty = $("#qty"+x.equip.id).val();
+                                    let amt = $("#amt"+x.equip.id).val();
+                                    $("#qty"+x.equip.id).val(Number(qty)+1);
+                                    $("#amt"+x.equip.id).val(Number(amt)+Number(x.equip.final_price));
+                                }else{
+                                    myElement2 +=`<tr>
+                                        <td>${x.equip.item_name}</td>
+                                        <td>${x.equip.final_price}</td>
+                                        <td><input type="number" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="1"></td>
+                                        <td><input type="number" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.final_price)}"></td>
+                                        <td>
+                                            <button type="button" class="btn btn-xs remove-btn" title="Remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </td>
+
+                                        </tr>
+                                `;
+                                $("#bill-equip-add-list").append(myElement2);
+                                }
+
+
+                        });
+                        }
+
+                        $('.remove-btn').on('click',function(e){
+                            console.log("Prottoy");
+                            $(this).closest("tr").remove();
+                        });
+
+
+                    }
+                });
         });
 
 

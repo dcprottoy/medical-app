@@ -21,11 +21,11 @@ class InvestigationEquipSetup extends Model
 
     public function main(): BelongsTo
         {
-            return $this->BelongsTo(InvestigationMain::class, 'investigation_main_id');
+            return $this->BelongsTo(BillItems::class, 'investigation_main_id');
         }
 
         public function equip(): BelongsTo
         {
-            return $this->BelongsTo(InvestigationEquipment::class, 'investigation_equip_id');
+            return $this->BelongsTo(BillItems::class, 'investigation_equip_id');
         }
 }

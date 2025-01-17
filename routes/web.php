@@ -305,6 +305,9 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'billing.delete'
         ]);
 
+    Route::get('billingitems/{id}',[BillingController::class,'billingitems']);
+
+
 
     });
 

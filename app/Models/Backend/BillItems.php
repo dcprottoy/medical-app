@@ -24,9 +24,24 @@ class BillItems extends Model
         'status'
     ];
 
-    public function type(): BelongsTo
+    public function serviceType(): BelongsTo
         {
             return $this->BelongsTo(ServiceType::class, 'service_type_id');
         }
+
+    public function investigationType(): BelongsTo
+    {
+        return $this->BelongsTo(InvestigationType::class, 'investigation_type_id');
+    }
+
+    public function investigationGroup(): BelongsTo
+    {
+        return $this->BelongsTo(InvestigationGroup::class, 'investigation_group_id');
+    }
+
+    public function serviceCategory(): BelongsTo
+    {
+        return $this->BelongsTo(InvestigationGroup::class, 'investigation_group_id');
+    }
 
 }

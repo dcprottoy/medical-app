@@ -20,7 +20,7 @@ class InvestigationDetails extends Model
 
     public function main(): BelongsTo
         {
-            return $this->BelongsTo(InvestigationMain::class, 'investigation_main_id');
+            return $this->BelongsTo(BillItems::class, 'investigation_main_id');
         }
 
     public function section(): BelongsTo

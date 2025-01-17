@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <b>Investigation Name : </b>{!! $inv_main->investigation_name !!}
+                                    <b>Investigation Name : </b>{!! $inv_main->item_name !!}
                                 </div>
                                 <div class="col-sm-4">
                                     <b>Discount Percentage :</b>  {!! $inv_main->discount_per !!}
@@ -31,7 +31,7 @@
                                     <b >Price : </b>  {!! $inv_main->price !!}
                                 </div>
                                 <div class="col-sm-4">
-                                    <b>Investigation Type :</b>  {!! @$inv_main->type->name_eng !!}
+                                    <b>Investigation Type :</b>  {!! @$inv_main->investigationType->name_eng !!}
                                 </div>
                                 <div class="col-sm-4">
                                     <b>Discount Amount :</b>  {!! $inv_main->discount_amount !!}
@@ -120,7 +120,7 @@
                                         <select class="form-control form-control-sm"  name="investigation_equip_id">
                                         <option value="" selected disabled>Investigation Equipment</option>
                                         @foreach($inv_equips as $inv_equip)
-                                            <option value="{{$inv_equip->id}}">{{$inv_equip->equipment_name}}</option>
+                                            <option value="{{$inv_equip->id}}">{{$inv_equip->item_name}}</option>
                                         @endforeach
                                         </select>
                                     </div>
@@ -368,7 +368,7 @@
                                         <tbody>
                                             @foreach($inv_equip_sets as $item)
                                                 <tr>
-                                                    <td>{{ $item->equip->equipment_name }}</td>
+                                                    <td>{{ $item->equip->item_name }}</td>
                                                     <td>{{ $item->quantity }}</td>
                                                     <td>
                                                         <i class="fas fa-edit p-1 edit-delete-icon equipt-edit" style="color:#004369;" data-id="{{$item->id}}"></i>

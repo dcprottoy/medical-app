@@ -8,7 +8,8 @@ use Illuminate\Http\Request;
 use App\Models\Backend\Service;
 use App\Models\Backend\Patients;
 use App\Models\Backend\InvestigationEquipment;
-use App\Models\Backend\InvestigationMain;
+use App\Models\Backend\InvestigationEquipSetup;
+use App\Models\Backend\BillItems;
 use App\Models\Backend\BillMain;
 use App\Models\Backend\ServiceCategory;
 use Illuminate\Support\Carbon;
@@ -22,9 +23,7 @@ class BillingController extends Controller
     public function index()
     {
         $data['patients'] = Patients::orderBy('id','DESC')->limit(20)->get();
-        $data['inv_mains'] = InvestigationMain::all();
-        $data['services'] = Service::all();
-        $data['inv_equips'] = InvestigationEquipment::all();
+        $data['bill_items'] = BillItems::all();
         $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
 
 
@@ -106,5 +105,12 @@ class BillingController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function billingitems(string $id){
+        $lastid = BillItems::findOrFail($id);
+        $equip = InvestigationEquipSetup::with('equip')->where('investigation_main_id','=',$id)->get();
+
+        return response()->json(["equipments"=>$equip,"item"=>$lastid]);
     }
 }

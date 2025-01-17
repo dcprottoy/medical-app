@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                        <input type="hidden" name='service_category_id' value="2">
+                        <input type="hidden" name='service_category_id' value="4">
                         <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
                         <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
                     </div>
@@ -126,7 +126,7 @@
                                 {!! $item->item_name !!}
                                 </td>
                                 <td  class="text-center">
-                                    {!! @$item->type->name_eng !!}
+                                    {!! @$item->serviceType->name_eng !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->price !!}
@@ -258,7 +258,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer justify-content-between" id="up-pl">
-                                <input type="hidden" name='service_category_id' value="2">
+                                <input type="hidden" name='service_category_id' value="4">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-warning">Update</button>
                             </div>
