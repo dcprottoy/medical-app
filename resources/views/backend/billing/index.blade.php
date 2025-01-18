@@ -308,64 +308,77 @@ body * { visibility: hidden; }
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6">
-                    <div class="card"  style="min-height:550px;">
-                        <div class="card-header">
-                            <h6>Billing Section</h6>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-sm" style="min-height: 300px;">
-                                <thead>
-                                    <th style="width:60%">Name</th>
-                                    <th style="width:10%">Price</th>
-                                    <th style="width:10%">Quantity</th>
-                                    <th style="width:10%">Amount</th>
-                                    <th style="width:10%">Action</th>
-                                </thead>
-                                <tbody id="bill-item-add-list">
-
-                                </tbody>
-                                <tbody id="bill-equip-add-list">
-
-                                </tbody>
-
-                            </table>
-                            <table class="table table-sm">
-                                <tr>
-                                    <td style="width:60%"></td>
-                                    <td style="width:10%"></td>
-                                    <td style="width:10%"></td>
-                                    <td style="width:10%"></td>
-                                    <td style="width:10%"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td>total:</td>
-                                    <td><input type="number"  value="0.00"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td>discount:</td>
-                                    <td><input type="number"  value="0.00"></td>
-                                    <td></td>
-                                </tr><tr>
-                                    <td colspan="2"></td>
-                                    <td>paid:</td>
-                                    <td><input type="number"  value="0.00"></td>
-                                    <td></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td>Due:</td>
-                                    <td><input type="number"  value="0.00"></td>
-                                    <td></td>
-                                </tr>
-                            </table>
+                    <div class="col-sm-6">
+                        <form action="{{route('billingdetails.save')}}" method="post" enctype="multipart/form-data" id="new_billing_details_create">
+                            @csrf
+                        <div class="card"  style="min-height:550px;">
+                            <div class="card-header">
+                                <h6>Billing Section</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="height:450px;">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <th style="width:30%">Name</th>
+                                            <th style="width:10%">Price</th>
+                                            <th style="width:25%">Quantity</th>
+                                            <th style="width:25%">Amount</th>
+                                            <th style="width:10%">Action</th>
+                                        </thead>
+                                        <tbody id="bill-item-add-list">
+                                        </tbody>
+                                        <tbody id="bill-equip-add-list">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-sm-3">
+                        <div class="card"  style="min-height:500px;">
+                            <div class="card-header">
+                                <h6>Billing Section</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive" style="height:400px;">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align: right;">Total Amount :</td>
+                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_amount" id="bill-amount" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: right;">Discount in Amount :</td>
+                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_dis_amt" id="bill-dis-amt" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: right;">Discount in Percentage :</td>
+                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_in_per" id="bill-in-per"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: right;">Net Payable Amount :</td>
+                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_total_amount" id="bill-total-amount"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: right;">Total Paid :</td>
+                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_paid_amount" id="bill-paid-amount"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td style="text-align: right;">Total Due :</td>
+                                                <td><input class="form-control form-control-sm" type="number" step=".1" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer text-right">
+                                <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
+                                <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
+                            </div>
+                        </div>
+                        </form>
 
+                    </div>
             </div>
         </div>
     </div>
@@ -523,177 +536,27 @@ body * { visibility: hidden; }
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
-        $("#chiefcomplaintbtn").on('click',function(){
-            renderComplaint();
-        });
-        $(".complaint-list-item").on('click',function(){
-           let text = $(this).text();
-           let id = $(this).attr('data-value');
-           $('.complaint-list-item').each(function(){
-            $(this).css("background-color", "white");
-           });
-           $(this).css("background-color", "beige");
-           tempComplaintID = id;
-           tempComplaintText = text;
-           console.log([tempComplaintID,tempComplaintText]);
-        });
-        $(".complaint-duration-list-item").on('click',function(){
-           let text = $(this).text();
-           let id = $(this).attr('data-value');
-           $('.complaint-duration-list-item').each(function(){
-            $(this).css("background-color", "white");
-           });
-           if(tempComplaintDurationID != id){
-                $(this).css("background-color", "beige");
-            tempComplaintDurationID = id;
-            tempComplaintDurationText = text;
-            console.log([tempComplaintDurationID,tempComplaintDurationText]);
-           }else{
-            tempComplaintDurationID = '';
-            tempComplaintDurationText = '';
-           }
+        function calculateBill(){
+            let amtResult = 0;
+                $(".billing-item-amount").each(function(){
 
-        });
-        $("#complaint-add").on('click',function(){
-            let text = $("#complaint_value").val();
-
-            let checkExistence = false;
-            chiefComplaint.forEach(x=>{
-                if(x.complaint_id == tempComplaintID){
-                    checkExistence =  true ;
-                }
-            });
-            if(tempComplaintID && tempComplaintText){
-                if(!checkExistence){
-                    chiefComplaint = [...chiefComplaint,{
-                    'complaint_id':tempComplaintID,
-                    'complaint_text':tempComplaintText,
-                    'complaint_duration_id':tempComplaintDurationID,
-                    'complaint_duration_text':tempComplaintDurationText,
-                    'complaint_value':text
-                    }]
-                }else{
-                    chiefComplaint = chiefComplaint.map( x =>{
-
-                        if(x.complaint_id == tempComplaintID){
-                            x.complaint_id = tempComplaintID,
-                            x.complaint_text = tempComplaintText,
-                            x.complaint_duration_id = tempComplaintDurationID,
-                            x.complaint_duration_text = tempComplaintDurationText,
-                            x.complaint_value = text
-                        }
-
-                        return x;
-
-
-                    });
-                }
-
-                console.log(chiefComplaint);
-                renderComplaint();
-                $('.complaint-duration-list-item').each(function(){
-                    $(this).css("background-color", "white");
+                    amtResult += Number($(this).val());
                 });
-                $('.complaint-list-item').each(function(){
-                    $(this).css("background-color", "white");
-                });
-                $("#complaint_value").val('');
-                tempComplaintID = '';
-                tempComplaintText = '';
-                tempComplaintDurationID = '';
-                tempComplaintDurationText = '';
-                text = '';
-            }
-        });
-        $('#complaint-search').on('keyup', function() {
-                var value = $(this).val().toLowerCase(); // Get the search input value
-                $('#complaint-list li').filter(function() {
-                    // Show or hide list items based on the search query
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-        });
-        $('#compalint-duration-search').on('keyup', function() {
-                var value = $(this).val().toLowerCase(); // Get the search input value
-                $('#complaint-duration-list li').filter(function() {
-                    // Show or hide list items based on the search query
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-        });
-        function removeOnExamination(id){
-            onExamination[id]='';
-            renderOnExamination();
+                $("#bill-amount").val(amtResult);
         }
-        function renderOnExamination(){
-            $("#onexamination-list").empty();
-            $("#bloodPressure").val(onExamination.blood_pressure);
-            $("#bodyTemperature").val(onExamination.body_temperature);
-            $("#bodyWeight").val(onExamination.body_weight);
-            let myElement = "";
+        function billItemotalCal(id){
+            let quantity = $("#qty"+id).val();
+            if(!isNaN(quantity)&&quantity!=""){
+                let price = $("#price"+id).text();
+                let total = (Number(price)*Number(quantity)).toFixed(2);
+                $("#amt"+id).val(total);
+            }else{
+                $("#amt"+id).val(0);
 
-            if(onExamination.blood_pressure!=''){
-                myElement +=`
-                <li style="list-style-type: none;">
-                    <div class="row">
-                    <div class="col-sm-10">Blood Pressure${":&ensp;"+onExamination.blood_pressure}</div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='blood_pressure' title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    </div>
-                </li>
-                `;
             }
-            if(onExamination.body_temperature!=''){
-                myElement +=`
-                <li style="list-style-type: none;">
-                    <div class="row">
-                    <div class="col-sm-10">Body Temperature${":&ensp;"+onExamination.body_temperature}<sup>o</sup></div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='body_temperature' title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    </div>
-                </li>
-                `;
-            }
-            if(onExamination.body_weight!=''){
-                myElement +=`
-                <li style="list-style-type: none;">
-                    <div class="row">
-                    <div class="col-sm-10">Body Weight${":&ensp;"+onExamination.body_weight} kg</div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='body_weight' title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    </div>
-                </li>
-                `;
-            }
-
-            $("#onexamination-list").append(myElement);
-
-            $('.remove-onexamination-btn').on('click',function(e){
-                console.log("Prottoy");
-                let removeID = $(this).attr('data-id');
-                removeOnExamination(removeID);
-            });
-
+            calculateBill();
         }
 
-        $("#on-examination-save").on('click',function(){
-            onExamination.blood_pressure = $("#bloodPressure").val();
-            onExamination.body_temperature = $("#bodyTemperature").val();
-            onExamination.body_weight = $("#bodyWeight").val();
-            renderOnExamination();
-            $('#onExamination').modal('hide');
-        });
-
-        $("#onExaminationbtn").on('click',function(){
-            renderOnExamination();
-        });
         $("#bill-item-search").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $("#bill-item-list tr").filter(function () {
@@ -714,21 +577,23 @@ body * { visibility: hidden; }
                                     let amt = $("#amt"+result.item.id).val();
                                     $("#qty"+result.item.id).val(Number(qty)+1);
                                     $("#amt"+result.item.id).val(Number(amt)+Number(result.item.final_price));
+                                    calculateBill();
                         }else{
-                        myElement +=`<tr>
-                            <td>${result.item.item_name}</td>
-                            <td>${result.item.final_price}</td>
-                            <td><input type="number" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
-                            <td><input type="number" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.final_price)}"></td>
-                            <td>
-                                <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </td>
+                            myElement +=`<tr>
+                                <td><input type="hidden" name="bill_item[]" value="${result.item.id}" />${result.item.item_name}</td>
+                                <td id="price${result.item.id}">${result.item.final_price}</td>
+                                <td><input class="form-control form-control-sm billing-item-qty" data-id="${result.item.id}" type="number" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
+                                <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.final_price)}"></td>
+                                <td>
+                                    <button type="button" class="btn btn-xs remove-btn" title="Remove">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
 
-                            </tr>
-                        `;
-                        $("#bill-item-add-list").append(myElement);
+                                </tr>
+                            `;
+                            $("#bill-item-add-list").append(myElement);
+                            calculateBill();
                         }
                         if(result.equipments){
                             result.equipments.map(x=>{
@@ -738,12 +603,13 @@ body * { visibility: hidden; }
                                     let amt = $("#amt"+x.equip.id).val();
                                     $("#qty"+x.equip.id).val(Number(qty)+1);
                                     $("#amt"+x.equip.id).val(Number(amt)+Number(x.equip.final_price));
+                                    calculateBill();
                                 }else{
                                     myElement2 +=`<tr>
-                                        <td>${x.equip.item_name}</td>
-                                        <td>${x.equip.final_price}</td>
-                                        <td><input type="number" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="1"></td>
-                                        <td><input type="number" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.final_price)}"></td>
+                                        <td><input type="hidden" name="bill_item[]" value="${x.equip.id}" />${x.equip.item_name}</td>
+                                        <td id="price${x.equip.id}">${x.equip.final_price}</td>
+                                        <td><input class="form-control form-control-sm billing-item-qty" data-id="${x.equip.id}" type="number" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="1"></td>
+                                        <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.final_price)}"></td>
                                         <td>
                                             <button type="button" class="btn btn-xs remove-btn" title="Remove">
                                                 <i class="fas fa-times"></i>
@@ -751,23 +617,30 @@ body * { visibility: hidden; }
                                         </td>
 
                                         </tr>
-                                `;
-                                $("#bill-equip-add-list").append(myElement2);
+                                    `;
+                                    $("#bill-equip-add-list").append(myElement2);
+                                    calculateBill();
                                 }
-
-
-                        });
+                            });
                         }
+                        $(".billing-item-qty").on('keyup',function(e){
+                            let id = $(this).data('id');
+                            billItemotalCal(id);
+                        })
 
+                        $('.billing-item-amount').on('keyup',function(e){
+                            calculateBill();
+                        });
                         $('.remove-btn').on('click',function(e){
                             console.log("Prottoy");
                             $(this).closest("tr").remove();
+                            calculateBill();
                         });
-
-
                     }
+
                 });
         });
+
 
 
     });

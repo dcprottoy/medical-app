@@ -31,6 +31,8 @@ use App\Http\Controllers\Backend\ServiceCategoryController;
 use App\Http\Controllers\Backend\ServiceTypeController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\BillingController;
+use App\Http\Controllers\Backend\BillingDetailsController;
+
 
 
 
@@ -303,6 +305,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'billing.edit',
             'update'=>'billing.update',
             'destroy'=>'billing.delete'
+        ]);
+
+        Route::resource('/billingdetails',BillingDetailsController::class)->names([
+            'index'=>'billingdetails.home',
+            'create'=>'billingdetails.create',
+            'store'=>'billingdetails.save',
+            'edit'=>'billingdetails.edit',
+            'update'=>'billingdetails.update',
+            'destroy'=>'billingdetails.delete'
         ]);
 
     Route::get('billingitems/{id}',[BillingController::class,'billingitems']);
