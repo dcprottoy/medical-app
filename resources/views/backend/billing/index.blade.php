@@ -293,7 +293,7 @@ body * { visibility: hidden; }
                                             <td>{!! $item->final_price !!}</td>
                                             <td>
                                                 <button class="btn btn-sm  p-0 bill-item-add" data-id="{!! $item->id !!}">
-                                                    <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$patient->id}}"></i>
+                                                    <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$item->id}}"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -311,6 +311,7 @@ body * { visibility: hidden; }
                     <div class="col-sm-6">
                         <form action="{{route('billingdetails.save')}}" method="post" enctype="multipart/form-data" id="new_billing_details_create">
                             @csrf
+                            <input type="hidden" name="bill_main_id" id="bill_main_id" />
                         <div class="card"  style="min-height:550px;">
                             <div class="card-header">
                                 <h6>Billing Section</h6>
@@ -326,6 +327,8 @@ body * { visibility: hidden; }
                                             <th style="width:10%">Action</th>
                                         </thead>
                                         <tbody id="bill-item-add-list">
+                                        </tbody>
+                                        <tbody id="bill-service-add-list">
                                         </tbody>
                                         <tbody id="bill-equip-add-list">
                                         </tbody>
@@ -423,14 +426,12 @@ body * { visibility: hidden; }
             let patient_gender = $("#reg-patient-gender"+id).text();
             let patient_age = $("#reg-patient-age"+id).text();
             let appon_date = $("#reg-appon-date"+id).text();
-            let serial_no = $("#reg-serial-no"+id).text();
 
             $("#patient-id").text(patient_id);
             $("#patient-name").text(patient_name);
             $("#patient-gender").text(patient_gender);
             $("#patient-age").text(patient_age);
             $("#appon-date").text(appon_date);
-            $("#serial-no").text(serial_no);
             console.log([id,patient_id]);
             $('#allPatient').modal('hide')
 
@@ -450,27 +451,6 @@ body * { visibility: hidden; }
                         console.log(result);
                         let element = "";
                         result.forEach(x =>{
-                            // element += `<li class="list-group-item">
-                            //                                 <div class="row">
-                            //                                     <div class="col-md-6">
-                            //                                     <b>Patient ID :</b> <em id="reg-patient-id${x.id}">${x.patient_id}</em>
-                            //                                     <br>
-                            //                                     <b>Name :</b> <span id="reg-patient-name${x.id}">${x.name}</span>
-                            //                                     <br>
-                            //                                     <b>Gender :</b> <span id="reg-patient-gender${x.id}">${x.sex == 'M'?'Male':(x.sex == 'F'?'Female':'Other')}</span>
-                            //                                     </div>
-                            //                                     <div class="col-md-6">
-                            //                                         <b>Contact No :</b> ${x.contact_no}
-                            //                                         <br>
-                            //                                         <b>Age :</b> <span id="reg-patient-age${x.id}">${x.age}</span>
-                            //                                         <br>
-                            //                                         <button class="btn btn-sm btn-info reg-prescribe" data-id=${x.id} style="float: right">
-                            //                                             Prescribe
-                            //                                         </button>
-                            //                                     </div>
-                            //                                 </div>
-
-                            //                             </li>`
                                 element+=`<tr>
                                         <td id="reg-patient-id${x.id}">${x.patient_id}</td>
                                         <td id="reg-patient-name${x.id}">${x.name}</td>
@@ -592,7 +572,13 @@ body * { visibility: hidden; }
 
                                 </tr>
                             `;
-                            $("#bill-item-add-list").append(myElement);
+                            if(result.item.service_category_id == 2){
+                                $("#bill-item-add-list").append(myElement);
+                            }else if(result.item.service_category_id == 3){
+                                $("#bill-equip-add-list").append(myElement);
+                            }else if(result.item.service_category_id == 4){
+                                $("#bill-service-add-list").append(myElement);
+                            }
                             calculateBill();
                         }
                         if(result.equipments){
