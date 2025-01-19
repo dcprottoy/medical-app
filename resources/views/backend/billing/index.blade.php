@@ -400,42 +400,45 @@ body * { visibility: hidden; }
             });
         });
 
-        $(".reg-select").on('click',function(e){
-           let id = $(this).attr('data-id');
-            patientSet(id);
-            let patient_id = $("#patient-id").text();
-            $.ajax({
-                    type: "POST",
-                    url: "{{url('billing')}}",
-                    data: {
-                            '_token':'{{ csrf_token() }}',
-                            patient_id:patient_id,
-                        },
-                    success: function(response) {
-                            $("#bill-date").text(response.bill_date);
-                            $("#bill-no").text(response.bill_id);
-                            toastr.success('New Bill Is Created');
-                    },
-                });
-
-        });
         function patientSet(id){
+                let patient_id = $("#reg-patient-id"+id).text();
+                let patient_name = $("#reg-patient-name"+id).text();
+                let patient_gender = $("#reg-patient-gender"+id).text();
+                let patient_age = $("#reg-patient-age"+id).text();
+                let appon_date = $("#reg-appon-date"+id).text();
 
-            let patient_id = $("#reg-patient-id"+id).text();
-            let patient_name = $("#reg-patient-name"+id).text();
-            let patient_gender = $("#reg-patient-gender"+id).text();
-            let patient_age = $("#reg-patient-age"+id).text();
-            let appon_date = $("#reg-appon-date"+id).text();
+                $("#patient-id").text(patient_id);
+                $("#patient-name").text(patient_name);
+                $("#patient-gender").text(patient_gender);
+                $("#patient-age").text(patient_age);
+                $("#appon-date").text(appon_date);
+                console.log([id,patient_id]);
+                $('#allPatient').modal('hide')
+                }
+        function regPatientBill(id){
+                    patientSet(id);
+                    let patient_id = $("#patient-id").text();
+                    $.ajax({
+                            type: "POST",
+                            url: "{{url('billing')}}",
+                            data: {
+                                    '_token':'{{ csrf_token() }}',
+                                    patient_id:patient_id,
+                                },
+                            success: function(response) {
+                                    $("#bill-date").text(response.bill_date);
+                                    $("#bill-no").text(response.bill_id);
+                                    $("#bill_main_id").val(response.bill_id);
 
-            $("#patient-id").text(patient_id);
-            $("#patient-name").text(patient_name);
-            $("#patient-gender").text(patient_gender);
-            $("#patient-age").text(patient_age);
-            $("#appon-date").text(appon_date);
-            console.log([id,patient_id]);
-            $('#allPatient').modal('hide')
-
+                                    toastr.success('New Bill Is Created');
+                            },
+                        });
         }
+        $(".reg-select").on('click',function(e){
+            let id = $(this).attr('data-id');
+            regPatientBill(id);
+        });
+
         $("#patient").on('keyup',function(e){
             let ch_data = $("#patient").val();
             console.log(ch_data);
@@ -466,7 +469,7 @@ body * { visibility: hidden; }
                         $("#patient_search_list").append(element);
                         $(".reg-select").on('click',function(e){
                             let id = $(this).attr('data-id');
-                            patientSet(id);
+                            regPatientBill(id);
                         });
                     }
                 });
@@ -498,6 +501,7 @@ body * { visibility: hidden; }
                                 success: function(response) {
                                         $("#bill-date").text(response.bill_date);
                                         $("#bill-no").text(response.bill_id);
+                                        $("#bill_main_id").val(response.bill_id);
                                         toastr.success('New Bill Is Created');
                                 },
                             });
@@ -622,7 +626,11 @@ body * { visibility: hidden; }
                             $(this).closest("tr").remove();
                             calculateBill();
                         });
-                    }
+                    },
+                    error: function (req, status, error) {
+                     var err = req.responseText;
+                     console.log(err);
+                     }
 
                 });
         });
