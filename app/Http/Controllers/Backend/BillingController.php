@@ -11,9 +11,11 @@ use App\Models\Backend\InvestigationEquipment;
 use App\Models\Backend\InvestigationEquipSetup;
 use App\Models\Backend\BillItems;
 use App\Models\Backend\BillMain;
+use App\Models\Backend\BillDetails;
 use App\Models\Backend\ServiceCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class BillingController extends Controller
 {
@@ -24,6 +26,7 @@ class BillingController extends Controller
     {
         $data['patients'] = Patients::orderBy('id','DESC')->limit(20)->get();
         $data['bill_items'] = BillItems::all();
+        $data['bill_mains'] = BillMain::all();
         $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
 
 
@@ -112,5 +115,30 @@ class BillingController extends Controller
         $equip = InvestigationEquipSetup::with('equip')->where('investigation_main_id','=',$id)->get();
 
         return response()->json(["equipments"=>$equip,"item"=>$lastid]);
+    }
+
+    public function pdf(string $id){
+
+        $main = BillMain::with('patient')->where('bill_id',$id)->first();
+        $details = BillDetails::join('bill_items','bill_details.item_id','=','bill_items.id')
+        ->where('bill_main_id',$id)
+        ->select('bill_details.*','bill_items.item_name')
+        ->get();
+
+        // return response()->json(["main"=>$main,"details"=>$details]);
+
+        $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+        $billImg = $generator->getBarcode($main->bill_id, $generator::TYPE_CODE_128);
+        $patientImg = $generator->getBarcode($main->patient->patient_id, $generator::TYPE_CODE_128);
+        $data = ["main"=>$main,"details"=>$details,'billImg'=>$billImg,'patientImg'=>$patientImg];
+        // $data = ['title' => 'domPDF in Laravel 10','img'=>$image];
+
+        // $customPaper = array(0,0,650,1100);
+        // $pdf = PDF::setPaper($customPaper,'potrait')->loadView('pdf.document', $data);
+        // return view('pdf.document', $data);
+        $pdf = PDF::setPaper('A6','landscape')->loadView('pdf.document', $data);
+
+        return $pdf->stream('document.pdf');
+
     }
 }

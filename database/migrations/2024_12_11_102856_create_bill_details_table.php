@@ -15,15 +15,15 @@ return new class extends Migration
             $table->id();
             $table->integer('bill_main_id');
             $table->integer('patient_id');
-            $table->char('service_type',1);
+            $table->integer('service_category_id')->nullable();
             $table->integer('referrence_id');
             $table->integer('item_id');
             $table->date('bill_date');
             $table->double('price');
             $table->double('quantity');
             $table->double('final_price');
-            $table->double('discount_percent');
-            $table->double('discount_amount');
+            $table->double('discount_percent')->nullable();;
+            $table->double('discount_amount')->nullable();;
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

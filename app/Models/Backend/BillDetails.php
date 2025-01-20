@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class BillDetails extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'bill_main_id',
         'patient_id',
-        'service_type',
+        'service_category_id',
         'referrence_id',
         'item_id',
         'bill_date',

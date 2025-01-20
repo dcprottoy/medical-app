@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('referrence_id');
             $table->date('bill_date');
             $table->double('total_amount')->nullable();
+            $table->double('payable_amount')->nullable();
             $table->double('discount_percent')->nullable();
             $table->double('discount_amount')->nullable();
             $table->double('paid_amount')->nullable();

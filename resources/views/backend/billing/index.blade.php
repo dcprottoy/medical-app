@@ -236,6 +236,58 @@ body * { visibility: hidden; }
                             </form>
                         </div>
                     </div>
+                    <button class="btn btn-sm btn-warning" data-toggle="modal" id="billListbtn" data-target="#billList">Bill List</button>
+                    <div class="modal fade" id="billList" tabindex="-1" role="dialog" aria-labelledby="abillListLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="billListModalLabel">Registered Patient List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-sm" id="patient" name="patient" placeholder="Patient ID">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 " style="height:300px;overflow-y:scroll;">
+                                                <table class="table table-sm table-striped">
+                                                    <thead style="position: sticky;top: 0;background:white;">
+                                                        <th>ID</th>
+                                                        <th>Name</th>
+                                                        <th>Gender</th>
+                                                        <th>Contact</th>
+                                                        <th>Action</th>
+                                                    </thead>
+                                                    <tbody id="bill_search_list">
+                                                    @foreach($bill_mains as $item)
+                                                        <tr>
+                                                            <td id="main-bill-id{!! $item->id !!}">{!! $item->bill_id !!}</td>
+                                                            <td id="main-patient-id{!! $item->id !!}">{!! $item->patient_id !!}</td>
+                                                            <td id="main-patient-name{!! $item->id !!}">{!! $item->patient_name !!}</td>
+                                                            <td id="main-bill-date{!! $item->id !!}">{!! $item->bill_date !!}</td>
+                                                            <td>
+                                                                <a class="btn btn-sm btn-info" href="{{route('billing.pdf',$item->bill_id)}}" target="_blank" data-id="{!! $item->id !!}">
+                                                                    <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$item->id}}"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -348,27 +400,27 @@ body * { visibility: hidden; }
                                         <tbody>
                                             <tr>
                                                 <td style="text-align: right;">Total Amount :</td>
-                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_amount" id="bill-amount" /></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_amount" id="bill-amount" /></td>
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right;">Discount in Amount :</td>
-                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_dis_amt" id="bill-dis-amt" /></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_dis_amt" id="bill-dis-amt" /></td>
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right;">Discount in Percentage :</td>
-                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_in_per" id="bill-in-per"/></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_in_per" id="bill-in-per"/></td>
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right;">Net Payable Amount :</td>
-                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_total_amount" id="bill-total-amount"/></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_total_amount" id="bill-total-amount"/></td>
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right;">Total Paid :</td>
-                                                <td><input class="form-control form-control-sm" type="number" step="any" value="0" name="bill_paid_amount" id="bill-paid-amount"/></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_paid_amount" id="bill-paid-amount"/></td>
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right;">Total Due :</td>
-                                                <td><input class="form-control form-control-sm" type="number" step=".1" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step=".1" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -520,6 +572,27 @@ body * { visibility: hidden; }
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
         });
+        function finalBillCalculation(){
+          let billAmount =  $("#bill-amount").val();
+          let discountAmount =  $("#bill-dis-amt").val();
+          let discountPer =  $("#bill-in-per").val();
+          let finalAmount =  $("#bill-total-amount").val();
+          let paidAmount =  $("#bill-paid-amount").val();
+          let dueAmount =  $("#bill-due-amount").val();
+          let newFinalAmount = billAmount;
+          if((!isNaN(discountAmount)) && discountAmount != 0){
+            newFinalAmount = (Number(billAmount)-Number(discountAmount)).toFixed(2);
+          }else if((!isNaN(discountPer)) && discountPer != 0){
+            newFinalAmount = (Number(billAmount) - ((Number(discountPer)*Number(billAmount))/100)).toFixed(2);
+          }
+          if(!isNaN(paidAmount)){
+            let newDueAmount = (Number(newFinalAmount)-Number(paidAmount)).toFixed(2);
+            $("#bill-due-amount").val(newDueAmount);
+          }
+          $("#bill-total-amount").val(newFinalAmount);
+
+
+        }
         function calculateBill(){
             let amtResult = 0;
                 $(".billing-item-amount").each(function(){
@@ -527,6 +600,7 @@ body * { visibility: hidden; }
                     amtResult += Number($(this).val());
                 });
                 $("#bill-amount").val(amtResult);
+                finalBillCalculation();
         }
         function billItemotalCal(id){
             let quantity = $("#qty"+id).val();
@@ -540,7 +614,14 @@ body * { visibility: hidden; }
             }
             calculateBill();
         }
-
+        $(".final-bill-field").on('keyup',function(e){
+            if(e.target.name == "bill_dis_amt"){
+                $("#bill-in-per").val(0);
+            }else if(e.target.name == "bill_in_per"){
+                $("#bill-dis-amt").val(0);
+            }
+            finalBillCalculation();
+        });
         $("#bill-item-search").on("keyup", function () {
             var value = $(this).val().toLowerCase();
             $("#bill-item-list tr").filter(function () {
@@ -564,7 +645,11 @@ body * { visibility: hidden; }
                                     calculateBill();
                         }else{
                             myElement +=`<tr>
-                                <td><input type="hidden" name="bill_item[]" value="${result.item.id}" />${result.item.item_name}</td>
+                                <td>
+                                    <input type="hidden" name="bill_item[]" value="${result.item.id}" />
+                                    <input type="hidden" name="service_category_id[${result.item.id}]" value="${result.item.service_category_id}" />
+                                    ${result.item.item_name}
+                                </td>
                                 <td id="price${result.item.id}">${result.item.final_price}</td>
                                 <td><input class="form-control form-control-sm billing-item-qty" data-id="${result.item.id}" type="number" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
                                 <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.final_price)}"></td>
@@ -596,7 +681,11 @@ body * { visibility: hidden; }
                                     calculateBill();
                                 }else{
                                     myElement2 +=`<tr>
-                                        <td><input type="hidden" name="bill_item[]" value="${x.equip.id}" />${x.equip.item_name}</td>
+                                        <td>
+                                            <input type="hidden" name="bill_item[]" value="${x.equip.id}" />
+                                            <input type="hidden" name="service_category_id[${x.equip.id}]" value="${x.equip.service_category_id}" />
+                                            ${x.equip.item_name}
+                                            </td>
                                         <td id="price${x.equip.id}">${x.equip.final_price}</td>
                                         <td><input class="form-control form-control-sm billing-item-qty" data-id="${x.equip.id}" type="number" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="1"></td>
                                         <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.final_price)}"></td>
@@ -634,7 +723,31 @@ body * { visibility: hidden; }
 
                 });
         });
+        $("#new_billing_details_create").submit(function(e){
+            e.preventDefault();
+            let formdata = $('#new_billing_details_create').serialize();
+            let check = $("#bill_main_id").val();
+                if(check){
+                    $.ajax({
+                    type: "POST",
+                    url: "{{url('billingdetails')}}",
+                    data: formdata,
+                    success: function(response) {
+                            console.log(response);
+                            toastr.success('New Patient Created');
 
+
+                    },
+                    error:function(req,status,err){
+                        console.log(err);
+                    }
+                });
+                }else{
+                    toastr.error('Please Select Bill');
+                }
+
+
+        });
 
 
     });

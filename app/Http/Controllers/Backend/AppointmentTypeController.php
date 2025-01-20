@@ -93,7 +93,6 @@ class AppointmentTypeController extends Controller
     {
         if(AppointmentType::find($id)){
             $createObject = AppointmentType::find($id);
-            @unlink($createObject->Image);
             $createObject->delete();
             return back()->with('success',' Appointment Type Remove Successfully');
         }else{

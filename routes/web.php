@@ -318,6 +318,9 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
 
     Route::get('billingitems/{id}',[BillingController::class,'billingitems']);
 
+    Route::get('billing-pdf/{id}',[BillingController::class,'pdf'])->name('billing.pdf');
+
+
 
 
     });

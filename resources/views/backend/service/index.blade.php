@@ -151,7 +151,6 @@
                                     <a class="btn btn-danger btn-sm delete" href="#" data-id="{{$item->id}}" data-toggle="modal" data-target="#modal-default">
                                         <i style="font-size:10px;" class="fas fa-trash">
                                         </i>
-
                                     </a>
                                 </td>
                             </tr>
