@@ -124,6 +124,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
 
         Route::put('/patient',[PatientsController::class,'search']);
         Route::put('/doctor',[DoctorController::class,'search']);
+        Route::put('/billing',[BillingController::class,'search']);
+
 
         Route::resource('/advices',AdviceController::class)->names([
             'index'=>'advices.home',

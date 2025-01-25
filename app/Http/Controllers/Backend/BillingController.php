@@ -26,7 +26,7 @@ class BillingController extends Controller
     {
         $data['patients'] = Patients::orderBy('id','DESC')->limit(20)->get();
         $data['bill_items'] = BillItems::all();
-        $data['bill_mains'] = BillMain::all();
+        $data['bill_mains'] = BillMain::orderBy('id','DESC')->limit(50)->get();
         $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
 
 
@@ -83,7 +83,13 @@ class BillingController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $main = BillMain::with('patient')->where('bill_id',$id)->first();
+        $details = BillDetails::join('bill_items','bill_details.item_id','=','bill_items.id')
+        ->where('bill_main_id',$id)
+        ->select('bill_details.*','bill_items.item_name')
+        ->get();
+
+        return response()->json(["main"=>$main,"details"=>$details]);
     }
 
     /**
@@ -136,9 +142,15 @@ class BillingController extends Controller
         // $customPaper = array(0,0,650,1100);
         // $pdf = PDF::setPaper($customPaper,'potrait')->loadView('pdf.document', $data);
         // return view('pdf.document', $data);
-        $pdf = PDF::setPaper('A6','landscape')->loadView('pdf.document', $data);
+        $pdf = PDF::setPaper('A5','potrait')->loadView('pdf.document', $data);
 
         return $pdf->stream('document.pdf');
 
+    }
+
+    public function search(Request $request)
+    {
+        $lastid = BillMain::where('bill_id', 'like', '%'.$request->search.'%')->get();
+        return $lastid;
     }
 }

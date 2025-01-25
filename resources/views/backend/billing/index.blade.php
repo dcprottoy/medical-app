@@ -127,7 +127,7 @@ body * { visibility: hidden; }
                                                             <td id="reg-patient-age{!! $patient->id !!}">{!! $patient->age !!}</td>
                                                             <td>
                                                                 <button class="btn btn-sm btn-info reg-select" data-id="{!! $patient->id !!}">
-                                                                    <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$patient->id}}"></i>
+                                                                    <i class="fas fa-check edit-delete-icon" style="color:#004369;" data-id="{{$patient->id}}"></i>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -251,7 +251,7 @@ body * { visibility: hidden; }
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group text-center">
-                                                    <input type="text" class="form-control form-control-sm" id="patient" name="patient" placeholder="Patient ID">
+                                                    <input type="text" class="form-control form-control-sm" id="billlist" name="bill_list" placeholder="Bill ID">
                                                 </div>
                                             </div>
                                             <div class="col-sm-12 " style="height:300px;overflow-y:scroll;">
@@ -261,7 +261,7 @@ body * { visibility: hidden; }
                                                         <th>Name</th>
                                                         <th>Gender</th>
                                                         <th>Contact</th>
-                                                        <th>Action</th>
+                                                        <th class="text-center">Action</th>
                                                     </thead>
                                                     <tbody id="bill_search_list">
                                                     @foreach($bill_mains as $item)
@@ -270,9 +270,12 @@ body * { visibility: hidden; }
                                                             <td id="main-patient-id{!! $item->id !!}">{!! $item->patient_id !!}</td>
                                                             <td id="main-patient-name{!! $item->id !!}">{!! $item->patient_name !!}</td>
                                                             <td id="main-bill-date{!! $item->id !!}">{!! $item->bill_date !!}</td>
-                                                            <td>
-                                                                <a class="btn btn-sm btn-info" href="{{route('billing.pdf',$item->bill_id)}}" target="_blank" data-id="{!! $item->id !!}">
-                                                                    <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="{{$item->id}}"></i>
+                                                            <td class="text-center">
+                                                                <a class="btn btn-sm btn-primary bill-edit" data-id="{!! $item->id !!}"  data-bill-id="{!! $item->bill_id !!}" >Edit
+                                                                    <i class="fas fa-edit" style="color:#eef4f7;" data-id="{{$item->id}}"></i>
+                                                                </a>
+                                                                <a class="btn btn-sm btn-secondary" href="{{route('billing.pdf',$item->bill_id)}}" target="_blank" data-id="{!! $item->id !!}">Print
+                                                                    <i class="fas fa-print" style="color:#ecf3f7;" data-id="{{$item->id}}"></i>
                                                                 </a>
                                                             </td>
                                                         </tr>
@@ -288,6 +291,9 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-sm btn-secondary bill-print float-right" disabled target="_blank" data-id="${x.id}">Print
+                        <i class="fas fa-print" style="color:#fafcfd;" data-id="${x.id}"></i>
+                    </button>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -420,7 +426,7 @@ body * { visibility: hidden; }
                                             </tr>
                                             <tr>
                                                 <td style="text-align: right;">Total Due :</td>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step=".1" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
+                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -651,8 +657,8 @@ body * { visibility: hidden; }
                                     ${result.item.item_name}
                                 </td>
                                 <td id="price${result.item.id}">${result.item.final_price}</td>
-                                <td><input class="form-control form-control-sm billing-item-qty" data-id="${result.item.id}" type="number" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
-                                <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.final_price)}"></td>
+                                <td><input class="form-control form-control-sm billing-item-qty" data-id="${result.item.id}" type="number" step="any" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
+                                <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${result.item.id}" step="any" name="amount[${result.item.id}]" value="${Number(result.item.final_price)}"></td>
                                 <td>
                                     <button type="button" class="btn btn-xs remove-btn" title="Remove">
                                         <i class="fas fa-times"></i>
@@ -734,9 +740,16 @@ body * { visibility: hidden; }
                     data: formdata,
                     success: function(response) {
                             console.log(response);
-                            toastr.success('New Patient Created');
-
-
+                            toastr.success('Bill Details Saved');
+                                $("#bill-item-add-list").empty();
+                                $("#bill-service-add-list").empty();
+                                $("#bill-equip-add-list").empty();
+                                $("#bill-amount").val(0);
+                                $("#bill-dis-amt").val(0);
+                                $("#bill-in-per").val(0);
+                                $("#bill-total-amount").val(0);
+                                $("#bill-paid-amount").val(0);
+                                $("#bill-due-amount").val(0);
                     },
                     error:function(req,status,err){
                         console.log(err);
@@ -748,7 +761,118 @@ body * { visibility: hidden; }
 
 
         });
+        function editBill(id){
+                $("#bill-item-add-list").empty();
+                $("#bill-equip-add-list").empty();
+                $("#bill-service-add-list").empty();
 
+            console.log(id);
+            $.ajax({
+                    url: "{{url('billing/')}}/"+id,
+                    success: function (response) {
+                        console.log(response);
+                        $("#patient-id").text(response.main.patient_id);
+                        $("#patient-name").text(response.main.patient_name);
+                        $("#patient-gender").text(response.main.patient.sex=='M'?'Male':(response.main.patient.sex=='F'?'Female':'Other'));
+                        $("#patient-age").text(response.main.patient.age);
+                        $("#bill-date").text(response.main.bill_date);
+                        $("#bill-no").text(response.main.bill_id);
+                        $("#bill_main_id").val(response.main.bill_id);
+                        $("#bill-amount").val(Number(response.main.total_amount).toFixed(2));
+                        $("#bill-dis-amt").val(Number(response.main.discount_amount).toFixed(2));
+                        $("#bill-in-per").val(Number(response.main.discount_percent).toFixed(2));
+                        $("#bill-total-amount").val(Number(response.main.payable_amount).toFixed(2));
+                        $("#bill-paid-amount").val(Number(response.main.paid_amount).toFixed(2));
+                        $("#bill-due-amount").val(Number(response.main.due_amount).toFixed(2));
+
+                        response.details.map(x=>{
+                          let  myElement =`<tr>
+                                    <td>
+                                        <input type="hidden" name="bill_item[]" value="${x.id}" />
+                                        <input type="hidden" name="service_category_id[${x.id}]" value="${x.service_category_id}" />
+                                        ${x.item_name}
+                                    </td>
+                                    <td id="price${x.id}">${x.final_price}</td>
+                                    <td><input class="form-control form-control-sm billing-item-qty" data-id="${x.id}" type="number" step="any" id="qty${x.id}" name="quantity[${x.id}]" value="${x.quantity}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${x.id}" step="any" name="amount[${x.id}]" value="${Number(x.final_price)}"></td>
+                                    <td>
+                                        <button type="button" class="btn btn-xs remove-btn" title="Remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </td>
+
+                                    </tr>
+                                `;
+                                if(x.service_category_id == 2){
+                                    $("#bill-item-add-list").append(myElement);
+                                }else if(x.service_category_id == 3){
+                                    $("#bill-equip-add-list").append(myElement);
+                                }else if(x.service_category_id == 4){
+                                    $("#bill-service-add-list").append(myElement);
+                                }
+                        });
+                        $(".billing-item-qty").on('keyup',function(e){
+                            let id = $(this).data('id');
+                            billItemotalCal(id);
+                        })
+
+                        $('.billing-item-amount').on('keyup',function(e){
+                            calculateBill();
+                        });
+                        $('.remove-btn').on('click',function(e){
+                            console.log("Prottoy");
+                            $(this).closest("tr").remove();
+                            calculateBill();
+                        });
+                    }
+                });
+
+        }
+        $(".bill-edit").on('click',function(e){
+            let id = $(this).attr('data-bill-id');
+                editBill(id);
+
+            });
+        $("#billlist").on('keyup',function(e){
+            let ch_data = $("#billlist").val();
+            console.log(ch_data);
+            $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('billing')}}/",
+                    data:{
+                        'search':ch_data,
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        let element = "";
+                        result.forEach(x =>{
+                                element+= `<tr>
+                                <td id="main-bill-id${x.id}">${x.bill_id}</td>
+                                <td id="main-patient-id${x.id}">${x.patient_id}</td>
+                                <td id="main-patient-name${x.id}">${x.patient_name}</td>
+                                <td id="main-bill-date${x.id}">${x.bill_date}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-primary bill-edit" data-id="${x.id}" data-bill-id="${x.bill_id}" >Edit
+                                        <i class="fas fa-edit edit-delete-icon" style="color:#eef4f7;" data-id="${x.id}"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-secondary" href="{{url('billing-pdf')}}/${x.bill_id}" target="_blank" data-id="${x.id}">Print
+                                        <i class="fas fa-print edit-delete-icon" style="color:#ecf3f7;" data-id="${x.id}"></i>
+                                    </a>
+                                </td>
+                            </tr>`
+                        });
+                        $("#bill_search_list").empty();
+                        $("#bill_search_list").append(element);
+
+                        $(".bill-edit").on('click',function(e){
+                            let id = $(this).attr('data-bill-id');
+                            editBill(id);
+                        });
+                    }
+                });
+        });
 
     });
 
