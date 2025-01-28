@@ -373,13 +373,13 @@ body * { visibility: hidden; }
                                     <table class="table table-sm">
                                         <thead>
                                             <th style="width:22%">Name</th>
-                                            <th style="width:7%">Price</th>
-                                            <th class="bg-primary" style="width:6%;text-align:center;">Quantity</th>
-                                            <th style="width:6%;text-align:center;">Amount</th>
-                                            <th class="bg-secondary" style="width:6%;text-align:center;">Discount(%)</th>
-                                            <th style="width:6%;text-align:center;">Discount(Tk)</th>
-                                            <th class="bg-warning" style="width:10%;text-align:center;">Total Payable</th>
-                                            <th style="width:15%;text-align:center;">Delivery Date</th>
+                                            <th style="width:10%">Price</th>
+                                            <th class="bg-primary" style="width:8%;text-align:center;">Quantity</th>
+                                            <th style="width:8%;text-align:center;">Amount</th>
+                                            <th class="bg-secondary" style="width:8%;text-align:center;">Discount(%)</th>
+                                            <th style="width:8%;text-align:center;">Discount(Tk)</th>
+                                            <th class="bg-warning" style="width:10%;text-align:center;">Payable</th>
+                                            <th style="width:10%;text-align:center;">Delivery Date</th>
                                             <th style="width:5%;text-align:center;">Action</th>
                                         </thead>
                                         <tbody id="bill-item-add-list">
