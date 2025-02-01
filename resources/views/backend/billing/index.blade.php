@@ -580,11 +580,16 @@ body * { visibility: hidden; }
         }
         function calculateBill(){
             let amtResult = 0;
+            let discountamt = 0;
                 $(".billing-item-amount").each(function(){
-
                     amtResult += Number($(this).val());
                 });
+                $(".billing-item-dis-amt").each(function(){
+                    discountamt += Number($(this).val());
+                });
                 $("#bill-amount").val(amtResult);
+
+                $("#bill-dis-amt").val(discountamt);
                 finalBillCalculation();
         }
         function billItemotalCal(id){
@@ -705,22 +710,35 @@ body * { visibility: hidden; }
                                         calculateBill();
                                     }else{
                                         myElement2 +=`<tr>
-                                            <td>
-                                                <input type="hidden" name="bill_item[]" value="${x.equip.id}" />
-                                                <input type="hidden" name="service_category_id[${x.equip.id}]" value="${x.equip.service_category_id}" />
-                                                ${x.equip.item_name}
-                                                </td>
-                                            <td id="price${x.equip.id}">${x.equip.final_price}</td>
-                                            <td><input class="form-control form-control-sm billing-item-qty" data-id="${x.equip.id}" type="number" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="1"></td>
-                                            <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.final_price)}"></td>
-                                            <td>
-                                                <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </td>
+                                    <td>
+                                        <input type="hidden" name="bill_item[]" value="${result.item.id}" />
+                                        <input type="hidden" name="service_category_id[${result.item.id}]" value="${result.item.service_category_id}" />
+                                        ${result.item.item_name}
+                                    </td>
+                                    <td id="price${result.item.id}">${result.item.price}</td>
+                                    <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${result.item.id}" type="text" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
+                                    <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.price)}" disabled></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${result.item.id}" type="text" id="dis-per${result.item.id}" name="discount_per[${result.item.id}]" value="20"></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${result.item.id}" type="text" id="dis-amt${result.item.id}" name="discount_amt[${result.item.id}]" value="${disc_amount}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${result.item.id}" type="text" id="total-payable${result.item.id}" name="total_payable[${result.item.id}]" value="${(Number(result.item.price)-disc_amount).toFixed(2)}"></td>
+                                    <td>
+                                        <div class="input-group date  w-100" id="delivery_date${result.item.id}" data-target-input="nearest">
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${result.item.id}" name="delivery_date[${result.item.id}]"/>
+                                            <div class="input-group-append" data-target="#delivery_date${result.item.id}" data-toggle="datetimepicker">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
+                                            <i class="fas fa-times p-1"></i>
+                                        </button>
+                                    </td>
 
-                                            </tr>
-                                        `;
+                                    </tr>
+                                `;
                                         $("#bill-equip-add-list").append(myElement2);
                                         calculateBill();
                                     }
