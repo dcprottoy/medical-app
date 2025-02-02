@@ -19,11 +19,12 @@ return new class extends Migration
             $table->integer('referrence_id');
             $table->integer('item_id');
             $table->date('bill_date');
+            $table->date('delivery_date')->nullable();
             $table->double('price');
             $table->double('quantity');
             $table->double('final_price');
-            $table->double('discount_percent')->nullable();;
-            $table->double('discount_amount')->nullable();;
+            $table->double('discount_percent')->default(0)->nullable();;
+            $table->double('discount_amount')->default(0)->nullable();;
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();

@@ -18,6 +18,12 @@
                                     <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Investigation Type Name">
                                 </div>
                             </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label> Completion Duration</label>
+                                    <input type="text" class="form-control form-control-sm" name='duration' placeholder="Completion Duration" value="0">
+                                </div>
+                            </div>
                             <div class="form-group col-lg-4">
                                 <label>Status</label><br>
                                 <div class="form-check form-check-inline">
@@ -59,6 +65,9 @@
                             <th style="width: 30%" class="text-center">
                                 Investigation Type Name
                             </th>
+                            <th style="width: 30%" class="text-center">
+                                Completion Duration
+                            </th>
                             <th class="text-center" style="width: 25%">
                                 Action
                             </th>
@@ -73,6 +82,9 @@
                                 <td class="text-center" style="font-weight:bold;">
                                 {!! $item->name_eng !!}
                                 </td>
+                                <td class="text-center" style="font-weight:bold;">
+                                    {!! $item->duration !!}
+                                    </td>
                                 <td  class="text-center">
                                     {!! $item->status == 'Y' ? '<span class="badge badge-success">Active</span>' :'<span class="badge badge-warning">Dactive</span>' !!}
                                 </td>
@@ -147,6 +159,12 @@
                                                 <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Investigation Name" required>
                                             </div>
                                         </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Completion Duration</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-duration' name='duration' placeholder="Completion Duration">
+                                            </div>
+                                        </div>
                                         <div class="form-group col-lg-4">
                                             <label>Status</label><br>
                                             <div class="form-check  form-check-inline">
@@ -189,6 +207,7 @@
                     success: function (result) {
                         console.log(result);
                         $('#u-name_eng').val(result.name_eng);
+                        $('#u-duration').val(result.duration);
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
                         }else if(result.status == 'N'){

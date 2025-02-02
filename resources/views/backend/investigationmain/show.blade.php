@@ -398,7 +398,7 @@
                                                                     <select class="form-control form-control-sm"  name="investigation_equip_id" id="u-investigation-equip-id">
                                                                     <option value="" selected disabled>Investigation Equipment</option>
                                                                     @foreach($inv_equips as $inv_equip)
-                                                                        <option value="{{$inv_equip->id}}">{{$inv_equip->equipment_name}}</option>
+                                                                        <option value="{{$inv_equip->id}}">{{$inv_equip->item_name}}</option>
                                                                     @endforeach
                                                                     </select>
                                                                 </div>

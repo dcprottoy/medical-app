@@ -76,6 +76,7 @@ class InvestigationTypeControllers extends Controller
         }else{
             $inv_type = InvestigationType::findOrFail($id);
             $data = $request->only(['name_eng',
+                                    'duration',
                                     'status']
                                 );
             $inv_type->fill($data)->save();

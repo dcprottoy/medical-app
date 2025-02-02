@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('investigation_type_id')->nullable();
             $table->integer('investigation_group_id')->nullable();
             $table->integer('service_category_id')->nullable();
+            $table->integer('duration')->nullable();
             $table->decimal('price',18,2)->nullable();
             $table->decimal('discount_per',18,2)->nullable();
             $table->decimal('discount_amount',18,2)->nullable();

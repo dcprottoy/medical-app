@@ -16,6 +16,7 @@ class BillDetails extends Model
         'referrence_id',
         'item_id',
         'bill_date',
+        'delivery_date',
         'price',
         'quantity',
         'final_price',

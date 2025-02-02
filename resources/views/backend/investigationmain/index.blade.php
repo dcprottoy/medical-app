@@ -23,12 +23,18 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                           <label>Investigation Type</label>
-                                          <select class="form-control form-control-sm"  name="investigation_type_id">
+                                          <select class="form-control form-control-sm"  name="investigation_type_id" id="investigation_type_id">
                                             <option value="" selected disabled>Please select</option>
                                             @foreach($inv_types as $inv_type)
                                             <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
                                             @endforeach
                                           </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Duration</label>
+                                            <input type="text" class="form-control form-control-sm" name='duration' placeholder="Investigation Duration" id="investigation-duration" value="0" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -114,6 +120,9 @@
                                 <th style="width: 4%" class="text-center">
                                     Final Price
                                 </th>
+                                <th style="width: 4%" class="text-center">
+                                    Duration (Day)
+                                </th>
                                 <th class="text-center" style="width: 20%">
                                     Action
                                 </th>
@@ -143,6 +152,9 @@
                               </td>
                               <td class="project-state text-center">
                                 {!! $item->final_price !!}
+                              </td>
+                              <td class="project-state text-center">
+                                {!! $item->duration !!}
                               </td>
                               {{-- <td class="project-state text-center">
                                 {!! $item->status == 'Y' ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Deactive</span>' !!}
@@ -202,6 +214,12 @@
                                             <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
                                             @endforeach
                                           </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <label>Duration</label>
+                                            <input type="text" class="form-control form-control-sm" name='duration' id="u-duration" placeholder="Completion Duration" required>
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
@@ -280,6 +298,14 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
+        let duration_list = {!! $durations !!};
+        console.log(duration_list);
+        $("#investigation_type_id").on('change',function(e){
+            let selected_value = $(this).val();
+            console.log(selected_value);
+            $('#investigation-duration').val(selected_value);
+        });
+
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
@@ -290,6 +316,7 @@
                         $('#u-investigation-type-id').val(result.investigation_type_id);
                         $('#u-investigation-group-id').val(result.investigation_group_id);
                         $('#u-price').val(result.price);
+                        $('#u-duration').val(result.duration);
                         $('#u-discount-per').val(result.discount_per);
                         $('#u-discount-amount').val(result.discount_amount);
                         $('#u-final-price').val(result.final_price);

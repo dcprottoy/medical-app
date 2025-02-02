@@ -51,7 +51,6 @@ class PatientsController extends Controller
         // return $patient_id;
         $validated = Validator::make($request->all(),[
             'name' => 'required',
-            'address' => 'required',
             'contact_no' => 'required'
         ]);
         $birthDate = $date->subYears($request->year)->subMonths($request->month)->subDays($request->day)->toDateString();
@@ -67,7 +66,11 @@ class PatientsController extends Controller
             if(!$request->filled('birth_date')){
                 $patient->birth_date = $birthDate;
             }
-            $patient->save();
+            try{
+                $patient->save();
+            }catch(\Exception $e) {
+                return response()->json(["error"=>'Patient Created Failed',"message"=>$e->getMessage()]);
+              }
             if ($request->has('save_type')) {
                 if($request->save_type == 2){
                     $date = Carbon::now();
@@ -101,7 +104,9 @@ class PatientsController extends Controller
 
                     // return response()->json(["success"=>$date->format('Y-m-d')]);
                 }elseif($request->save_type == 3){
+                    // if(){
 
+                    // }
                     return response()->json($patient);
 
 

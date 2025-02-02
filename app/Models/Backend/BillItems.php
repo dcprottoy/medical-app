@@ -17,6 +17,7 @@ class BillItems extends Model
         'investigation_type_id',
         'investigation_group_id',
         'service_category_id',
+        'duration',
         'price',
         'discount_per',
         'discount_amount',

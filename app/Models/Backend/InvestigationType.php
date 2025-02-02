@@ -11,6 +11,7 @@ class InvestigationType extends Model
 
     protected $fillable = [
         'name_eng',
+        'duration',
         'status'
     ];
 }

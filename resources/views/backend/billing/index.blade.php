@@ -171,29 +171,6 @@ body * { visibility: hidden; }
                                                             <input type="text" class="form-control form-control-sm" name='contact_no' placeholder="Contact Number" required>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="form-group">
-                                                            <label>Emergency Contact No.</label>
-                                                            <input type="text" class="form-control form-control-sm" name='emr_cont_no' placeholder="Emergency Contact Number">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label>Address</label>
-                                                            <input type="text" class="form-control form-control-sm" name='address' placeholder="Address" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group  col-lg-3">
-                                                        <label>Birth Date</label>
-                                                        <div class="input-group date" id="birth_date" data-target-input="nearest">
-                                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#birth_date" name="birth_date" id="date"/>
-                                                            <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
-                                                                <div class="input-group-text">
-                                                                    <i class="fa fa-calendar"></i>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-sm-3 d-flex">
                                                         <div class="form-group pr-2">
                                                             <label>Age</label>
@@ -206,6 +183,29 @@ body * { visibility: hidden; }
                                                         <div class="form-group pr-2">
                                                             <label>&nbsp;</label>
                                                             <input type="text" class="form-control form-control-sm" name='day' placeholder="Day">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Emergency Contact No.</label>
+                                                            <input type="text" class="form-control form-control-sm" name='emr_cont_no' placeholder="Emergency Contact Number">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="form-group">
+                                                            <label>Address</label>
+                                                            <input type="text" class="form-control form-control-sm" name='address' placeholder="Address" >
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group  col-lg-4">
+                                                        <label>Birth Date</label>
+                                                        <div class="input-group date" id="birth_date" data-target-input="nearest">
+                                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#birth_date" name="birth_date" id="date"/>
+                                                            <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
+                                                                <div class="input-group-text">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group col-lg-6 d-flex">
@@ -257,10 +257,10 @@ body * { visibility: hidden; }
                                             <div class="col-sm-12 " style="height:300px;overflow-y:scroll;">
                                                 <table class="table table-sm table-striped">
                                                     <thead style="position: sticky;top: 0;background:white;">
-                                                        <th>ID</th>
-                                                        <th>Name</th>
-                                                        <th>Gender</th>
-                                                        <th>Contact</th>
+                                                        <th>Bill ID</th>
+                                                        <th>Patient ID</th>
+                                                        <th>Patient Name</th>
+                                                        <th>Bill Date</th>
                                                         <th class="text-center">Action</th>
                                                     </thead>
                                                     <tbody id="bill_search_list">
@@ -291,8 +291,8 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-secondary bill-print float-right" disabled target="_blank" data-id="${x.id}">Print
-                        <i class="fas fa-print" style="color:#fafcfd;" data-id="${x.id}"></i>
+                    <button class="btn btn-sm btn-secondary float-right" id="print-bill-top">Print
+                        <i class="fas fa-print" style="color:#fafcfd;" ></i>
                     </button>
                 </div>
                 <div class="card-body">
@@ -466,14 +466,57 @@ body * { visibility: hidden; }
                                     $("#bill-date").text(response.bill_date);
                                     $("#bill-no").text(response.bill_id);
                                     $("#bill_main_id").val(response.bill_id);
-
+                                    $("#bill-item-add-list").empty();
+                                    $("#bill-service-add-list").empty();
+                                    $("#bill-equip-add-list").empty();
+                                    $("#bill-amount").val(0);
+                                    $("#bill-dis-amt").val(0);
+                                    $("#bill-in-per").val(0);
+                                    $("#bill-total-amount").val(0);
+                                    $("#bill-paid-amount").val(0);
+                                    $("#bill-due-amount").val(0);
                                     toastr.success('New Bill Is Created');
                             },
                         });
         }
+        $("#allptnbtn").on('click',function(e){
+            $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('patient')}}/",
+                    data:{
+                        'search':"",
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        let element = "";
+                        result.forEach(x =>{
+                            element +=`<tr>
+                                        <td id="reg-patient-id${x.id}">${x.patient_id}</td>
+                                        <td id="reg-patient-name${x.id}">${x.name}</td>
+                                        <td id="reg-patient-gender${x.id}">${x.sex == 'M'?'Male':(x.sex == 'F'?'Female':'Other')}</td>
+                                        <td id="reg-patient-contact${x.id}">${x.contact_no}</td>
+                                        <td id="reg-patient-age${x.id}">${x.age}</td>
+                                        <td ><button class="btn btn-sm btn-info reg-select" data-id="${x.id}">
+                                            <i class="fas fa-check p-1 edit-delete-icon" style="color:#004369;" data-id="${x.id}"></i>
+                                        </button></td>
+                                    </tr>`
+                        });
+                        $("#patient_search_list").empty();
+                        $("#patient_search_list").append(element);
+                        $(".reg-select").on('click',function(e){
+                            let id = $(this).attr('data-id');
+                            regPatientBill(id);
+                        });
+                    }
+                });
+        });
+
         $(".reg-select").on('click',function(e){
             let id = $(this).attr('data-id');
             regPatientBill(id);
+
         });
 
         $("#patient").on('keyup',function(e){
@@ -491,7 +534,7 @@ body * { visibility: hidden; }
                         console.log(result);
                         let element = "";
                         result.forEach(x =>{
-                            element =`<tr>
+                            element +=`<tr>
                                         <td id="reg-patient-id${x.id}">${x.patient_id}</td>
                                         <td id="reg-patient-name${x.id}">${x.name}</td>
                                         <td id="reg-patient-gender${x.id}">${x.sex == 'M'?'Male':(x.sex == 'F'?'Female':'Other')}</td>
@@ -521,27 +564,42 @@ body * { visibility: hidden; }
                     url: "{{url('patients')}}",
                     data: formdata,
                     success: function(response) {
-                            $("#patient-id").text(response.patient_id);
-                            $("#patient-name").text(response.name);
-                            $("#patient-gender").text(response.sex=='M'?'Male':(response.sex=='F'?'Female':'Other'));
-                            $("#patient-age").text(response.age);
-                            $('#new_patient_create').trigger("reset");
-                            $('#newPatient').modal("hide");
-                            toastr.success('New Patient Created');
-                            $.ajax({
-                                type: "POST",
-                                url: "{{url('billing')}}",
-                                data: {
-                                        '_token':'{{ csrf_token() }}',
-                                        patient_id:response.patient_id,
+                            if('error' in response){
+                                if('message' in response) {toastr.warning(response.message);}
+                                toastr.error(response.error);
+
+                            }else{
+                                $("#patient-id").text(response.patient_id);
+                                $("#patient-name").text(response.name);
+                                $("#patient-gender").text(response.sex=='M'?'Male':(response.sex=='F'?'Female':'Other'));
+                                $("#patient-age").text(response.age);
+                                $('#new_patient_create').trigger("reset");
+                                $('#newPatient').modal("hide");
+                                toastr.success('New Patient Created');
+                                $.ajax({
+                                    type: "POST",
+                                    url: "{{url('billing')}}",
+                                    data: {
+                                            '_token':'{{ csrf_token() }}',
+                                            patient_id:response.patient_id,
+                                        },
+                                    success: function(response) {
+                                            $("#bill-date").text(response.bill_date);
+                                            $("#bill-no").text(response.bill_id);
+                                            $("#bill_main_id").val(response.bill_id);
+                                            $("#bill-item-add-list").empty();
+                                            $("#bill-service-add-list").empty();
+                                            $("#bill-equip-add-list").empty();
+                                            $("#bill-amount").val(0);
+                                            $("#bill-dis-amt").val(0);
+                                            $("#bill-in-per").val(0);
+                                            $("#bill-total-amount").val(0);
+                                            $("#bill-paid-amount").val(0);
+                                            $("#bill-due-amount").val(0);
+                                            toastr.success('New Bill Is Created');
                                     },
-                                success: function(response) {
-                                        $("#bill-date").text(response.bill_date);
-                                        $("#bill-no").text(response.bill_id);
-                                        $("#bill_main_id").val(response.bill_id);
-                                        toastr.success('New Bill Is Created');
-                                },
-                            });
+                                });
+                            }
 
                     },
                     error:function(req,status,err){
@@ -580,11 +638,19 @@ body * { visibility: hidden; }
         }
         function calculateBill(){
             let amtResult = 0;
+            let discResult = 0;
                 $(".billing-item-amount").each(function(){
 
                     amtResult += Number($(this).val());
                 });
+                console.log(amtResult);
+                $(".billing-item-dis-amt").each(function(){
+
+                    discResult += Number($(this).val());
+                });
                 $("#bill-amount").val(amtResult);
+                $("#bill-dis-amt").val(discResult);
+
                 finalBillCalculation();
         }
         function billItemotalCal(id){
@@ -611,7 +677,10 @@ body * { visibility: hidden; }
             if(e.target.name == "bill_dis_amt"){
                 $("#bill-in-per").val(0);
             }else if(e.target.name == "bill_in_per"){
-                $("#bill-dis-amt").val(0);
+                let billAmount =  $("#bill-amount").val();
+                let discountPer =  $(this).val();
+                let amtValue = ((Number(discountPer)/100)*Number(billAmount)).toFixed(2);
+                $("#bill-dis-amt").val(amtValue);
             }
             finalBillCalculation();
         });
@@ -646,7 +715,7 @@ body * { visibility: hidden; }
 
                                     calculateBill();
                         }else{
-                            let disc_amount = ((20/100)*Number(result.item.price)).toFixed(2);
+                            let disc_amount = ((Number(result.item.discount_per)/100)*Number(result.item.price)).toFixed(2);
                             let  myElement =`<tr>
                                     <td>
                                         <input type="hidden" name="bill_item[]" value="${result.item.id}" />
@@ -655,13 +724,13 @@ body * { visibility: hidden; }
                                     </td>
                                     <td id="price${result.item.id}">${result.item.price}</td>
                                     <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${result.item.id}" type="text" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
-                                    <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.price)}" disabled></td>
-                                    <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${result.item.id}" type="text" id="dis-per${result.item.id}" name="discount_per[${result.item.id}]" value="20"></td>
+                                    <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.price)}" readonly></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${result.item.id}" type="text" id="dis-per${result.item.id}" name="discount_per[${result.item.id}]" value="${result.item.discount_per}"></td>
                                     <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${result.item.id}" type="text" id="dis-amt${result.item.id}" name="discount_amt[${result.item.id}]" value="${disc_amount}"></td>
                                     <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${result.item.id}" type="text" id="total-payable${result.item.id}" name="total_payable[${result.item.id}]" value="${(Number(result.item.price)-disc_amount).toFixed(2)}"></td>
                                     <td>
                                         <div class="input-group date  w-100" id="delivery_date${result.item.id}" data-target-input="nearest">
-                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${result.item.id}" name="delivery_date[${result.item.id}]"/>
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${result.item.id}" name="delivery_date[${result.item.id}]"  readonly}/>
                                             <div class="input-group-append" data-target="#delivery_date${result.item.id}" data-toggle="datetimepicker">
                                                 <div class="input-group-text">
                                                     <i class="fa fa-calendar"></i>
@@ -686,9 +755,10 @@ body * { visibility: hidden; }
                                 }
                                 calculateBill();
                                 $(function () {
+                                    let todaydate = new Date();
                                     $("#delivery_date"+result.item.id).datetimepicker({
                                         format: 'YYYY-MM-DD',
-                                        defaultDate: Date(),
+                                        defaultDate: todaydate.setDate(todaydate.getDate() + result.item.duration),
                                     });
 
                                 });
@@ -700,29 +770,62 @@ body * { visibility: hidden; }
                                         console.log($("#qty"+x.equip.id).val())
                                         let qty = $("#qty"+x.equip.id).val();
                                         let amt = $("#amt"+x.equip.id).val();
-                                        $("#qty"+x.equip.id).val(Number(qty)+1);
-                                        $("#amt"+x.equip.id).val(Number(amt)+Number(x.equip.price));
+                                        let disc_per = $("#dis-per"+x.equip.id).val();
+                                        let total_qty = Number(qty)+Number(x.quantity);
+                                        let total_amt = (Number(x.equip.price)*total_qty).toFixed(2);
+                                        let discount_amount = ((Number(disc_per)/100)*Number(x.equip.price)).toFixed(2);
+                                        let total_dis_amt = discount_amount*total_qty;
+                                        let total_payable_amt = (total_amt- total_dis_amt).toFixed(2);
+
+                                        $("#qty"+x.equip.id).val(total_qty);
+                                        $("#amt"+x.equip.id).val(total_amt);
+                                        $("#dis-amt"+x.equip.id).val(total_dis_amt);
+                                        $("#total-payable"+x.equip.id).val(total_payable_amt);
+
                                         calculateBill();
                                     }else{
-                                        myElement2 +=`<tr>
-                                            <td>
-                                                <input type="hidden" name="bill_item[]" value="${x.equip.id}" />
-                                                <input type="hidden" name="service_category_id[${x.equip.id}]" value="${x.equip.service_category_id}" />
-                                                ${x.equip.item_name}
-                                                </td>
-                                            <td id="price${x.equip.id}">${x.equip.final_price}</td>
-                                            <td><input class="form-control form-control-sm billing-item-qty" data-id="${x.equip.id}" type="number" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="1"></td>
-                                            <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.final_price)}"></td>
-                                            <td>
-                                                <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                            </td>
+                                         disc_amount = ((Number(x.equip.discount_per)/100)*Number(x.equip.price)).toFixed(2);
 
-                                            </tr>
-                                        `;
+                                        myElement2 +=`<tr>
+                                    <td>
+                                        <input type="hidden" name="bill_item[]" value="${x.equip.id}" />
+                                        <input type="hidden" name="service_category_id[${x.equip.id}]" value="${x.equip.service_category_id}" />
+                                        ${x.equip.item_name}
+                                    </td>
+                                    <td id="price${x.equip.id}">${x.equip.price}</td>
+                                    <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${x.equip.id}" type="text" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="${x.quantity}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${x.equip.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.price)}" readonly></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${x.equip.id}" type="text" id="dis-per${x.equip.id}" name="discount_per[${x.equip.id}]" value="${x.equip.discount_per}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${x.equip.id}" type="text" id="dis-amt${x.equip.id}" name="discount_amt[${x.equip.id}]" value="${disc_amount}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${x.equip.id}" type="text" id="total-payable${x.equip.id}" name="total_payable[${x.equip.id}]" value="${(Number(x.equip.price)-disc_amount).toFixed(2)}"></td>
+                                    <td>
+                                        <div class="input-group date  w-100" id="delivery_date${x.equip.id}" data-target-input="nearest">
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${x.equip.id}" name="delivery_date[${x.equip.id}]" readonly/>
+                                            <div class="input-group-append" data-target="#delivery_date${x.equip.id}" data-toggle="datetimepicker">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
+                                            <i class="fas fa-times p-1"></i>
+                                        </button>
+                                    </td>
+
+                                    </tr>
+                                `;
                                         $("#bill-equip-add-list").append(myElement2);
                                         calculateBill();
+                                        $(function () {
+                                            let todaydate = new Date();
+                                        $("#delivery_date"+x.equip.id).datetimepicker({
+                                            format: 'YYYY-MM-DD',
+                                            defaultDate: todaydate,
+                                        });
+
+                                });
                                     }
                                 });
                             }
@@ -738,7 +841,10 @@ body * { visibility: hidden; }
                                 let id = $(this).data('id');
                                 billItemotalCal(id);
                             })
-
+                            $(".billing-item-total-payable").on('keyup',function(e){
+                                let id = $(this).data('id');
+                                billItemotalCal(id);
+                            })
                             $('.billing-item-amount').on('keyup',function(e){
                                 calculateBill();
                             });
@@ -765,17 +871,13 @@ body * { visibility: hidden; }
                     url: "{{url('billingdetails')}}",
                     data: formdata,
                     success: function(response) {
+                        if('error' in response){
+                            toastr.error(response.error);
+                        }else{
                             console.log(response);
                             toastr.success('Bill Details Saved');
-                                $("#bill-item-add-list").empty();
-                                $("#bill-service-add-list").empty();
-                                $("#bill-equip-add-list").empty();
-                                $("#bill-amount").val(0);
-                                $("#bill-dis-amt").val(0);
-                                $("#bill-in-per").val(0);
-                                $("#bill-total-amount").val(0);
-                                $("#bill-paid-amount").val(0);
-                                $("#bill-due-amount").val(0);
+
+                            }
                     },
                     error:function(req,status,err){
                         console.log(err);
@@ -814,16 +916,29 @@ body * { visibility: hidden; }
                         response.details.map(x=>{
                           let  myElement =`<tr>
                                     <td>
-                                        <input type="hidden" name="bill_item[]" value="${x.id}" />
-                                        <input type="hidden" name="service_category_id[${x.id}]" value="${x.service_category_id}" />
+                                        <input type="hidden" name="bill_item[]" value="${x.item_id}" />
+                                        <input type="hidden" name="service_category_id[${x.item_id}]" value="${x.service_category_id}" />
                                         ${x.item_name}
                                     </td>
-                                    <td id="price${x.id}">${x.final_price}</td>
-                                    <td><input class="form-control form-control-sm billing-item-qty" data-id="${x.id}" type="number" step="any" id="qty${x.id}" name="quantity[${x.id}]" value="${x.quantity}"></td>
-                                    <td><input class="form-control form-control-sm billing-item-amount" type="number" id="amt${x.id}" step="any" name="amount[${x.id}]" value="${Number(x.final_price)}"></td>
+                                    <td id="price${x.item_id}">${x.item_rate}</td>
+                                    <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${x.item_id}" type="text" id="qty${x.item_id}" name="quantity[${x.item_id}]" value="${x.quantity}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${x.item_id}" name="amount[${x.item_id}]" value="${Number(x.price)}" readonly></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${x.item_id}" type="text" id="dis-per${x.item_id}" name="discount_per[${x.item_id}]" value="${x.discount_percent}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${x.item_id}" type="text" id="dis-amt${x.item_id}" name="discount_amt[${x.item_id}]" value="${x.discount_amount}"></td>
+                                    <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${x.item_id}" type="text" id="total-payable${x.item_id}" name="total_payable[${x.item_id}]" value="${Number(x.final_price).toFixed(2)}"></td>
                                     <td>
-                                        <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                                            <i class="fas fa-times"></i>
+                                        <div class="input-group date  w-100" id="delivery_date${x.item_id}" data-target-input="nearest">
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${x.item_id}" name="delivery_date[${x.item_id}]"  readonly}/>
+                                            <div class="input-group-append" data-target="#delivery_date${x.item_id}" data-toggle="datetimepicker">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
+                                            <i class="fas fa-times p-1"></i>
                                         </button>
                                     </td>
 
@@ -836,20 +951,42 @@ body * { visibility: hidden; }
                                 }else if(x.service_category_id == 4){
                                     $("#bill-service-add-list").append(myElement);
                                 }
+
+                                $(function () {
+                                    let todaydate = new Date(x.delivery_date);
+                                    $("#delivery_date"+x.item_id).datetimepicker({
+                                        format: 'YYYY-MM-DD',
+                                        defaultDate: todaydate,
+                                    });
+
+                                });
                         });
                         $(".billing-item-qty").on('keyup',function(e){
-                            let id = $(this).data('id');
-                            billItemotalCal(id);
-                        })
+                                let id = $(this).data('id');
+                                billItemotalCal(id);
+                            })
+                            $(".billing-item-dis-per").on('keyup',function(e){
+                                let id = $(this).data('id');
+                                billItemotalCal(id);
+                            })
+                            $(".billing-item-dis-amt").on('keyup',function(e){
+                                let id = $(this).data('id');
+                                billItemotalCal(id);
+                            })
+                            $(".billing-item-total-payable").on('keyup',function(e){
+                                let id = $(this).data('id');
+                                billItemotalCal(id);
+                            })
+                            $('.billing-item-amount').on('keyup',function(e){
+                                calculateBill();
+                            });
 
-                        $('.billing-item-amount').on('keyup',function(e){
-                            calculateBill();
-                        });
-                        $('.remove-btn').on('click',function(e){
-                            console.log("Prottoy");
-                            $(this).closest("tr").remove();
-                            calculateBill();
-                        });
+
+                            $('.remove-btn').on('click',function(e){
+                                console.log("Prottoy");
+                                $(this).closest("tr").remove();
+                                calculateBill();
+                            });
                     }
                 });
 
@@ -858,16 +995,15 @@ body * { visibility: hidden; }
             let id = $(this).attr('data-bill-id');
                 editBill(id);
 
-            });
-        $("#billlist").on('keyup',function(e){
-            let ch_data = $("#billlist").val();
-            console.log(ch_data);
+        });
+
+        $("#billListbtn").on('click',function(e){
             $.ajax({
                     type: 'PUT',
                     dataType: "json",
                     url: "{{url('billing')}}/",
                     data:{
-                        'search':ch_data,
+                        'search':"",
                         '_token': '{{ csrf_token() }}',
                     },
                     success: function (result) {
@@ -898,7 +1034,60 @@ body * { visibility: hidden; }
                         });
                     }
                 });
+        })
+
+
+            $("#billlist").on('keyup',function(e){
+            let ch_data = $("#billlist").val();
+            console.log(ch_data);
+            $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('billing')}}/",
+                    data:{
+                        'search':ch_data,
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        let element = "";
+                        result.forEach(x =>{
+                                element += `<tr>
+                                <td id="main-bill-id${x.id}">${x.bill_id}</td>
+                                <td id="main-patient-id${x.id}">${x.patient_id}</td>
+                                <td id="main-patient-name${x.id}">${x.patient_name}</td>
+                                <td id="main-bill-date${x.id}">${x.bill_date}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-primary bill-edit" data-id="${x.id}" data-bill-id="${x.bill_id}" >Edit
+                                        <i class="fas fa-edit edit-delete-icon" style="color:#eef4f7;" data-id="${x.id}"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-secondary" href="{{url('billing-pdf')}}/${x.bill_id}" target="_blank" data-id="${x.id}">Print
+                                        <i class="fas fa-print edit-delete-icon" style="color:#ecf3f7;" data-id="${x.id}"></i>
+                                    </a>
+                                </td>
+                            </tr>`
+                        });
+                        $("#bill_search_list").empty();
+                        $("#bill_search_list").append(element);
+
+                        $(".bill-edit").on('click',function(e){
+                            let id = $(this).attr('data-bill-id');
+                            editBill(id);
+                        });
+                    }
+                });
         });
+
+        $("#print-bill-top").on('click',function(e){
+            let billID = $("#bill-no").text();
+            if(billID){
+                window.open("{{url('billing-pdf')}}/"+Number(billID), '_blank');
+
+            }else{
+                toastr.error('Please Select Bill');
+            }
+
+        })
 
     });
 

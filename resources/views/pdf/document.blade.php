@@ -66,7 +66,8 @@
         <tbody>
             <tr  style="text-align:left;font-weight:600;">
                 <td style="width: 5%;text-align:left;">SL</td>
-                <td style="width: 45%;text-align:left;">Item Name</td>
+                <td style="width: 30%;text-align:left;">Item Name</td>
+                <td style="width: 15%;text-align:left;">Del. Date</td>
                 <td style="width: 15%;text-align:center;">Rate</td>
                 <td style="width: 15%;text-align:center;">Qty</td>
                 <td style="width: 15%;text-align:center;">Amount</td>
@@ -75,14 +76,15 @@
                 <tr >
                     <td style="border-top:1px solid black;text-align:center;">{!! ++$i !!}</td>
                     <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
-                    <td style="border-top:1px solid black;text-align:center;">{!! $item->price/$item->quantity !!}</td>
+                    <td style="border-top:1px solid black;">{!! $item->delivery_date !!}</td>
+                    <td style="border-top:1px solid black;text-align:center;">{!! $item->item_rate !!}</td>
                     <td style="border-top:1px solid black;text-align:center;">{!! $item->quantity !!}</td>
-                    <td style="border-top:1px solid black;text-align:center;">{!! $item->final_price !!}</td>
+                    <td style="border-top:1px solid black;text-align:center;">{!! $item->price !!}</td>
 
                 </tr>
             @endforeach
                 <tr>
-                    <td rowspan="6" colspan="2" style="border-top:1px solid black;text-align:center;"></td>
+                    <td rowspan="6" colspan="3" style="border-top:1px solid black;text-align:center;"></td>
                     <td colspan="2" style="text-align:right;border-top:1px solid black;">Total Amount :</td>
                     <td style="border-top:1px solid black;border-left:1px solid black;text-align:center;"> {!! $main->total_amount !!}</td>
                 </tr>

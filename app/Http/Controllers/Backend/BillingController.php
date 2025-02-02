@@ -86,7 +86,7 @@ class BillingController extends Controller
         $main = BillMain::with('patient')->where('bill_id',$id)->first();
         $details = BillDetails::join('bill_items','bill_details.item_id','=','bill_items.id')
         ->where('bill_main_id',$id)
-        ->select('bill_details.*','bill_items.item_name')
+        ->select('bill_details.*','bill_items.item_name','bill_items.price as item_rate' )
         ->get();
 
         return response()->json(["main"=>$main,"details"=>$details]);
@@ -128,7 +128,7 @@ class BillingController extends Controller
         $main = BillMain::with('patient')->where('bill_id',$id)->first();
         $details = BillDetails::join('bill_items','bill_details.item_id','=','bill_items.id')
         ->where('bill_main_id',$id)
-        ->select('bill_details.*','bill_items.item_name')
+        ->select('bill_details.*','bill_items.item_name','bill_items.price as item_rate')
         ->get();
 
         // return response()->json(["main"=>$main,"details"=>$details]);

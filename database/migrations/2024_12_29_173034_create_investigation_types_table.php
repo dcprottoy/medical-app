@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('investigation_types', function (Blueprint $table) {
             $table->id();
             $table->string('name_eng')->nullable();
+            $table->integer('duration')->default(0);
             $table->enum('status',['Y','N'])->default('Y');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
