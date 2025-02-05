@@ -641,7 +641,6 @@ body * { visibility: hidden; }
             let amtResult = 0;
             let discResult = 0;
                 $(".billing-item-amount").each(function(){
-
                     amtResult += Number($(this).val());
                 });
                 console.log(amtResult);
