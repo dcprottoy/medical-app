@@ -262,6 +262,12 @@
                             <p>Billing</p>
                         </a>
                     </li>
+                    <li class="nav-item " >
+                        <a href="{{route('duecollection.home')}}" class="nav-link {{ Route::currentRouteName() == 'duecollection.home'||Route::currentRouteName() == 'duecollection.create'||Route::currentRouteName() == 'duecollection.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Due Collection</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
           <!-- Log Out Button Start -->

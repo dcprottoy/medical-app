@@ -364,60 +364,61 @@ body * { visibility: hidden; }
                         <form action="{{route('billingdetails.save')}}" method="post" enctype="multipart/form-data" id="new_billing_details_create">
                             @csrf
                             <input type="hidden" name="bill_main_id" id="bill_main_id" />
-                        <div class="card"  style="min-height:550px;">
-                            <div class="card-header">
-                                <h6>Billing Section</h6>
-                            </div>
-                            <div class="card-body p-1">
-                                <div class="table-responsive" style="height:420px;font-size:14px;">
-                                    <table class="table table-sm">
-                                        <thead>
-                                            <th style="width:22%">Name</th>
-                                            <th style="width:10%">Price</th>
-                                            <th class="bg-primary" style="width:8%;text-align:center;">Quantity</th>
-                                            <th style="width:8%;text-align:center;">Amount</th>
-                                            <th class="bg-secondary" style="width:8%;text-align:center;">Discount(%)</th>
-                                            <th style="width:8%;text-align:center;">Discount(Tk)</th>
-                                            <th class="bg-warning" style="width:10%;text-align:center;">Payable</th>
-                                            <th style="width:10%;text-align:center;">Delivery Date</th>
-                                            <th style="width:5%;text-align:center;">Action</th>
-                                        </thead>
-                                        <tbody id="bill-item-add-list">
-                                        </tbody>
-                                        <tbody id="bill-service-add-list">
-                                        </tbody>
-                                        <tbody id="bill-equip-add-list">
-                                        </tbody>
-                                    </table>
+                            <div class="card"  style="min-height:550px;">
+                                <div class="card-header">
+                                    <h6>Billing Section</h6>
                                 </div>
-                                <div class="table-responsive mt-5" style="font-size:14px;">
-                                    <table class="table table-sm">
-                                        <tbody>
-                                            <tr>
-                                                <th style="text-align: right;">Discount in Amount :</th>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_dis_amt" id="bill-dis-amt" /></td>
-                                                <th style="text-align: right;">Total Amount :</th>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_amount" id="bill-amount" /></td>
-                                                <th style="text-align: right;">Total Paid :</th>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_paid_amount" id="bill-paid-amount"/></td>
-                                            </tr>
-                                            <tr>
-                                                <th style="text-align: right;">Discount in Percentage :</th>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_in_per" id="bill-in-per"/></td>
-                                                <th style="text-align: right;">Net Payable Amount :</th>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_total_amount" id="bill-total-amount"/></td>
-                                                <th style="text-align: right;">Total Due :</th>
-                                                <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="card-body p-1">
+                                    <div class="table-responsive" style="height:420px;font-size:14px;">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <th style="width:22%">Name</th>
+                                                <th style="width:10%">Price</th>
+                                                <th class="bg-primary" style="width:8%;text-align:center;">Quantity</th>
+                                                <th style="width:8%;text-align:center;">Amount</th>
+                                                <th class="bg-secondary" style="width:8%;text-align:center;">Discount(%)</th>
+                                                <th style="width:8%;text-align:center;">Discount(Tk)</th>
+                                                <th class="bg-warning" style="width:10%;text-align:center;">Payable</th>
+                                                <th style="width:10%;text-align:center;">Delivery Date</th>
+                                                <th style="width:5%;text-align:center;">Action</th>
+                                            </thead>
+                                            <tbody id="bill-item-add-list">
+                                            </tbody>
+                                            <tbody id="bill-service-add-list">
+                                            </tbody>
+                                            <tbody id="bill-equip-add-list">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="table-responsive mt-5" style="font-size:14px;">
+                                        <table class="table table-sm">
+                                            <tbody>
+                                                <tr>
+                                                    <th style="text-align: right;">Discount in Amount :</th>
+                                                    <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_dis_amt" id="bill-dis-amt" /></td>
+                                                    <th style="text-align: right;">Total Amount :</th>
+                                                    <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_amount" id="bill-amount" /></td>
+                                                    <th style="text-align: right;">Total Paid :</th>
+                                                    <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_paid_amount" id="bill-paid-amount"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <th style="text-align: right;">Discount in Percentage :</th>
+                                                    <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_in_per" id="bill-in-per"/></td>
+                                                    <th style="text-align: right;">Net Payable Amount :</th>
+                                                    <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_total_amount" id="bill-total-amount"/></td>
+                                                    <th style="text-align: right;">Total Due :</th>
+                                                    <td><input class="form-control form-control-sm final-bill-field" type="number" step="any" value="0" name="bill_due_amount" id="bill-due-amount"/></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-right m-0 p-1">
+                                    <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
+                                    <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
                                 </div>
                             </div>
-                            <div class="card-footer text-right m-0 p-1">
-                                <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
-                                <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
-                            </div>
-                        </div>
+                        </form>
                     </div>
             </div>
         </div>

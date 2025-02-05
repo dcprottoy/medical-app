@@ -23,6 +23,7 @@ use App\Http\Controllers\Backend\InvestigstionDetailsController;
 use App\Http\Controllers\Backend\InvestigationEquiSetController;
 use App\Http\Controllers\Backend\ExaminationController;
 use App\Http\Controllers\Backend\ReferredController;
+use App\Http\Controllers\Backend\DueController;
 
 use App\Http\Controllers\Backend\UsageController;
 use App\Http\Controllers\Backend\DoseController;
@@ -316,6 +317,16 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'billingdetails.edit',
             'update'=>'billingdetails.update',
             'destroy'=>'billingdetails.delete'
+        ]);
+
+
+        Route::resource('/duecollection',DueController::class)->names([
+            'index'=>'duecollection.home',
+            'create'=>'duecollection.create',
+            'store'=>'duecollection.save',
+            'edit'=>'duecollection.edit',
+            'update'=>'duecollection.update',
+            'destroy'=>'duecollection.delete'
         ]);
 
     Route::get('billingitems/{id}',[BillingController::class,'billingitems']);
