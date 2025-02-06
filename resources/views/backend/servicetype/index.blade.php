@@ -191,7 +191,7 @@
                         $('#u-name_eng').val(result.name_eng);
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
-                        }else if(result.sex == 'N'){
+                        }else if(result.status == 'N'){
                             $('#u-deactive').attr('checked','checked');
                         }
 

@@ -13,6 +13,8 @@ use App\Models\Backend\InvestigationSection;
 use App\Models\Backend\InvestigationDetails;
 use App\Models\Backend\InvestigationEquipment;
 use App\Models\Backend\InvestigationEquipSetup;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 
 class InvenstigationMainController extends Controller
@@ -23,9 +25,9 @@ class InvenstigationMainController extends Controller
     public function index()
     {
 
-        $data['inv_types'] = InvestigationType::all();
-        $data['inv_groups'] = InvestigationGroup::all();
-        $data['durations'] = InvestigationType::pluck('duration','id');
+        $data['inv_types'] = InvestigationType::where('status','=','Y')->get();
+        $data['inv_groups'] = InvestigationGroup::where('status','=','Y')->get();
+        $data['durations'] = InvestigationType::where('status','=','Y')->pluck('duration','id');
         $data['bill_items'] = BillItems::where('service_category_id',2)->paginate(5);
 
         return view('backend.investigationmain.index',$data);
@@ -57,8 +59,16 @@ class InvenstigationMainController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
+            $user = Auth::user()->id;
             $inv_main = new BillItems();
-            $inv_main->fill($request->all())->save();
+            $inv_main->fill($request->all());
+            if($request->has('discountable')){
+                $inv_main->discountable = true;
+            }else{
+                $inv_main->discountable = false;
+            }
+            $inv_main->created_by = $user;
+            $inv_main->save();
             return back()->with('success','New Investigation Registered Successfully');
 
         }
@@ -80,8 +90,8 @@ class InvenstigationMainController extends Controller
     {
 
         $data['inv_main'] = BillItems::with('investigationType')->find($id);
-        $data['inv_types'] = InvestigationType::all();
-        $data['inv_equips'] = BillItems::where('service_category_id','=',3)->get();
+        $data['inv_types'] = InvestigationType::where('status','=','Y')->get();
+        $data['inv_equips'] = BillItems::where('service_category_id','=',3)->where('status','=','Y')->get();
 
         $data['inv_sections'] = InvestigationSection::where('investigation_main_id','=',$id)->orderBy('serial')->get();
         $data['inv_details'] = InvestigationDetails::where('investigation_main_id','=',$id)->get();
@@ -106,8 +116,16 @@ class InvenstigationMainController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
+            $user = Auth::user()->id;
             $inv_main = BillItems::find($id);
-            $inv_main->fill($request->all())->save();
+            $inv_main->fill($request->all());
+            if($request->has('discountable')){
+                $inv_main->discountable = true;
+            }else{
+                $inv_main->discountable = false;
+            }
+            $inv_main->updated_by = $user;
+            $inv_main->save();
             return back()->with('success','Investigation Information Updated Successfully');
         }
 

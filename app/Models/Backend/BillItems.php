@@ -19,6 +19,7 @@ class BillItems extends Model
         'service_category_id',
         'duration',
         'price',
+        'discountable',
         'discount_per',
         'discount_amount',
         'final_price',

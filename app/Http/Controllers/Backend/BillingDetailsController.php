@@ -72,8 +72,9 @@ class BillingDetailsController extends Controller
                     $createObject->price = $request->amount[$item];
                     $createObject->quantity = $request->quantity[$item];
                     $createObject->final_price = $request->total_payable[$item];
-                    $createObject->discount_percent = (int)$request->discount_per[$item];;
-                    $createObject->discount_amount = (int)$request->discount_amt[$item];;
+                    $createObject->discount_percent = (int)$request->discount_per[$item];
+                    $createObject->discount_amount = (int)$request->discount_amt[$item];
+                    $createObject->discountable = (int)$request->discountable[$item];
                     $createObject->save();
 
                 }
@@ -105,8 +106,9 @@ class BillingDetailsController extends Controller
                     $createObject->price = $request->amount[$item];
                     $createObject->quantity = $request->quantity[$item];
                     $createObject->final_price = $request->total_payable[$item];
-                    $createObject->discount_percent = (int)$request->discount_per[$item];;
-                    $createObject->discount_amount = (int)$request->discount_amt[$item];;
+                    $createObject->discount_percent = (int)$request->discount_per[$item];
+                    $createObject->discount_amount = (int)$request->discount_amt[$item];
+                    $createObject->discountable = (int)$request->discountable[$item];
                     $createObject->save();
 
                 }

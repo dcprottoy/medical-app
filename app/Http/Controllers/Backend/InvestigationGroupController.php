@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\InvestigationGroup;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 class InvestigationGroupController extends Controller
 {
     /**
@@ -38,8 +41,10 @@ class InvestigationGroupController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $inv_type = new InvestigationGroup();
-            $inv_type->fill($request->all())->save();
+            $user = Auth::user()->id;
+            $inv_group = new InvestigationGroup();
+            $inv_group->created_by = $user;
+            $inv_group->fill($request->all())->save();
             return back()->with('success','New Investigation Group Created Successfully');
 
         }
@@ -74,10 +79,12 @@ class InvestigationGroupController extends Controller
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
             $inv_group = InvestigationGroup::findOrFail($id);
+            $user = Auth::user()->id;
             $data = $request->only(['name_eng',
                                     'room_no',
                                     'status']
                                 );
+            $inv_group->updated_by = $user;
             $inv_group->fill($data)->save();
             return back()->with('success','Investigation Group '.$inv_group->name_eng.' Updated Successfully');
         }

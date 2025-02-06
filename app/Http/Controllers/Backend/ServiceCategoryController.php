@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\ServiceCategory;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 class ServiceCategoryController extends Controller
 {
     /**
@@ -39,9 +40,12 @@ class ServiceCategoryController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new ServiceCategory();
-            $advice->fill($request->all())->save();
-            return back()->with('success','New Advice Created Successfully');
+
+            $user = Auth::user()->id;
+            $service_category = new ServiceCategory();
+            $service_category->created_by = $user;
+            $service_category->fill($request->all())->save();
+            return back()->with('success','New Service Category Created Successfully');
 
         }
     }
@@ -74,12 +78,15 @@ class ServiceCategoryController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = ServiceCategory::findOrFail($id);
+
+            $user = Auth::user()->id;
+            $service_category = ServiceCategory::findOrFail($id);
             $data = $request->only(['name_eng',
                                     'status']
                                 );
-            $advice->fill($data)->save();
-            return back()->with('success','Advice '.$advice->name_eng.' Updated Successfully');
+            $service_category->updated_by = $user;
+            $service_category->fill($data)->save();
+            return back()->with('success','Service Category '.$service_category->name_eng.' Updated Successfully');
         }
     }
 
@@ -91,9 +98,9 @@ class ServiceCategoryController extends Controller
         if(ServiceCategory::find($id)){
             $createObject = ServiceCategory::find($id);
             $createObject->delete();
-            return back()->with('success','Diagnosis Remove Successfully');
+            return back()->with('success','Service Category Remove Successfully');
         }else{
-            return back()->with('danger','Diagnosis Not Found');
+            return back()->with('danger','Service Category Not Found');
         }
     }
 }

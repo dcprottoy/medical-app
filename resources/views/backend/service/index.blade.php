@@ -12,13 +12,13 @@
                     @csrf
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label> Service Name</label>
                                     <input type="text" class="form-control form-control-sm" name='item_name' placeholder="Service Name">
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-3">
                                     <div class="form-group">
                                     <label>Service Type</label>
                                     <select class="form-control form-control-sm"  name="service_type_id">
@@ -35,23 +35,31 @@
                                     <input type="number" class="form-control form-control-sm price" name='price' id="price" placeholder="Price">
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <div class="form-group">
-                                    <label>Discount Percentage</label>
-                                    <input type="number" class="form-control form-control-sm price" name='discount_per' id="discount_per" placeholder="Discount Percentage">
+                                    <div class="custom-control custom-checkbox"><br>
+                                    <input class="custom-control-input" type="checkbox" id="discountAbleCheckbox"  value="true" name="discountable">
+                                    <label for="discountAbleCheckbox" class="custom-control-label">Discountable</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label>Discount Percentage</label>
+                                    <input type="number" class="form-control form-control-sm price" name='discount_per' id="discount_per" placeholder="Discount Percentage" readonly>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
                                 <div class="form-group">
                                     <label> Discount Amount</label>
-                                    <input type="number" class="form-control form-control-sm price" name='discount_amount' id="discount_amount" placeholder="Discount Amount">
+                                    <input type="number" class="form-control form-control-sm price" name='discount_amount' id="discount_amount" placeholder="Discount Amount" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Final Price</label>
                                 <input type="number" class="form-control form-control-sm price" name='final_price' id="final_price" placeholder="Final Price">
                             </div>
-                            <div class="form-group col-lg-3">
+                            <div class="form-group col-lg-2">
                                 <label>Status</label><br>
                                 <div class="form-check form-check-inline">
                                   <input class="form-check-input" type="radio" name="status" value="Y" required checked>
@@ -99,6 +107,9 @@
                             <th style="width: 10%" class="text-center">
                                 Price
                             </th>
+                            <th style="width: 10%" class="text-center">
+                                Discountable
+                            </th>
                             <th style="width:10%" class="text-center">
                                 Discount Percentage
                             </th>
@@ -130,6 +141,9 @@
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->price !!}
+                                </td>
+                                <td  class="text-center">
+                                    {!! $item->discountable ? '<span class="badge badge-primary">Yes</span>' :'<span class="badge badge-danger">No</span>' !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->discount_per !!}
@@ -224,6 +238,14 @@
                                                 <input type="number" class="form-control form-control-sm u-price" id='u-price' name='price' placeholder="Price" >
                                             </div>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox"><br>
+                                                <input class="custom-control-input" type="checkbox" id="updateDiscountAbleCheckbox" value="true" name="discountable">
+                                                <label for="updateDiscountAbleCheckbox" class="custom-control-label">Discountable</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Discount Percentage</label>
@@ -290,9 +312,16 @@
                         $('#u-discount-per').val(result.discount_per);
                         $('#u-discount-amount').val(result.discount_amount);
                         $('#u-final-price').val(result.final_price);
+                        if(result.discountable){
+                            $('#updateDiscountAbleCheckbox').prop('checked',true);
+                        }else{
+                            $('#updateDiscountAbleCheckbox').prop('checked',false);
+                            $('#u-discount-per').attr('readonly',true);
+                            $('#u-discount-amount').attr('readonly',true);
+                        }
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
-                        }else if(result.sex == 'N'){
+                        }else if(result.status == 'N'){
                             $('#u-deactive').attr('checked','checked');
                         }
 
@@ -358,6 +387,54 @@
 
             }
             console.log(e.target.name);
+        });
+
+        $("#discountAbleCheckbox").on('click',function(e){
+           let testData = $(this).prop('checked');
+           console.log(testData)
+           if(testData){
+                $("#discount_per").attr('readonly',false);
+                $("#discount_amount").attr('readonly',false);
+           }else{
+            $("#discount_per").attr('readonly',true);
+            $("#discount_amount").attr('readonly',true);
+            let price = $("#price").val();
+                $("#discount_per").val(0);
+                $("#discount_amount").val(0);
+                if(price!=""){
+                    $("#final_price").val(Number(price));
+                    $("#discount_per").val(0);
+                    $("#discount_amount").val(0);
+                    $("#discount_per").attr('readonly',false);
+                    $("#discount_amount").attr('readonly',false);
+
+                }
+           }
+
+        });
+
+        $("#updateDiscountAbleCheckbox").on('click',function(e){
+           let testData = $(this).prop('checked');
+           console.log(testData)
+           if(testData){
+                $("#u-discount-per").attr('readonly',false);
+                $("#u-discount-amount").attr('readonly',false);
+           }else{
+            $("#u-discount-per").attr('readonly',true);
+            $("#u-discount-amount").attr('readonly',true);
+            let price = $("#u-price").val();
+           $("#u-discount-per").val(0);
+                $("#u-discount-amount").val(0);
+                if(price!=""){
+                    $("#u-final-price").val(Number(price));
+                    $("#u-discount-per").val(0);
+                    $("#u-discount-amount").val(0);
+                    $("#u-discount-per").attr('readonly',true);
+                    $("#u-discount-amount").attr('readonly',true);
+
+                }
+           }
+
         });
 
 

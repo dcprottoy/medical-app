@@ -12,6 +12,8 @@ class InvestigationGroup extends Model
     protected $fillable = [
         'name_eng',
         'room_no',
-        'status'
+        'status',
+        'created_by',
+        'updated_by'
     ];
 }

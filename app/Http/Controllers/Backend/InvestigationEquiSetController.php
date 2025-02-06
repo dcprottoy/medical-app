@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\InvestigationEquipSetup;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class InvestigationEquiSetController extends Controller
 {
@@ -44,7 +46,10 @@ class InvestigationEquiSetController extends Controller
         }else{
             // return $request->input();
             $inv_eqp = new InvestigationEquipSetup();
-            $inv_eqp->fill($request->all())->save();
+            $inv_eqp->fill($request->all());
+            $user = Auth::user()->id;
+            $inv_eqp->created_by = $user;
+            $inv_eqp->save();
             return back()->with('success','New Investigation Equipment Setup Created Successfully');
 
         }
@@ -88,7 +93,10 @@ class InvestigationEquiSetController extends Controller
         }else{
             // return $request->input();
             $inv_eqp = InvestigationEquipSetup::find($id);
-            $inv_eqp->fill($request->all())->save();
+            $inv_eqp->fill($request->all());
+            $user = Auth::user()->id;
+            $inv_eqp->created_by = $user;
+            $inv_eqp->save();
             return back()->with('success','Investigation Detail Updated Successfully');
         }
 

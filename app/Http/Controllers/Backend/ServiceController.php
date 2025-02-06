@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\ServiceType;
 use App\Models\Backend\BillItems;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ServiceController extends Controller
 {
@@ -15,7 +17,7 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        $data['service_types'] = ServiceType::all();
+        $data['service_types'] = ServiceType::where('status','=','Y')->get();
         $data['services'] = BillItems::where('service_category_id',4)->paginate(5);
 
         return view('backend.service.index',$data);
@@ -42,8 +44,17 @@ class ServiceController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
+            $user = Auth::user()->id;
+
             $service = new BillItems();
-            $service->fill($request->all())->save();
+            $service->fill($request->all());
+            if($request->has('discountable')){
+                $service->discountable = true;
+            }else{
+                $service->discountable = false;
+            }
+            $service->created_by = $user;
+            $service->save();
             return back()->with('success','New Service Created Successfully');
 
         }
@@ -77,6 +88,7 @@ class ServiceController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
+            $user = Auth::user()->id;
             $service = BillItems::findOrFail($id);
             $data = $request->only(['item_name',
                                     'service_type_id',
@@ -86,6 +98,12 @@ class ServiceController extends Controller
                                     'discount_amount',
                                     'final_price']
                                 );
+            if($request->has('discountable')){
+                $service->discountable = true;
+            }else{
+                $service->discountable = false;
+            }
+            $service->updated_by = $user;
             $service->fill($data)->save();
             return back()->with('success','Service '.$service->name_eng.' Updated Successfully');
         }

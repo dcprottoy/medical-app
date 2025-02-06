@@ -58,6 +58,7 @@ class DueController extends Controller
         $bill =  BillMain::where('bill_id',$request->bill_main_id)->first();
         if($bill->due_amount > 0){
             $bill->discount_amount = $bill->discount_amount+(int)$request->new_discount;
+            $bill->payable_amount = $bill->payable_amount-(int)$request->new_discount;
             $bill->paid_amount = $bill->paid_amount+(int)$request->new_paid;
             $bill->due_amount = (int)$request->new_due;
             if($request->due_amount==0){

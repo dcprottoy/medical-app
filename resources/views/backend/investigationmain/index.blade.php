@@ -48,7 +48,7 @@
                                           </select>
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Price</label>
                                             <input type="number" step="any" class="form-control form-control-sm price" name='price' id="price"  placeholder="Price" required>
@@ -56,20 +56,39 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
+                                            <div class="custom-control custom-checkbox"><br>
+                                            <input class="custom-control-input" type="checkbox" id="discountAbleCheckbox" value="true" name="discountable">
+                                            <label for="discountAbleCheckbox" class="custom-control-label">Discountable</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
                                             <label>Discount Percentage</label>
-                                            <input type="number" step="any" class="form-control form-control-sm price" name='discount_per' id="discount_per"  placeholder="Discount Percentage">
+                                            <input type="number" step="any" class="form-control form-control-sm price" name='discount_per' id="discount_per"  placeholder="Discount Percentage" readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Discount Amount</label>
-                                            <input type="number" step="any" class="form-control form-control-sm price" name='discount_amount' id="discount_amount"  placeholder="Discount Amount" required>
+                                            <input type="number" step="any" class="form-control form-control-sm price" name='discount_amount' id="discount_amount"  placeholder="Discount Amount" readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
                                             <label>Final Price</label>
                                             <input type="number" step="any" class="form-control form-control-sm price" name='final_price' id="final_price"  placeholder="Final Price" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-2">
+                                        <label>Status</label><br>
+                                        <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status" value="Y" required checked>
+                                        <label class="form-check-label">Active</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="status" value="N">
+                                        <label class="form-check-label">Deactive</label>
                                         </div>
                                     </div>
                                 </div>
@@ -114,6 +133,9 @@
                                 <th style="width: 4%" class="text-center">
                                     Price
                                 </th>
+                                <th style="width: 10%" class="text-center">
+                                    Discountable
+                                </th>
                                 <th style="width: 4%" class="text-center">
                                     Discount
                                 </th>
@@ -146,6 +168,9 @@
                               <td class="project-state text-center">
                                 {!! $item->price !!}
                               </td>
+                              <td  class="text-center">
+                                    {!! $item->discountable ? '<span class="badge badge-primary">Yes</span>' :'<span class="badge badge-danger">No</span>' !!}
+                                </td>
                               <td class="project-state text-center">
                                 {!! $item->discount_per !!} %<br>
                                 {!! $item->discount_amount !!} taka
@@ -241,6 +266,14 @@
                                     </div>
                                     <div class="col-sm-2">
                                         <div class="form-group">
+                                            <div class="custom-control custom-checkbox"><br>
+                                            <input class="custom-control-input" type="checkbox" id="updateDiscountAbleCheckbox" value="true" name="discountable">
+                                            <label for="updateDiscountAbleCheckbox" class="custom-control-label">Discountable</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
                                             <label>Discount Percentage</label>
                                             <input type="number" step="any" class="form-control form-control-sm u-price" name='discount_per' id="u-discount-per" placeholder="Discount Percentage">
                                         </div>
@@ -255,6 +288,17 @@
                                         <div class="form-group">
                                             <label>Final Price</label>
                                             <input type="number" step="any" class="form-control form-control-sm u-price" name='final_price' id="u-final-price" placeholder="Final Price" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-lg-4">
+                                        <label>Status</label><br>
+                                        <div class="form-check  form-check-inline">
+                                            <input class="form-check-input" type="radio" id="u-active" name="status" value="Y" required>
+                                            <label class="form-check-label">Active</label>
+                                        </div>
+                                        <div class="form-check  form-check-inline">
+                                            <input class="form-check-input" type="radio" name="status" id="u-deactive" value="N">
+                                            <label class="form-check-label">Deactive</label>
                                         </div>
                                     </div>
                                 </div>
@@ -320,6 +364,18 @@
                         $('#u-discount-per').val(result.discount_per);
                         $('#u-discount-amount').val(result.discount_amount);
                         $('#u-final-price').val(result.final_price);
+                        if(result.discountable){
+                            $('#updateDiscountAbleCheckbox').prop('checked',true);
+                        }else{
+                            $('#updateDiscountAbleCheckbox').prop('checked',false);
+                            $('#u-discount-per').attr('readonly',true);
+                        $('#u-discount-amount').attr('readonly',true);
+                        }
+                        if(result.status == 'Y'){
+                            $('#u-active').attr('checked','checked');
+                        }else if(result.status == 'N'){
+                            $('#u-deactive').attr('checked','checked');
+                        }
                     }
                 });
             let link = "{{url('investigationmain/')}}/"+id;
@@ -390,6 +446,51 @@
             }
             console.log(e.target.name);
         });
+        $("#discountAbleCheckbox").on('click',function(e){
+           let testData = $(this).prop('checked');
+           console.log(testData)
+           if(testData){
+                $("#discount_per").attr('readonly',false);
+                $("#discount_amount").attr('readonly',false);
+           }else{
+            $("#discount_per").attr('readonly',true);
+            $("#discount_amount").attr('readonly',true);
+                let price = $("#price").val();
+                console.log(price);
+                if(price!=""){
+                    $("#final_price").val(Number(price));
+                    $("#discount_per").val(0);
+                    $("#discount_amount").val(0);
+                    $("#discount_per").attr('readonly',true);
+                    $("#discount_amount").attr('readonly',true);
+
+                }
+           }
+
+        })
+        $("#updateDiscountAbleCheckbox").on('click',function(e){
+           let testData = $(this).prop('checked');
+           console.log(testData)
+           if(testData){
+                $("#u-discount-per").attr('readonly',false);
+                $("#u-discount-amount").attr('readonly',false);
+           }else{
+            $("#u-discount-per").attr('readonly',true);
+            $("#u-discount-amount").attr('readonly',true);
+            let price = $("#u-price").val();
+           $("#u-discount-per").val(0);
+                $("#u-discount-amount").val(0);
+                if(price!=""){
+                    $("#u-final-price").val(Number(price));
+                    $("#u-discount-per").val(0);
+                    $("#u-discount-amount").val(0);
+                    $("#u-discount-per").attr('readonly',false);
+                    $("#u-discount-amount").attr('readonly',false);
+
+                }
+           }
+
+        })
     });
 </script>
 

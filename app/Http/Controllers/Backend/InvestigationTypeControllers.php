@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\InvestigationType;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 class InvestigationTypeControllers extends Controller
 {
     /**
@@ -39,7 +40,9 @@ class InvestigationTypeControllers extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
+            $user = Auth::user()->id;
             $inv_type = new InvestigationType();
+            $inv_type->created_by = $user;
             $inv_type->fill($request->all())->save();
             return back()->with('success','New Investigation Type Created Successfully');
 
@@ -75,10 +78,12 @@ class InvestigationTypeControllers extends Controller
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
             $inv_type = InvestigationType::findOrFail($id);
+            $user = Auth::user()->id;
             $data = $request->only(['name_eng',
                                     'duration',
                                     'status']
                                 );
+            $inv_type->updated_by = $user;
             $inv_type->fill($data)->save();
             return back()->with('success','Investigation Type '.$inv_type->name_eng.' Updated Successfully');
         }

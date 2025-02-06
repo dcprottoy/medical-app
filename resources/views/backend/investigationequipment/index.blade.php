@@ -27,7 +27,7 @@
                             <div class="col-sm-2">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox"><br>
-                                    <input class="custom-control-input" type="checkbox" id="discountAbleCheckbox" value="option1">
+                                    <input class="custom-control-input" type="checkbox" id="discountAbleCheckbox" value="true" name="discountable">
                                     <label for="discountAbleCheckbox" class="custom-control-label">Discountable</label>
                                     </div>
                                 </div>
@@ -96,10 +96,13 @@
                                 Price
                             </th>
                             <th style="width: 10%" class="text-center">
-                                Discount Percentage
+                                Discountable
                             </th>
                             <th style="width: 10%" class="text-center">
-                                Discount Amouont
+                                Discount in %
+                            </th>
+                            <th style="width: 10%" class="text-center">
+                                Discount in Tk
                             </th>
                             <th style="width: 10%" class="text-center">
                                 Final Price
@@ -123,6 +126,9 @@
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->price !!}
+                                </td>
+                                <td  class="text-center">
+                                    {!! $item->discountable ? '<span class="badge badge-primary">Yes</span>' :'<span class="badge badge-danger">No</span>' !!}
                                 </td>
                                 <td  class="text-center">
                                     {!! $item->discount_per !!}
@@ -207,6 +213,14 @@
                                                 <input type="number" class="form-control form-control-sm u-price" id='u-price' name='price' placeholder="Price" >
                                             </div>
                                         </div>
+                                        <div class="col-sm-2">
+                                            <div class="form-group">
+                                                <div class="custom-control custom-checkbox"><br>
+                                                <input class="custom-control-input" type="checkbox" id="updateDiscountAbleCheckbox" value="true" name="discountable">
+                                                <label for="updateDiscountAbleCheckbox" class="custom-control-label">Discountable</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Discount Percentage</label>
@@ -222,7 +236,7 @@
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <label>Final Price</label>
-                                                <input type="number" class="form-control form-control-sm u-price" id='u-final-price' name='final_price' placeholder="Price" >
+                                                <input type="number" class="form-control form-control-sm u-price" id='u-final-price' step="any" name='final_price' placeholder="Price" >
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-4">
@@ -272,10 +286,16 @@
                         $('#u-discount-per').val(result.discount_per);
                         $('#u-discount-amount').val(result.discount_amount);
                         $('#u-final-price').val(result.final_price);
-
+                        if(result.discountable){
+                            $('#updateDiscountAbleCheckbox').prop('checked',true);
+                        }else{
+                            $('#updateDiscountAbleCheckbox').prop('checked',false);
+                            $('#u-discount-per').attr('readonly',true);
+                        $('#u-discount-amount').attr('readonly',true);
+                        }
                         if(result.status == 'Y'){
                             $('#u-active').attr('checked','checked');
-                        }else if(result.sex == 'N'){
+                        }else if(result.status == 'N'){
                             $('#u-deactive').attr('checked','checked');
                         }
 
@@ -350,20 +370,43 @@
            }else{
             $("#discount_per").attr('readonly',true);
             $("#discount_amount").attr('readonly',true);
-            let price = $("#price").val();
-           $("#discount_per").val(0);
-                $("#discount_amount").val(0);
+                let price = $("#price").val();
+                console.log(price);
                 if(price!=""){
                     $("#final_price").val(Number(price));
                     $("#discount_per").val(0);
                     $("#discount_amount").val(0);
-                    $("#discount_per").attr('readonly',false);
-                    $("#discount_amount").attr('readonly',false);
+                    $("#discount_per").attr('readonly',true);
+                    $("#discount_amount").attr('readonly',true);
 
                 }
            }
 
         })
+        $("#updateDiscountAbleCheckbox").on('click',function(e){
+           let testData = $(this).prop('checked');
+           console.log(testData)
+           if(testData){
+                $("#u-discount-per").attr('readonly',false);
+                $("#u-discount-amount").attr('readonly',false);
+           }else{
+            $("#u-discount-per").attr('readonly',true);
+            $("#u-discount-amount").attr('readonly',true);
+            let price = $("#u-price").val();
+           $("#u-discount-per").val(0);
+                $("#u-discount-amount").val(0);
+                if(price!=""){
+                    $("#u-final-price").val(Number(price));
+                    $("#u-discount-per").val(0);
+                    $("#u-discount-amount").val(0);
+                    $("#u-discount-per").attr('readonly',false);
+                    $("#u-discount-amount").attr('readonly',false);
+
+                }
+           }
+
+        })
+
         $("#example1").DataTable({"order": [[0, 'desc']],
         "responsive": true, "lengthChange": false, "autoWidth": false,
         //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]

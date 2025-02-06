@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\ServiceType;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 
 class ServiceTypeController extends Controller
@@ -40,9 +42,11 @@ class ServiceTypeController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new ServiceType();
-            $advice->fill($request->all())->save();
-            return back()->with('success','New Advice Created Successfully');
+            $user = Auth::user()->id;
+            $service_type = new ServiceType();
+            $service_type->created_by = $user;
+            $service_type->fill($request->all())->save();
+            return back()->with('success','New Service Type Created Successfully');
 
         }
     }
@@ -75,12 +79,14 @@ class ServiceTypeController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = ServiceType::findOrFail($id);
+            $user = Auth::user()->id;
+            $service_type = ServiceType::findOrFail($id);
             $data = $request->only(['name_eng',
                                     'status']
                                 );
-            $advice->fill($data)->save();
-            return back()->with('success','Advice '.$advice->name_eng.' Updated Successfully');
+            $service_type->updated_by = $user;
+            $service_type->fill($data)->save();
+            return back()->with('success','Service Type '.$service_type->name_eng.' Updated Successfully');
         }
     }
 

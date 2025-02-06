@@ -41,10 +41,15 @@ class InvestigationEquipmentControllers extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             $user = Auth::user()->id;
-            // return $user;
             $inv_equip = new BillItems();
+            $inv_equip->fill($request->all());
+            if($request->has('discountable')){
+                $inv_equip->discountable = true;
+            }else{
+                $inv_equip->discountable = false;
+            }
             $inv_equip->created_by = $user;
-            $inv_equip->fill($request->all())->save();
+            $inv_equip->save();
             return back()->with('success','New Investigation Equipment Created Successfully');
 
         }
@@ -89,6 +94,12 @@ class InvestigationEquipmentControllers extends Controller
                                     'service_category_id'
                                     ]
                                 );
+                //   return $request->all();
+            if($request->has('discountable')){
+                $inv_equip->discountable = true;
+            }else{
+                $inv_equip->discountable = false;
+            }
             $inv_equip->updated_by = $user;
             $inv_equip->fill($data)->save();
             return back()->with('success','Advice '.$inv_equip->equipment_name.' Updated Successfully');

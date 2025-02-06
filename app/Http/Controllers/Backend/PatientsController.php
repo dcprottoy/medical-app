@@ -53,7 +53,11 @@ class PatientsController extends Controller
             'name' => 'required',
             'contact_no' => 'required'
         ]);
-        $birthDate = $date->subYears($request->year)->subMonths($request->month)->subDays($request->day)->toDateString();
+        // return $request->all();
+        $year_input = $request->filled('year') ? (int)$request->year:0;
+        $month_input = $request->filled('month') ? (int)$request->month:0;
+        $day_input = $request->filled('day') ? (int)$request->day:0;
+        $birthDate = $date->subYears($year_input)->subMonths($month_input)->subDays($day_input)->toDateString();
         // return $birthDate;
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();

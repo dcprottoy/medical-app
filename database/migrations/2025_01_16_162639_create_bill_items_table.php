@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('discount_per',18,2)->nullable();
             $table->decimal('discount_amount',18,2)->nullable();
             $table->decimal('final_price',18,2)->nullable();
+            $table->boolean('discountable')->default(0)->nullable();
             $table->enum('status',['Y','N'])->default('Y');
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
