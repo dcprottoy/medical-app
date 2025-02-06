@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\BillItems;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class InvestigationEquipmentControllers extends Controller
 {
@@ -38,8 +40,10 @@ class InvestigationEquipmentControllers extends Controller
             return back()->with('error','Something went wrong !!')->withInput();
             // return back()->withErrors($validated)->withInput();
         }else{
-            // return $request->input();
+            $user = Auth::user()->id;
+            // return $user;
             $inv_equip = new BillItems();
+            $inv_equip->created_by = $user;
             $inv_equip->fill($request->all())->save();
             return back()->with('success','New Investigation Equipment Created Successfully');
 
@@ -74,6 +78,7 @@ class InvestigationEquipmentControllers extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
+            $user = Auth::user()->id;
             $inv_equip = BillItems::findOrFail($id);
             $data = $request->only(['item_name',
                                     'price',
@@ -84,6 +89,7 @@ class InvestigationEquipmentControllers extends Controller
                                     'service_category_id'
                                     ]
                                 );
+            $inv_equip->updated_by = $user;
             $inv_equip->fill($data)->save();
             return back()->with('success','Advice '.$inv_equip->equipment_name.' Updated Successfully');
         }
