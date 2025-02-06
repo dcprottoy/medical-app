@@ -127,7 +127,7 @@ body * { visibility: hidden; }
                                         <input type="text" class="form-control form-control-sm" id="billlist" name="bill_list" placeholder="Bill ID">
                                     </div>
                                 </div>
-                                <div class="col-sm-12" style="height:300px;overflow-y:scroll;">
+                                <div class="col-sm-12" style="height:580px;font-size:14px;">
                                     <table class="table table-sm table-striped">
                                         <tbody id="bill_search_list">
                                         @foreach($bill_mains as $item)
@@ -788,7 +788,7 @@ body * { visibility: hidden; }
             $.ajax({
                     type: 'PUT',
                     dataType: "json",
-                    url: "{{url('billing')}}/",
+                    url: "{{url('duecollection')}}/",
                     data:{
                         'search':ch_data,
                         '_token': '{{ csrf_token() }}',

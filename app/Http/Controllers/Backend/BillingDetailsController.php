@@ -15,7 +15,8 @@ use App\Models\Backend\BillDetails;
 use App\Models\Backend\ServiceCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class BillingDetailsController extends Controller
 {
@@ -59,6 +60,8 @@ class BillingDetailsController extends Controller
                 BillDetails::where('bill_main_id','=',$billMainID)->delete();
                 $billItems = $request->bill_item;
                 // return $request->all();
+                $user = Auth::user()->id;
+
                 if(!$request->has('bill_item')) return response()->json(['error'=>"No Data Included"]);
                 foreach($billItems as $item){
                     $createObject = new BillDetails();
@@ -75,6 +78,7 @@ class BillingDetailsController extends Controller
                     $createObject->discount_percent = (int)$request->discount_per[$item];
                     $createObject->discount_amount = (int)$request->discount_amt[$item];
                     $createObject->discountable = (int)$request->discountable[$item];
+                    $createObject->updated_by = $user;
                     $createObject->save();
 
                 }
@@ -87,6 +91,7 @@ class BillingDetailsController extends Controller
                 if($request->bill_due_amount==0){
                     $billMain->paid_status = true;
                 }
+                $billMain->updated_by = $user;
                 $billMain->save();
                 return $billMain;
 
@@ -94,7 +99,9 @@ class BillingDetailsController extends Controller
                 $billItems = $request->bill_item;
                 // return $request->all();
                 if(!$request->has('bill_item')) return response()->json(['error'=>"No Data Included"]);
+                $user = Auth::user()->id;
                 foreach($billItems as $item){
+
                     $createObject = new BillDetails();
                     $createObject->bill_main_id = (int)$billMainID;
                     $createObject->patient_id = (int)$billMain->patient_id;
@@ -109,6 +116,7 @@ class BillingDetailsController extends Controller
                     $createObject->discount_percent = (int)$request->discount_per[$item];
                     $createObject->discount_amount = (int)$request->discount_amt[$item];
                     $createObject->discountable = (int)$request->discountable[$item];
+                    $createObject->created_by = $user;
                     $createObject->save();
 
                 }

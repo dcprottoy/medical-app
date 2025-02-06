@@ -13,6 +13,8 @@ use App\Models\Backend\BillItems;
 use App\Models\Backend\BillMain;
 use App\Models\Backend\BillDetails;
 use App\Models\Backend\ServiceCategory;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use PDF;
@@ -68,12 +70,14 @@ class BillingController extends Controller
         $patient_id = $patient->patient_id;
         $patient_name = $patient->name;
 
+        $user = Auth::user()->id;
         $bill = new BillMain();
         $bill->bill_id = (int)$bill_id;
         $bill->patient_id = (int)$patient_id;
         $bill->patient_name = $patient_name;
         $bill->referrence_id = 1;
         $bill->bill_date = $date->format('Y-m-d');
+        $bill->created_by = $user;
         $bill->save();
         return response()->json($bill);
     }

@@ -24,7 +24,7 @@ class DueController extends Controller
      */
     public function index()
     {
-        $data['bill_mains'] = BillMain::orderBy('id','DESC')->limit(50)->get();
+        $data['bill_mains'] = BillMain::where('paid_status','=',0)->orderBy('id','DESC')->limit(50)->get();
         $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
 
 
@@ -54,7 +54,7 @@ class DueController extends Controller
             // return back()->with('error','Something went wrong !!')->withInput();
             return back()->withErrors($validated)->withInput();
         }
-
+        $user = Auth::user()->id;
         $bill =  BillMain::where('bill_id',$request->bill_main_id)->first();
         if($bill->due_amount > 0){
             $bill->discount_amount = $bill->discount_amount+(int)$request->new_discount;
@@ -64,6 +64,7 @@ class DueController extends Controller
             if($request->due_amount==0){
                 $bill->paid_status = true;
             }
+            $bill->updated_by = $user;
             $bill->save();
         }
 
@@ -142,7 +143,7 @@ class DueController extends Controller
 
     public function search(Request $request)
     {
-        $lastid = BillMain::where('bill_id', 'like', '%'.$request->search.'%')->get();
+        $lastid = BillMain::where('bill_id', 'like', '%'.$request->search.'%')->where('paid_status','=',0)->get();
         return $lastid;
     }
 }
