@@ -24,6 +24,7 @@ use App\Http\Controllers\Backend\InvestigationEquiSetController;
 use App\Http\Controllers\Backend\ExaminationController;
 use App\Http\Controllers\Backend\ReferredController;
 use App\Http\Controllers\Backend\DueController;
+use App\Http\Controllers\Backend\BillReferenceControllers;
 
 use App\Http\Controllers\Backend\UsageController;
 use App\Http\Controllers\Backend\DoseController;
@@ -127,6 +128,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
         Route::put('/doctor',[DoctorController::class,'search']);
         Route::put('/billing',[BillingController::class,'search']);
         Route::put('/duecollection',[DueController::class,'search']);
+        Route::put('/billreference',[BillReferenceControllers::class,'search']);
 
 
 
@@ -331,6 +333,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'duecollection.delete'
         ]);
 
+        Route::resource('/billreference',BillReferenceControllers::class)->names([
+            'index'=>'billreference.home',
+            'create'=>'billreference.create',
+            'show'=>'billreference.show',
+            'store'=>'billreference.save',
+            'edit'=>'billreference.edit',
+            'update'=>'billreference.update',
+            'destroy'=>'billreference.delete'
+        ]);
     Route::get('billingitems/{id}',[BillingController::class,'billingitems']);
 
     Route::get('billing-pdf/{id}',[BillingController::class,'pdf'])->name('billing.pdf');

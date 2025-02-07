@@ -15,6 +15,9 @@ use App\Models\Backend\BillDetails;
 use App\Models\Backend\ServiceCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 use PDF;
 
 class DueController extends Controller

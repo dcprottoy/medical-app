@@ -257,6 +257,12 @@
                 </a>
                 <ul class="nav nav-treeview">
                     <li class="nav-item " >
+                        <a href="{{route('billreference.home')}}" class="nav-link {{ Route::currentRouteName() == 'billreference.home'||Route::currentRouteName() == 'billreference.create'||Route::currentRouteName() == 'billreference.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Bill Reference</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
                         <a href="{{route('billing.home')}}" class="nav-link {{ Route::currentRouteName() == 'billing.home'||Route::currentRouteName() == 'billing.create'||Route::currentRouteName() == 'billing.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Billing</p>

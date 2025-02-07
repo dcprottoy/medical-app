@@ -241,7 +241,7 @@ body * { visibility: hidden; }
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h5 class="modal-title" id="billListModalLabel">Registered Patient List</h5>
+                                <h5 class="modal-title" id="billListModalLabel">Registered Bill List</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -264,22 +264,44 @@ body * { visibility: hidden; }
                                                         <th class="text-center">Action</th>
                                                     </thead>
                                                     <tbody id="bill_search_list">
-                                                    @foreach($bill_mains as $item)
-                                                        <tr>
-                                                            <td id="main-bill-id{!! $item->id !!}">{!! $item->bill_id !!}</td>
-                                                            <td id="main-patient-id{!! $item->id !!}">{!! $item->patient_id !!}</td>
-                                                            <td id="main-patient-name{!! $item->id !!}">{!! $item->patient_name !!}</td>
-                                                            <td id="main-bill-date{!! $item->id !!}">{!! $item->bill_date !!}</td>
-                                                            <td class="text-center">
-                                                                <a class="btn btn-sm btn-primary bill-edit" data-id="{!! $item->id !!}"  data-bill-id="{!! $item->bill_id !!}" >Edit
-                                                                    <i class="fas fa-edit" style="color:#eef4f7;" data-id="{{$item->id}}"></i>
-                                                                </a>
-                                                                <a class="btn btn-sm btn-secondary" href="{{route('billing.pdf',$item->bill_id)}}" target="_blank" data-id="{!! $item->id !!}">Print
-                                                                    <i class="fas fa-print" style="color:#ecf3f7;" data-id="{{$item->id}}"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-secondary" data-toggle="modal" id="refereceListbtn" data-target="#refereceList">Reference List</button>
+                    <div class="modal fade" id="refereceList" tabindex="-1" role="dialog" aria-labelledby="refereceListLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="refereceListModalLabel">Reference List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-4">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-sm" id="referencelist" name="reference_list" placeholder="Reference ID">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 " style="height:300px;overflow-y:scroll;">
+                                                <table class="table table-sm table-striped">
+                                                    <thead style="position: sticky;top: 0;background:white;">
+                                                        <th style="width:20%;">Reference ID</th>
+                                                        <th style="width:80%;">Reference Name</th>
+                                                    </thead>
+                                                    <tbody id="reference_search_list">
+
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -297,20 +319,25 @@ body * { visibility: hidden; }
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <b>Patient ID :</b><em id="patient-id"></em>
                             <br>
                             <b>Name :</b> <span id="patient-name"></span>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <b>Gender :</b> <span id="patient-gender"></span>
                             <br>
                             <b>Age :</b> <span id="patient-age"></span>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <b>Date :</b> <em id="bill-date"></em>
                             <br>
                             <b>Bill No :</b><span id="bill-no"></span>
+                        </div>
+                        <div class="col-sm-3">
+                            <b>Reference ID :</b> <em id="reference-id"></em>
+                            <br>
+                            <b>Reference Name :</b><span id="reference-name"></span>
                         </div>
                     </div>
                 </div>
@@ -626,8 +653,6 @@ body * { visibility: hidden; }
           let newFinalAmount = billAmount;
           if((!isNaN(discountAmount)) && discountAmount != 0){
             newFinalAmount = (Number(billAmount)-Number(discountAmount)).toFixed(2);
-          }else if((!isNaN(discountPer)) && discountPer != 0){
-            newFinalAmount = (Number(billAmount) - ((Number(discountPer)*Number(billAmount))/100)).toFixed(2);
           }
           if(!isNaN(paidAmount)){
             let newDueAmount = (Number(newFinalAmount)-Number(paidAmount)).toFixed(2);
@@ -645,6 +670,7 @@ body * { visibility: hidden; }
                 });
                 console.log(amtResult);
                 $(".billing-item-dis-amt").each(function(){
+
                     discResult += Number($(this).val());
                 });
                 $("#bill-amount").val(amtResult);
@@ -654,16 +680,23 @@ body * { visibility: hidden; }
         function billItemotalCal(id){
             let quantity = $("#qty"+id).val();
             let discount_per = $("#dis-per"+id).val();
-            let discount_amt = $("#dis-amt"+id).val();
+            let isDiscountable = $("#dis-per"+id).attr('data-discountable');
             if(!isNaN(quantity)&&quantity!=""){
                 let price = $("#price"+id).text();
                 let total_price = (Number(price)*Number(quantity)).toFixed(2);
                 let discount_amount = ((Number(discount_per)/100)*Number(price)).toFixed(2);
                 let total_discount_amount = (discount_amount*Number(quantity)).toFixed(2);
                 let total_payable = (total_price-total_discount_amount).toFixed(2);
-                $("#amt"+id).val(total_price);
-                $("#dis-amt"+id).val(total_discount_amount);
-                $("#total-payable"+id).val(total_payable);
+                if(isDiscountable == 1){
+                    $("#amt"+id).val(total_price);
+                    $("#dis-amt"+id).val(total_discount_amount);
+                    $("#total-payable"+id).val(total_payable);
+                }else{
+                    $("#amt"+id).val(Number(total_price).toFixed(2));
+                    $("#dis-amt"+id).val(0);
+                    $("#total-payable"+id).val(Number(total_price).toFixed(2));
+                    $("#dis-per"+id).val(0);
+                }
             }else{
                 $("#amt"+id).val(0);
                 $("#dis-amt"+id).val(0);
@@ -682,7 +715,7 @@ body * { visibility: hidden; }
                     let quantity = $("#qty"+id).val();
                     let isDiscountable = $("#dis-per"+id).attr('data-discountable');
                     console.log(isDiscountable);
-                     if(isDiscountable==true){
+                     if(isDiscountable == 1 ){
                         $("#dis-per"+id).val(discount_per);
                         if(!isNaN(quantity)&&quantity!=""){
                             let price = $("#price"+id).text();
@@ -745,8 +778,10 @@ body * { visibility: hidden; }
                                 let disc_amount = 0;
                                 if(Boolean(result.item.discountable)&&(!isNaN(discount_per_final) && discount_per_final!="" && discount_per_final > 0)){
                                     discount_per_cal = Number(discount_per_final);
-                                }else{
+                                }else if(Boolean(result.item.discountable)){
                                     discount_per_cal = Number(result.item.discount_per);
+                                }else{
+                                    discount_per_cal = 0;
                                 }
                                 disc_amount = ((discount_per_cal/100)*Number(result.item.price)).toFixed(2);
 
@@ -960,7 +995,6 @@ body * { visibility: hidden; }
                         $("#bill-total-amount").val(Number(response.main.payable_amount).toFixed(2));
                         $("#bill-paid-amount").val(Number(response.main.paid_amount).toFixed(2));
                         $("#bill-due-amount").val(Number(response.main.due_amount).toFixed(2));
-
                         response.details.map(x=>{
                           let  myElement =`<tr>
                                     <td>
@@ -1135,6 +1169,48 @@ body * { visibility: hidden; }
                 toastr.error('Please Select Bill');
             }
 
+        })
+        function referenceSelect(id){
+            let reference_id = $("#bill-reference-id"+id).text();
+            let reference_name = $("#bill-referenc-name"+id).text();
+            $("#reference-id").text(reference_id);
+            $("#reference-name").text(reference_name);
+            console.log({"id":id,"reference_id":reference_id,"reference_name":reference_name});
+            $.ajax({
+                    url: "{{url('billreference/')}}/"+id,
+                    success: function (response) {
+                        console.log(response);
+
+                    }
+                });
+
+        }
+        $("#refereceListbtn").on('click',function(e){
+            $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('billreference')}}/",
+                    data:{
+                        'search':"",
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        let element = "";
+                        result.forEach(x =>{
+                                element+= `<tr class="reference-select" data-reference-id="${x.id}">
+                                <td style="width:20%;" id="bill-reference-id${x.id}">${x.reference_id}</td>
+                                <td style="width:80%;" id="bill-referenc-name${x.id}">${x.name_eng}</td>
+                            </tr>`
+                        });
+                        $("#reference_search_list").empty();
+                        $("#reference_search_list").append(element);
+                        $(".reference-select").on('click',function(e){
+                            let id = $(this).attr('data-reference-id');
+                            referenceSelect(id);
+                        });
+                    }
+                });
         })
 
     });
