@@ -84,7 +84,7 @@ body * { visibility: hidden; }
         }
 </style>
 <div class="content-wrapper">
-    <x-breadcumb title="Billing"/>
+    <x-breadcumb title="Due Collection"/>
     <div class="content">
         <div class="container-fluid">
             <div class="card">
@@ -206,7 +206,7 @@ body * { visibility: hidden; }
                                 </div>
                                 <div class="card-footer text-right m-0 p-1">
                                     <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
-                                    <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
+                                    <button type="submit" class="btn btn-sm btn-success" id="save-btn">&nbsp;Save&nbsp;</button>
                                 </div>
                             </div>
                         </form>
@@ -668,7 +668,7 @@ body * { visibility: hidden; }
                         }else{
                             console.log(response);
                             toastr.success('Bill Details Saved');
-
+                            $('#save-btn').prop('disabled',true);
                             }
                     },
                     error:function(req,status,err){
@@ -732,6 +732,7 @@ body * { visibility: hidden; }
                                 }else if(x.service_category_id == 4){
                                     $("#bill-service-add-list").append(myElement);
                                 }
+                                $('#save-btn').prop('disabled',false);
                         });
 
                     }
@@ -815,7 +816,7 @@ body * { visibility: hidden; }
         $("#print-bill-top").on('click',function(e){
             let billID = $("#bill-no").text();
             if(billID){
-                window.open("{{url('billing-pdf')}}/"+Number(billID), '_blank');
+                window.open("{{url('due-pdf')}}/"+Number(billID), '_blank');
 
             }else{
                 toastr.error('Please Select Bill');

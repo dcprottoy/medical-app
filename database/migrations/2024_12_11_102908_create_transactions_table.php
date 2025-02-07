@@ -13,6 +13,24 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+            $table->integer('transaction_id');
+            $table->integer('patient_id');
+            $table->string('patient_name');
+            $table->integer('referrence_id');
+            $table->date('transaction_date');
+            $table->double('prev_due')->default(0)->nullable();
+            $table->double('prev_paid')->default(0)->nullable();
+            $table->double('total_amount')->nullable();
+            $table->double('payable_amount')->nullable();
+            $table->double('discount_percent')->nullable();
+            $table->double('discount_amount')->nullable();
+            $table->double('paid_amount')->nullable();
+            $table->double('due_amount')->nullable();
+            $table->double('return_amount')->nullable();
+            $table->char('returned_status',1)->nullable();
+            $table->boolean('paid_status')->nullable()->default(false);
+            $table->integer('created_by')->nullable();
+            $table->integer('updated_by')->nullable();
             $table->timestamps();
         });
     }

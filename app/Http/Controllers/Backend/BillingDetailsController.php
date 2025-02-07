@@ -88,7 +88,7 @@ class BillingDetailsController extends Controller
                 $billMain->discount_amount = $request->bill_dis_amt;
                 $billMain->paid_amount = $request->bill_paid_amount;
                 $billMain->due_amount = $request->bill_due_amount;
-                if($request->bill_due_amount==0){
+                if((int)$request->bill_due_amount <= 0){
                     $billMain->paid_status = true;
                 }else{
                     $billMain->paid_status = false;
@@ -128,7 +128,7 @@ class BillingDetailsController extends Controller
                 $billMain->discount_amount = $request->bill_dis_amt;
                 $billMain->paid_amount = $request->bill_paid_amount;
                 $billMain->due_amount = $request->bill_due_amount;
-                if($request->bill_due_amount==0){
+                if((int)$request->bill_due_amount <= 0){
                     $billMain->paid_status = true;
                 }else{
                     $billMain->paid_status = false;
