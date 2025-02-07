@@ -90,6 +90,8 @@ class BillingDetailsController extends Controller
                 $billMain->due_amount = $request->bill_due_amount;
                 if($request->bill_due_amount==0){
                     $billMain->paid_status = true;
+                }else{
+                    $billMain->paid_status = false;
                 }
                 $billMain->updated_by = $user;
                 $billMain->save();
@@ -128,6 +130,8 @@ class BillingDetailsController extends Controller
                 $billMain->due_amount = $request->bill_due_amount;
                 if($request->bill_due_amount==0){
                     $billMain->paid_status = true;
+                }else{
+                    $billMain->paid_status = false;
                 }
                 $billMain->save();
                 return $billMain;

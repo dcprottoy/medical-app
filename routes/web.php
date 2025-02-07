@@ -333,6 +333,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'duecollection.delete'
         ]);
 
+        Route::post('add/billreference',[BillReferenceControllers::class,'addBillReference']);
         Route::resource('/billreference',BillReferenceControllers::class)->names([
             'index'=>'billreference.home',
             'create'=>'billreference.create',

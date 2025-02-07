@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\BillReference;
+use App\Models\Backend\BillMain;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Carbon;
@@ -60,6 +61,62 @@ class BillReferenceControllers extends Controller
             return back()->with('success','New Bill Reference Created Successfully');
 
         }
+    }
+
+    public function addBillReference(Request $request)
+    {
+
+        if($request->add_type==1){
+            $validated = Validator::make($request->all(),[
+                'reference_id' => 'required',
+                'bill_main_id' => 'required',
+                'reference_name' => 'required',
+            ]);
+            if($validated->fails()){
+                return back()->with('error','Something went wrong !!')->withInput();
+                // return back()->withErrors($validated)->withInput();
+            }else{
+                $bill = BillMain::where('bill_id','=',$request->bill_main_id)->first();
+                $bill->referrence_id = $request->reference_id;
+                $bill->save();
+                return response()->json(['success'=>'Reference Added Successfully']);
+            }
+        }elseif($request->add_type==2){
+            $validated = Validator::make($request->all(),[
+                'name_eng' => 'required',
+                'bill_main_id' => 'required',
+            ]);
+            if($validated->fails()){
+                return back()->with('error','Something went wrong !!')->withInput();
+
+            }else{
+
+                $date = Carbon::now();
+                $checkingID = (int)strval($date->year).'0000';
+                $lastid = BillReference::where('reference_id','>',$checkingID)->orderBy('reference_id', 'desc')->first();
+                if($lastid){
+                    $reference_id = $lastid->reference_id+1;
+                }else{
+                    $reference_id = strval($date->year).'0001';
+                }
+                try{
+                    $user = Auth::user()->id;
+                    $bill_reference = new BillReference();
+                    $bill_reference->reference_id = $reference_id;
+                    $bill_reference->created_by = $user;
+                    $bill_reference->fill($request->all())->save();
+                }catch(\Exception $e) {
+                    return response()->json(["error"=>'Patient Created Failed',"message"=>$e->getMessage()]);
+                }
+
+                $bill = BillMain::where('bill_id','=',$request->bill_main_id)->first();
+                $bill->referrence_id = $bill_reference->reference_id;
+                $bill->save();
+                return response()->json(['success'=>'Reference Added Successfully','data' =>$bill_reference]);
+
+            }
+        }
+
     }
 
     /**

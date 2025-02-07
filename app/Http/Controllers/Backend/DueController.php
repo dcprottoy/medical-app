@@ -66,6 +66,8 @@ class DueController extends Controller
             $bill->due_amount = (int)$request->new_due;
             if($request->due_amount==0){
                 $bill->paid_status = true;
+            }else{
+                $bill->paid_status = false;
             }
             $bill->updated_by = $user;
             $bill->save();

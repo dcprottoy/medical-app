@@ -87,7 +87,7 @@ class BillingController extends Controller
      */
     public function show(string $id)
     {
-        $main = BillMain::with('patient')->where('bill_id',$id)->first();
+        $main = BillMain::with('patient')->with('reference')->where('bill_id',$id)->first();
         $details = BillDetails::join('bill_items','bill_details.item_id','=','bill_items.id')
         ->where('bill_main_id',$id)
         ->select('bill_details.*','bill_items.item_name','bill_items.price as item_rate' )

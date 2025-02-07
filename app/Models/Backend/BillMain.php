@@ -33,4 +33,9 @@ class BillMain extends Model
     {
         return $this->hasOne(Patients::class, 'patient_id', 'patient_id');
     }
+
+    public function reference(): HasOne
+    {
+        return $this->hasOne(BillReference::class, 'reference_id', 'referrence_id');
+    }
 }
