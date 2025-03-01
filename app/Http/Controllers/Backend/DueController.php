@@ -12,6 +12,7 @@ use App\Models\Backend\InvestigationEquipSetup;
 use App\Models\Backend\BillItems;
 use App\Models\Backend\BillMain;
 use App\Models\Backend\BillDetails;
+use App\Models\Backend\Transaction;
 use App\Models\Backend\ServiceCategory;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -57,9 +58,48 @@ class DueController extends Controller
             // return back()->with('error','Something went wrong !!')->withInput();
             return back()->withErrors($validated)->withInput();
         }
+        $date = Carbon::now();
         $user = Auth::user()->id;
         $bill =  BillMain::where('bill_id',$request->bill_main_id)->first();
         if($bill->due_amount > 0){
+
+                $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
+                $lastid = Transaction::where('transaction_id','>',$checkingID)->orderBy('transaction_id', 'desc')->first();
+
+                if($lastid){
+                    $transaction_id = $lastid->transaction_id+1;
+                }else{
+                    $transaction_id = strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0001';
+                }
+                $transaction = new Transaction();
+                $transaction->transaction_id = $transaction_id;
+                $transaction->patient_id = (int)$bill->patient_id;
+                $transaction->patient_name = $bill->patient_name;
+                $transaction->referrence_id = (int)$request->bill_main_id;
+                $transaction->service_category_id = 2;
+                $transaction->transaction_date = $date;
+                $transaction->prev_due = $bill->due_amount;
+                $transaction->prev_paid = $bill->paid_amount;
+                $transaction->total_amount = $bill->total_amount;
+                $transaction->payable_amount = (int)$bill->due_amount-(int)$request->new_discount;;
+                $transaction->discount_percent = number_format((((int)$request->new_discount/(int)$bill->due_amount)*100),2);
+                $transaction->discount_amount = (int)$request->new_discount;
+                $transaction->paid_amount = (int)$request->new_paid;
+                $transaction->due_amount = (int)$request->new_due;
+                $transaction->return_amount = 0;
+                $transaction->returned_status = 0;
+                if((int)$request->new_due <= 0){
+                    $transaction->paid_status  = true;
+                }else{
+                    $transaction->paid_status  = false;
+                }
+                $transaction->created_by = $user;
+                $transaction->save();
+
+
+
+
+
             $bill->discount_amount = $bill->discount_amount+(int)$request->new_discount;
             $bill->payable_amount = $bill->payable_amount-(int)$request->new_discount;
             $bill->paid_amount = $bill->paid_amount+(int)$request->new_paid;
@@ -71,6 +111,8 @@ class DueController extends Controller
             }
             $bill->updated_by = $user;
             $bill->save();
+
+
         }
 
         return response()->json($bill);

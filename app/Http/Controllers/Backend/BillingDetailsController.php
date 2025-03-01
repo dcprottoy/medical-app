@@ -135,6 +135,7 @@ class BillingDetailsController extends Controller
                     $billMain->paid_status = false;
                 }
                 $billMain->save();
+
                 $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
                 $lastid = Transaction::where('transaction_id','>',$checkingID)->orderBy('transaction_id', 'desc')->first();
 
