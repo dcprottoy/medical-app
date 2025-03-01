@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('patient_id');
             $table->string('patient_name');
             $table->integer('referrence_id');
+            $table->integer('service_category_id');
             $table->date('transaction_date');
             $table->double('prev_due')->default(0)->nullable();
             $table->double('prev_paid')->default(0)->nullable();

@@ -30,8 +30,6 @@ class BillingController extends Controller
         $data['bill_items'] = BillItems::all();
         $data['bill_mains'] = BillMain::orderBy('id','DESC')->limit(50)->get();
         $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
-
-
         return view('backend.billing.index',$data);
     }
 
@@ -57,7 +55,6 @@ class BillingController extends Controller
             return back()->withErrors($validated)->withInput();
         }
         $patient = Patients::where('patient_id','=',$request->patient_id)->first();
-
         $date = Carbon::now();
         $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
         $lastid = BillMain::where('bill_id','>',$checkingID)->orderBy('bill_id', 'desc')->first();
