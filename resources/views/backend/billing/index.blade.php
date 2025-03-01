@@ -962,7 +962,9 @@ body * { visibility: hidden; }
                     url: "{{url('billingdetails')}}",
                     data: formdata,
                     success: function(response) {
-                        if('error' in response){
+                        if('message' in response){
+                            toastr.error(response.message);
+                        }else if('error' in response){
                             toastr.error(response.error);
                         }else{
                             console.log(response);

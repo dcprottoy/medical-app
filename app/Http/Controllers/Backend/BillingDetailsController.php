@@ -54,7 +54,9 @@ class BillingDetailsController extends Controller
         }
         // return $request->all();
         $billMainID = $request->bill_main_id;
-        $billMain = BillMain::where('bill_id','=',$billMainID)->first();
+        $billMain = BillMain::where('bill_id','=',$billMainID)->where('paid_status','=',0)->first();
+        $transactions = Transaction::where('referrence_id','=',$billMainID)->where('service_category_id','=',2)->get();
+        if(count($transactions) > 1) return response()->json(["message"=>"Bill Already Have Multiple Payment Entry"]);
         if($billMain){
             $createOrUpdate = BillDetails::where('bill_main_id','=',$billMainID)->exists();
             if($createOrUpdate){
@@ -96,6 +98,32 @@ class BillingDetailsController extends Controller
                 }
                 $billMain->updated_by = $user;
                 $billMain->save();
+
+                $transaction = Transaction::where('referrence_id','=',$billMainID)->where('service_category_id','=',2)->first();
+
+                $transaction->patient_id = (int)$billMain->patient_id;
+                $transaction->patient_name = $billMain->patient_name;
+                $transaction->referrence_id = (int)$billMainID;
+                $transaction->service_category_id = 2;
+                $transaction->transaction_date = $date;
+                $transaction->prev_due = 0;
+                $transaction->prev_paid = 0;
+                $transaction->total_amount = $request->bill_amount;;
+                $transaction->payable_amount = $request->bill_total_amount;
+                $transaction->discount_percent = $request->bill_in_per;
+                $transaction->discount_amount = $request->bill_dis_amt;
+                $transaction->paid_amount = $request->bill_paid_amount;
+                $transaction->due_amount = $request->bill_due_amount;
+                $transaction->return_amount = 0;
+                $transaction->returned_status = 0;
+                if((int)$request->bill_due_amount <= 0){
+                    $transaction->paid_status  = true;
+                }else{
+                    $transaction->paid_status  = false;
+                }
+                $transaction->updated_by = $user;
+                $transaction->save();
+
                 return $billMain;
 
             }else{
@@ -172,7 +200,7 @@ class BillingDetailsController extends Controller
             }
 
         }
-        return "Hare";
+        return response()->json(["message"=>"Bill Already Closed"]);
     }
 
     /**

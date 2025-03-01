@@ -34,7 +34,7 @@ use App\Http\Controllers\Backend\ServiceTypeController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\BillingController;
 use App\Http\Controllers\Backend\BillingDetailsController;
-
+use App\Http\Controllers\Backend\CollectionReportController;
 
 
 
@@ -348,7 +348,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
     Route::get('billing-pdf/{id}',[BillingController::class,'pdf'])->name('billing.pdf');
     Route::get('due-pdf/{id}',[DueController::class,'pdf'])->name('due.pdf');
 
-
+    Route::resource('/collectionreport',CollectionReportController::class)->names([
+            'index'=>'collectionreport.home',
+            'create'=>'collectionreport.create',
+            'show'=>'collectionreport.show',
+            'store'=>'collectionreport.save',
+            'edit'=>'collectionreport.edit',
+            'update'=>'collectionreport.update',
+            'destroy'=>'collectionreport.delete'
+        ]);
 
 
     });

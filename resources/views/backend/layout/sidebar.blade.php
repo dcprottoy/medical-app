@@ -274,6 +274,12 @@
                             <p>Due Collection</p>
                         </a>
                     </li>
+                    <li class="nav-item " >
+                        <a href="{{route('collectionreport.home')}}" class="nav-link {{ Route::currentRouteName() == 'collectionreport.home'||Route::currentRouteName() == 'collectionreport.create'||Route::currentRouteName() == 'collectionreport.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Collection Report</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
           <!-- Log Out Button Start -->
