@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
-class CollectionReportController extends Controller
+class CollectionSummaryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,10 +28,9 @@ class CollectionReportController extends Controller
     {
         $date = Carbon::now()->format('Y-m-d');
         $data['date'] = $date;
-        // $date1 = $request->from_date;
-        // $date2 = $request->to_date;
         $data['transactions'] = Transaction::where('transaction_date',$date)->get();
-        return view('backend.transactionreport.index',$data);
+        $data['bills'] = BillMain::with('patient')->with('reference')->where('bill_date',$date)->get();
+        return view('backend.transactionsummary.index',$data);
     }
 
     /**

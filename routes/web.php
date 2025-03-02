@@ -34,6 +34,7 @@ use App\Http\Controllers\Backend\ServiceTypeController;
 use App\Http\Controllers\Backend\ServiceController;
 use App\Http\Controllers\Backend\BillingController;
 use App\Http\Controllers\Backend\BillingDetailsController;
+use App\Http\Controllers\Backend\CollectionSummaryController;
 use App\Http\Controllers\Backend\CollectionReportController;
 
 
@@ -356,6 +357,16 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'collectionreport.edit',
             'update'=>'collectionreport.update',
             'destroy'=>'collectionreport.delete'
+        ]);
+
+        Route::resource('/collectionsummary',CollectionSummaryController::class)->names([
+            'index'=>'collectionsummary.home',
+            'create'=>'collectionsummary.create',
+            'show'=>'collectionsummary.show',
+            'store'=>'collectionsummary.save',
+            'edit'=>'collectionsummary.edit',
+            'update'=>'collectionsummary.update',
+            'destroy'=>'collectionsummary.delete'
         ]);
 
 

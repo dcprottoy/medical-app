@@ -10,30 +10,34 @@
                 </div>
                 <form action="{{route('collectionreport.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    {{-- <div class="card-body">
+                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label> Service Category Name</label>
-                                    <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Service Category Name">
+                            <div class="form-group  col-lg-3">
+                                <label>From Date</label>
+                                <div class="input-group date" id="from_date" data-target-input="nearest">
+                                    <input type="text" class="form-control form-control-sm datetimepicker-input" value="{{@$date1 ? $date1:$date}}" data-target="#from_date" name="from_date" id="date"/>
+                                    <div class="input-group-append" data-target="#from_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="form-group col-lg-4">
-                                <label>Status</label><br>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="status" value="Y" required checked>
-                                  <label class="form-check-label">Active</label>
+                            <div class="form-group  col-lg-3">
+                                <label>To Date</label>
+                                <div class="input-group date" id="to_date" data-target-input="nearest">
+                                    <input type="text" class="form-control form-control-sm datetimepicker-input"  value="{{@$date2 ? $date2:$date}}"  data-target="#to_date" name="to_date" id="date"/>
+                                    <div class="input-group-append" data-target="#to_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                  <input class="form-check-input" type="radio" name="status" value="N">
-                                  <label class="form-check-label">Deactive</label>
-                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-sm btn-success mt-4">&nbsp;Show&nbsp;</button>
                             </div>
                         </div>
-                    </div> --}}
-                    <div class="card-footer text-right">
-                        <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
-                        <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
                     </div>
                 </form>
             </div>
@@ -100,7 +104,7 @@
                                 <td class="text-center">
                                     {!! $item->paid_amount !!}
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center" style ="{{$item->due_amount > 0 ? 'color:red;font-weight:bold;':''}}">
                                     {!! $item->due_amount !!}
                                 </td>
                                 <td class="text-center">
@@ -111,77 +115,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="m-3">
-                    {{-- {{ $service_category->links('pagination::bootstrap-4')}} --}}
-                </div>
             </div>
-            {{-- <div class="modal fade" id="modal-default-delete">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <form action="" method="post" id="delete-modal">
-                            @csrf
-                            @method('DELETE')
-                            <div class="modal-header">
-                                <h4 class="modal-title">Delete Service Category</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p>One fine body&hellip;</p>
-                                </div>
-                                <div class="modal-footer justify-content-between">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="modal-default-update">
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
-                        <form action="" method="post" id="update-modal">
-                            @csrf
-                            @method('PUT')
-                            <div class="modal-header">
-                                <h4 class="modal-title">Update Service Category Information</h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                @csrf
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label>Service Category Name</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Service Category Name" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group col-lg-4">
-                                            <label>Status</label><br>
-                                            <div class="form-check  form-check-inline">
-                                                <input class="form-check-input" type="radio" id="u-active" name="status" value="Y" required>
-                                                <label class="form-check-label">Active</label>
-                                            </div>
-                                            <div class="form-check  form-check-inline">
-                                                <input class="form-check-input" type="radio" name="status" id="u-deactive" value="N">
-                                                <label class="form-check-label">Deactive</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer justify-content-between" id="up-pl">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-warning">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>
@@ -189,6 +123,12 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
+        $('#from_date').datetimepicker({
+                format: 'YYYY-MM-DD',
+        });
+        $('#to_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+        });
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
             let link = "{{url('servicecategory/')}}/"+id;
