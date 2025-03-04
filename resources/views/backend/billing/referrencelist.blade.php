@@ -68,9 +68,11 @@
                             if('success' in response)
                             toastr.success(response.success);
                             console.log(response);
+                            $('#refereceList').modal("hide");
                         }
                     });
                 }else{
+                    $('#refereceList').modal("hide");
                     toastr.error('Please Select Bill');
                 }
 
@@ -123,6 +125,7 @@
                                 console.log(response);
                                 $("#reference-id").text(response.data.reference_id);
                                 $("#reference-name").text(response.data.name_eng);
+
                             }
                         });
                     }else{

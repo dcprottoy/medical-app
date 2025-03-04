@@ -140,6 +140,7 @@
                                 $(this).closest("tr").remove();
                                 calculateBill();
                             });
+                            $('#billList').modal("hide");
                     }
                 });
 
