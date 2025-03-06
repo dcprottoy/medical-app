@@ -16,7 +16,7 @@ class InvestigationEquipmentControllers extends Controller
      */
     public function index()
     {
-        $data['inv_equip'] = BillItems::where('service_category_id',3)->paginate(5);
+        $data['inv_equip'] = BillItems::where('service_category_id',3)->get();
         return view('backend.investigationequipment.index',$data);
     }
 

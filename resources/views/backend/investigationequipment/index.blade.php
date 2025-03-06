@@ -158,9 +158,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="m-3">
-                    {{ $inv_equip->links('pagination::bootstrap-4')}}
-                </div>
+
             </div>
             <div class="modal fade" id="modal-default-delete">
                 <div class="modal-dialog modal-md">
@@ -410,7 +408,7 @@
         $("#example1").DataTable({"order": [[0, 'desc']],
         "responsive": true, "lengthChange": false, "autoWidth": false,
         //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-        "buttons": ["excel"]
+        // "buttons": ["excel"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
     });

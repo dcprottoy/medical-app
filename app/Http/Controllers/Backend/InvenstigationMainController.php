@@ -28,7 +28,7 @@ class InvenstigationMainController extends Controller
         $data['inv_types'] = InvestigationType::where('status','=','Y')->get();
         $data['inv_groups'] = InvestigationGroup::where('status','=','Y')->get();
         $data['durations'] = InvestigationType::where('status','=','Y')->pluck('duration','id');
-        $data['bill_items'] = BillItems::where('service_category_id',2)->paginate(5);
+        $data['bill_items'] = BillItems::where('service_category_id',2)->get();
 
         return view('backend.investigationmain.index',$data);
     }

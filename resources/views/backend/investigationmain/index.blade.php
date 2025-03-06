@@ -115,7 +115,7 @@
                   </div>
                 </div>
                 <div class="card-body p-0" style = "min-height:500px;">
-                  <table class="table table-striped projects">
+                  <table class="table table-striped projects" id="example1">
                       <thead>
                           <tr>
                                 <th style="width: 3%">
@@ -206,9 +206,7 @@
                       </tbody>
                   </table>
                 </div>
-                <div class="m-3">
-                    {{ $bill_items->links('pagination::bootstrap-4')}}
-                </div>
+
             </div>
             <div class="modal fade" id="modal-default-update">
                 <div class="modal-dialog modal-xl">
@@ -350,6 +348,9 @@
             $('#investigation-duration').val(selected_value);
         });
 
+
+
+
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
@@ -467,7 +468,7 @@
                 }
            }
 
-        })
+        });
         $("#updateDiscountAbleCheckbox").on('click',function(e){
            let testData = $(this).prop('checked');
            console.log(testData)
@@ -478,19 +479,26 @@
             $("#u-discount-per").attr('readonly',true);
             $("#u-discount-amount").attr('readonly',true);
             let price = $("#u-price").val();
-           $("#u-discount-per").val(0);
+            $("#u-discount-per").val(0);
+            $("#u-discount-amount").val(0);
+            if(price!=""){
+                $("#u-final-price").val(Number(price));
+                $("#u-discount-per").val(0);
                 $("#u-discount-amount").val(0);
-                if(price!=""){
-                    $("#u-final-price").val(Number(price));
-                    $("#u-discount-per").val(0);
-                    $("#u-discount-amount").val(0);
-                    $("#u-discount-per").attr('readonly',false);
-                    $("#u-discount-amount").attr('readonly',false);
-
-                }
+                $("#u-discount-per").attr('readonly',false);
+                $("#u-discount-amount").attr('readonly',false);
+            }
            }
+        });
 
-        })
+
+        $("#example1").DataTable({"order": [[0, 'desc']],
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        //   "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        // "buttons": ["excel"]
+        }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+
+
     });
 </script>
 
