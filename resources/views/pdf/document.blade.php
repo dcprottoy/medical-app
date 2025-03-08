@@ -77,21 +77,21 @@
     <table width="100%" style="font-size:14px;width:100%;margin-top:5px;border:1px solid black;border-collapse: collapse;">
         <tbody>
             <tr  style="text-align:left;font-weight:600;">
-                <td style="width: 5%;text-align:left;padding:2px;border-bottom:1px solid black;">SL</td>
-                <td style="width: 30%;padding:2px;text-align:left;border-bottom:1px solid black;border-left:1px solid black;">Item Name</td>
-                {{-- <td style="width: 15%;text-align:center;border-bottom:1px solid black;border-left:1px solid black;">Room No</td> --}}
-                <td style="width: 15%;padding:2px;text-align:center;border-bottom:1px solid black;border-left:1px solid black;">Rate</td>
-                <td style="width: 15%;padding:2px;text-align:center;border-bottom:1px solid black;border-left:1px solid black;">Qty</td>
-                <td style="width: 15%;padding:2px;text-align:right;border-bottom:1px solid black;border-left:1px solid black;">Amount</td>
+                <td style="width: 5%;text-align:left;padding:2px;">SL</td>
+                <td style="width: 30%;padding:2px;text-align:left;border-left:1px solid black;">Item Name</td>
+                {{-- <td style="width: 15%;text-align:center;border-left:1px solid black;">Room No</td> --}}
+                <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Rate</td>
+                <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Qty</td>
+                <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
             </tr>
             @foreach ($details as $item)
                 <tr >
-                    <td style="text-align:center;padding:2px;">{!! ++$i !!}</td>
-                    <td style="">{!! $item->item_name !!}</td>
+                    <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
+                    <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
                     {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                    <td style="text-align:center;padding:2px;">{!! $item->item_rate !!}</td>
-                    <td style="text-align:center;padding:2px;">{!! $item->quantity !!}</td>
-                    <td style="text-align:right;padding:2px;">{!! $item->price !!}</td>
+                    <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->item_rate !!}</td>
+                    <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->quantity !!}</td>
+                    <td style="text-align:right;padding:2px;border-top:1px solid black;">{!! $item->price !!}</td>
 
                 </tr>
             @endforeach
@@ -176,16 +176,15 @@
         @endphp
         @if(count($roomList) > 1 )
             @foreach ($roomList as $room)
-            <table style="line-height: 1em;padding:0px;" class="page-break">
+            <table style="line-height: 1em;padding:0px;"  class="page-break">
                 <tr>
-                    <td style="padding:0px;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
+                    <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
                     <td >
                         <span style="font-size:30px;">Alif Medical Centre</span></br>
                         <span style="font-size:16px;">Polashbari Bus Stand</span></br>
                         <span style="font-size:16px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
                     </td>
-                    <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;">Diagonostic Invoice</td>
-
+                    <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
             </table>
             <table style="width:100%;">
                 <tr>
@@ -218,10 +217,10 @@
                     <td style="width: 20%;">Phone No.</td>
                     <td style="width: 30%;">: {!! $main->patient->contact_no !!}</td>
                     <td style="width: 20%;text-align:right;">Gender</td>
-                    <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!}</td>
+                    <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!} </td>
                 </tr>
                 <tr>
-                    <td style="width: 20%;">Referrenced By</td>
+                    <td style="width: 25%;vertical-align: top;">Referrenced By</td>
                     <td colspan="3">: {!! @$main->reference->name_eng !!}</td>
 
                 </tr>
@@ -229,63 +228,63 @@
             @php
                 $i=0;
             @endphp
-            <table cellpadding="2px" cellspacing="2px" width="100%" style="font-size:14px;width:100%;margin-top:5px;">
+            <table width="100%" style="font-size:14px;width:100%;margin-top:5px;border:1px solid black;border-collapse: collapse;">
                 <tbody>
                     <tr  style="text-align:left;font-weight:600;">
-                        <td style="width: 5%;text-align:left;border-bottom:1px solid black;">SL</td>
-                        <td style="width: 30%;text-align:left;border-bottom:1px solid black;">Item Name</td>
-                        {{-- <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Room No</td> --}}
-                        <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Rate</td>
-                        <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Qty</td>
-                        <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Amount</td>
+                        <td style="width: 5%;text-align:left;padding:2px;">SL</td>
+                        <td style="width: 30%;padding:2px;text-align:left;border-left:1px solid black;">Item Name</td>
+                        {{-- <td style="width: 15%;text-align:center;border-left:1px solid black;">Room No</td> --}}
+                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Rate</td>
+                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Qty</td>
+                        <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
                     </tr>
                     @foreach ($details as $item)
                         <tr >
-                            <td style="text-align:center;">{!! ++$i !!}</td>
-                            <td style="">{!! $item->item_name !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
+                            <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
                             {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                            <td style="text-align:center;">{!! $item->item_rate !!}</td>
-                            <td style="text-align:center;">{!! $item->quantity !!}</td>
-                            <td style="text-align:center;">{!! $item->price !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->item_rate !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->quantity !!}</td>
+                            <td style="text-align:right;padding:2px;border-top:1px solid black;">{!! $item->price !!}</td>
 
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <table cellpadding="4px" cellspacing="2px" width="100%" style="font-size:14px;border-top:1px solid black;">
+            <table width="100%" style="font-size:14px;border:1px solid black;border-top:none;border-collapse: collapse;">
                 <tbody>
                     <tr>
-                        <td rowspan="2" colspan="3" style="text-align:right;">
+                        <td rowspan="3" style="text-align:right;">
                             <span style="text-align:left;font-size:12px;display:block;">Bill Date: {!! $main->created_at !!}</span>
                             <span style="text-align:left;font-size:12px;display:block;">Printed by: {!! $printed_by !!}</span>
                             <span style="text-align:left;font-size:12px;display:block;">Printed date: {!! $print_date !!}</span>
                         </td>
-                        <td colspan="2" style="text-align:right;">Total Amount :</td>
-                        <td style="text-align:center;"> {!! $main->total_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align:right;">Discount Amount :</td>
-                        <td style="text-align:center;font-weight:bold;"> {!! $main->discount_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="text-align:right;">
+                        <td rowspan="3" style="text-align:right;">
                             <span style="border:3px solid black;padding:10px;border-radius:10px;font-weight:bolder;">{!! (int)$main->paid_status == 0 ?"DUE":"PAID" !!}</span>
                         </td>
+                        <td colspan="2" style="text-align:right;">Total Amount :</td>
+                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->total_amount !!}</td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="2"  style="text-align:right;">Discount Amount :</td>
+                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->discount_amount !!}</td>
+                    </tr>
+                    <tr>
+
                         <td colspan="2" style="text-align:right;">Payable Amount :</td>
-                        <td style="text-align:center;"> {!! $main->payable_amount !!}</td>
+                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->payable_amount !!}</td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align:left;font-size:10px;">
-                        In words : {!! $paidinwords !!} tk only.
-                        </td>
+                        <td rowspan="2" colspan="2" style="text-align:left;font-size:12px;font-weight:bold;">In words :{!! $paidinwords !!} tk only.</td>
                         <td colspan="2" style="text-align:right;">Paid Amount :</td>
-                        <td style="text-align:center;font-weight:bold;"> {!! $main->paid_amount !!}</td>
+                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->paid_amount !!}</td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align:right;"></td>
                         <td colspan="2" style="text-align:right;">Due Amount :</td>
-                        <td style="text-align:center;font-weight:bold;"> {!! $main->due_amount !!}</td>
+                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->due_amount !!}</td>
                     </tr>
+
 
                 </tbody>
             </table>
@@ -324,14 +323,13 @@
         @else
             <table style="line-height: 1em;padding:0px;" class="page-break">
                 <tr>
-                    <td style="padding:0px;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
+                    <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
                     <td >
                         <span style="font-size:30px;">Alif Medical Centre</span></br>
                         <span style="font-size:16px;">Polashbari Bus Stand</span></br>
                         <span style="font-size:16px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
                     </td>
-                    <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;">Diagonostic Invoice</td>
-
+                    <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
             </table>
             <table style="width:100%;">
                 <tr>
@@ -364,10 +362,10 @@
                     <td style="width: 20%;">Phone No.</td>
                     <td style="width: 30%;">: {!! $main->patient->contact_no !!}</td>
                     <td style="width: 20%;text-align:right;">Gender</td>
-                    <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!}</td>
+                    <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!} </td>
                 </tr>
                 <tr>
-                    <td style="width: 20%;">Referrenced By</td>
+                    <td style="width: 25%;vertical-align: top;">Referrenced By</td>
                     <td colspan="3">: {!! @$main->reference->name_eng !!}</td>
 
                 </tr>
@@ -375,63 +373,63 @@
             @php
                 $i=0;
             @endphp
-            <table cellpadding="2px" cellspacing="2px" width="100%" style="font-size:14px;width:100%;margin-top:5px;">
+            <table width="100%" style="font-size:14px;width:100%;margin-top:5px;border:1px solid black;border-collapse: collapse;">
                 <tbody>
                     <tr  style="text-align:left;font-weight:600;">
-                        <td style="width: 5%;text-align:left;border-bottom:1px solid black;">SL</td>
-                        <td style="width: 30%;text-align:left;border-bottom:1px solid black;">Item Name</td>
-                        {{-- <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Room No</td> --}}
-                        <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Rate</td>
-                        <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Qty</td>
-                        <td style="width: 15%;text-align:center;border-bottom:1px solid black;">Amount</td>
+                        <td style="width: 5%;text-align:left;padding:2px;">SL</td>
+                        <td style="width: 30%;padding:2px;text-align:left;border-left:1px solid black;">Item Name</td>
+                        {{-- <td style="width: 15%;text-align:center;border-left:1px solid black;">Room No</td> --}}
+                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Rate</td>
+                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Qty</td>
+                        <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
                     </tr>
                     @foreach ($details as $item)
                         <tr >
-                            <td style="text-align:center;">{!! ++$i !!}</td>
-                            <td style="">{!! $item->item_name !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
+                            <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
                             {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                            <td style="text-align:center;">{!! $item->item_rate !!}</td>
-                            <td style="text-align:center;">{!! $item->quantity !!}</td>
-                            <td style="text-align:center;">{!! $item->price !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->item_rate !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->quantity !!}</td>
+                            <td style="text-align:right;padding:2px;border-top:1px solid black;">{!! $item->price !!}</td>
 
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            <table cellpadding="4px" cellspacing="2px" width="100%" style="font-size:14px;border-top:1px solid black;">
+            <table width="100%" style="font-size:14px;border:1px solid black;border-top:none;border-collapse: collapse;">
                 <tbody>
                     <tr>
-                        <td rowspan="2" colspan="3" style="text-align:right;">
+                        <td rowspan="3" style="text-align:right;">
                             <span style="text-align:left;font-size:12px;display:block;">Bill Date: {!! $main->created_at !!}</span>
                             <span style="text-align:left;font-size:12px;display:block;">Printed by: {!! $printed_by !!}</span>
                             <span style="text-align:left;font-size:12px;display:block;">Printed date: {!! $print_date !!}</span>
                         </td>
-                        <td colspan="2" style="text-align:right;">Total Amount :</td>
-                        <td style="text-align:center;"> {!! $main->total_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align:right;">Discount Amount :</td>
-                        <td style="text-align:center;font-weight:bold;"> {!! $main->discount_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" style="text-align:right;">
+                        <td rowspan="3" style="text-align:right;">
                             <span style="border:3px solid black;padding:10px;border-radius:10px;font-weight:bolder;">{!! (int)$main->paid_status == 0 ?"DUE":"PAID" !!}</span>
                         </td>
+                        <td colspan="2" style="text-align:right;">Total Amount :</td>
+                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->total_amount !!}</td>
+                    </tr>
+                    <tr>
+
+                        <td colspan="2"  style="text-align:right;">Discount Amount :</td>
+                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->discount_amount !!}</td>
+                    </tr>
+                    <tr>
+
                         <td colspan="2" style="text-align:right;">Payable Amount :</td>
-                        <td style="text-align:center;"> {!! $main->payable_amount !!}</td>
+                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->payable_amount !!}</td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align:left;font-size:10px;">
-                        In words : {!! $paidinwords !!} tk only.
-                        </td>
+                        <td rowspan="2" colspan="2" style="text-align:left;font-size:12px;font-weight:bold;">In words :{!! $paidinwords !!} tk only.</td>
                         <td colspan="2" style="text-align:right;">Paid Amount :</td>
-                        <td style="text-align:center;font-weight:bold;"> {!! $main->paid_amount !!}</td>
+                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->paid_amount !!}</td>
                     </tr>
                     <tr>
-                        <td colspan="3" style="text-align:right;"></td>
                         <td colspan="2" style="text-align:right;">Due Amount :</td>
-                        <td style="text-align:center;font-weight:bold;"> {!! $main->due_amount !!}</td>
+                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->due_amount !!}</td>
                     </tr>
+
 
                 </tbody>
             </table>

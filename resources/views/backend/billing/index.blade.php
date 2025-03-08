@@ -129,7 +129,7 @@ body * { visibility: hidden; }
                         <div class="card-body p-1">
                             <div class="row">
                                 <div class="col-sm-4 form-group m-0">
-                                    <select class="form-control form-control-sm"  name="investigation_type_id">
+                                    <select class="form-control form-control-sm"  name="investigation_type_id" id="investigation_type_id">
                                     <option value="0" selected >All</option>
                                     @foreach($service_category as $item)
                                     <option value="{{$item->id}}">{{$item->name_eng}}</option>
@@ -343,199 +343,204 @@ body * { visibility: hidden; }
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
         });
-        $(".bill-item-add").on('click',function(){
-            let id = $(this).attr('data-id');
+        function billItemAdd(id){
                 myElement2='';
                 $.ajax({
-                        url: "{{url('billingitems/')}}/"+id,
-                        success: function (result) {
-                            console.log(result);
-                            if($("#qty"+result.item.id).val()){
-                                        console.log($("#qty"+result.item.id).val())
-                                        let qty = $("#qty"+result.item.id).val();
-                                        let amt = $("#amt"+result.item.id).val();
-                                        let disc_per = $("#dis-per"+result.item.id).val();
-                                        let total_qty = Number(qty)+1;
-                                        let total_amt = (Number(result.item.price)*total_qty).toFixed(2);
-                                        let discount_amount = ((Number(disc_per)/100)*Number(result.item.price)).toFixed(2);
-                                        let total_dis_amt = discount_amount*total_qty;
-                                        let total_payable_amt = (total_amt- total_dis_amt).toFixed(2);
+                    url: "{{url('billingitems/')}}/"+id,
+                    success: function (result) {
+                        console.log(result);
+                        if($("#qty"+result.item.id).val()){
+                                console.log($("#qty"+result.item.id).val())
+                                let qty = $("#qty"+result.item.id).val();
+                                let amt = $("#amt"+result.item.id).val();
+                                let disc_per = $("#dis-per"+result.item.id).val();
+                                let total_qty = Number(qty)+1;
+                                let total_amt = (Number(result.item.price)*total_qty).toFixed(2);
+                                let discount_amount = ((Number(disc_per)/100)*Number(result.item.price)).toFixed(2);
+                                let total_dis_amt = discount_amount*total_qty;
+                                let total_payable_amt = (total_amt- total_dis_amt).toFixed(2);
 
-                                        $("#qty"+result.item.id).val(total_qty);
-                                        $("#amt"+result.item.id).val(total_amt);
-                                        $("#dis-amt"+result.item.id).val(total_dis_amt);
-                                        $("#total-payable"+result.item.id).val(total_payable_amt);
+                                $("#qty"+result.item.id).val(total_qty);
+                                $("#amt"+result.item.id).val(total_amt);
+                                $("#dis-amt"+result.item.id).val(total_dis_amt);
+                                $("#total-payable"+result.item.id).val(total_payable_amt);
 
-                                        calculateBill();
+                                calculateBill();
+                        }else{
+                            let discount_per_final =  $("#bill-in-per").val();
+                            let disc_amount = 0;
+                            if(Boolean(result.item.discountable)&&(!isNaN(discount_per_final) && discount_per_final!="" && discount_per_final > 0)){
+                                discount_per_cal = Number(discount_per_final);
+                            }else if(Boolean(result.item.discountable)){
+                                discount_per_cal = Number(result.item.discount_per);
                             }else{
-                                let discount_per_final =  $("#bill-in-per").val();
-                                let disc_amount = 0;
-                                if(Boolean(result.item.discountable)&&(!isNaN(discount_per_final) && discount_per_final!="" && discount_per_final > 0)){
-                                    discount_per_cal = Number(discount_per_final);
-                                }else if(Boolean(result.item.discountable)){
-                                    discount_per_cal = Number(result.item.discount_per);
-                                }else{
-                                    discount_per_cal = 0;
-                                }
-                                disc_amount = ((discount_per_cal/100)*Number(result.item.price)).toFixed(2);
+                                discount_per_cal = 0;
+                            }
+                            disc_amount = ((discount_per_cal/100)*Number(result.item.price)).toFixed(2);
 
-                                let  myElement =`<tr>
-                                        <td>
-                                            <input type="hidden" name="bill_item[]" value="${result.item.id}" />
-                                            <input type="hidden" name="discountable[${result.item.id}]" value="${result.item.discountable}" />
-                                            <input type="hidden" name="service_category_id[${result.item.id}]" value="${result.item.service_category_id}" />
-                                            ${result.item.item_name}
-                                        </td>
-                                        <td id="price${result.item.id}">${result.item.price}</td>
-                                        <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${result.item.id}" type="text" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
-                                        <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${result.item.id}" data-id="${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.price)}" readonly></td>
-                                        <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${result.item.id}" data-discountable="${result.item.discountable}" type="text" id="dis-per${result.item.id}" name="discount_per[${result.item.id}]" value="${discount_per_cal}" ${Boolean(result.item.discountable)?"":"readonly"}></td>
-                                        <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${result.item.id}" type="text" id="dis-amt${result.item.id}" name="discount_amt[${result.item.id}]" value="${disc_amount}" ${Boolean(result.item.discountable)?"":"readonly"}></td>
-                                        <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${result.item.id}" type="text" id="total-payable${result.item.id}" name="total_payable[${result.item.id}]" value="${(Number(result.item.price)-disc_amount).toFixed(2)}"></td>
-                                        <td>
-                                            <div class="input-group date  w-100" id="delivery_date${result.item.id}" data-target-input="nearest">
-                                                <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${result.item.id}" name="delivery_date[${result.item.id}]"  readonly}/>
-                                                <div class="input-group-append" data-target="#delivery_date${result.item.id}" data-toggle="datetimepicker">
-                                                    <div class="input-group-text">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
+                            let  myElement =`<tr>
+                                    <td>
+                                        <input type="hidden" name="bill_item[]" value="${result.item.id}" />
+                                        <input type="hidden" name="discountable[${result.item.id}]" value="${result.item.discountable}" />
+                                        <input type="hidden" name="service_category_id[${result.item.id}]" value="${result.item.service_category_id}" />
+                                        ${result.item.item_name}
+                                    </td>
+                                    <td id="price${result.item.id}">${result.item.price}</td>
+                                    <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${result.item.id}" type="text" id="qty${result.item.id}" name="quantity[${result.item.id}]" value="1"></td>
+                                    <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${result.item.id}" data-id="${result.item.id}" name="amount[${result.item.id}]" value="${Number(result.item.price)}" readonly></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${result.item.id}" data-discountable="${result.item.discountable}" type="text" id="dis-per${result.item.id}" name="discount_per[${result.item.id}]" value="${discount_per_cal}" ${Boolean(result.item.discountable)?"":"readonly"}></td>
+                                    <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${result.item.id}" type="text" id="dis-amt${result.item.id}" name="discount_amt[${result.item.id}]" value="${disc_amount}" ${Boolean(result.item.discountable)?"":"readonly"}></td>
+                                    <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${result.item.id}" type="text" id="total-payable${result.item.id}" name="total_payable[${result.item.id}]" value="${(Number(result.item.price)-disc_amount).toFixed(2)}"></td>
+                                    <td>
+                                        <div class="input-group date  w-100" id="delivery_date${result.item.id}" data-target-input="nearest">
+                                            <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${result.item.id}" name="delivery_date[${result.item.id}]"  readonly}/>
+                                            <div class="input-group-append" data-target="#delivery_date${result.item.id}" data-toggle="datetimepicker">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar"></i>
                                                 </div>
                                             </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
-                                                <i class="fas fa-times p-1"></i>
-                                            </button>
-                                        </td>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
+                                            <i class="fas fa-times p-1"></i>
+                                        </button>
+                                    </td>
 
-                                        </tr>
-                                    `;
-                                    if(result.item.service_category_id == 2){
-                                        $("#bill-item-add-list").append(myElement);
-                                    }else if(result.item.service_category_id == 3){
-                                        $("#bill-equip-add-list").append(myElement);
-                                    }else if(result.item.service_category_id == 4){
-                                        $("#bill-service-add-list").append(myElement);
+                                    </tr>
+                                `;
+                                if(result.item.service_category_id == 2){
+                                    $("#bill-item-add-list").append(myElement);
+                                }else if(result.item.service_category_id == 3){
+                                    $("#bill-equip-add-list").append(myElement);
+                                }else if(result.item.service_category_id == 4){
+                                    $("#bill-service-add-list").append(myElement);
+                                }
+                                calculateBill();
+                                $(function () {
+                                    let todaydate = new Date();
+                                    $("#delivery_date"+result.item.id).datetimepicker({
+                                        format: 'YYYY-MM-DD',
+                                        defaultDate: todaydate.setDate(todaydate.getDate() + result.item.duration),
+                                    });
+
+                                });
+
+                        }
+                        if(result.equipments){
+                            result.equipments.map(x=>{
+                                if($("#qty"+x.equip.id).val()){
+                                    console.log($("#qty"+x.equip.id).val())
+                                    let qty = $("#qty"+x.equip.id).val();
+                                    let amt = $("#amt"+x.equip.id).val();
+                                    let disc_per = $("#dis-per"+x.equip.id).val();
+                                    let total_qty = Number(qty)+Number(x.quantity);
+                                    let total_amt = (Number(x.equip.price)*total_qty).toFixed(2);
+                                    let discount_amount = ((Number(disc_per)/100)*Number(x.equip.price)).toFixed(2);
+                                    let total_dis_amt = discount_amount*total_qty;
+                                    let total_payable_amt = (total_amt- total_dis_amt).toFixed(2);
+
+                                    $("#qty"+x.equip.id).val(total_qty);
+                                    $("#amt"+x.equip.id).val(total_amt);
+                                    $("#dis-amt"+x.equip.id).val(total_dis_amt);
+                                    $("#total-payable"+x.equip.id).val(total_payable_amt);
+
+                                    calculateBill();
+                                }else{
+
+                                    let discount_per_final =  $("#bill-in-per").val();
+                                    let disc_amount = 0;
+                                    if(Boolean(x.equip.discountable)&&(!isNaN(discount_per_final)&&discount_per_final!=""  && discount_per_final > 0)){
+
+                                        discount_per_cal = Number(discount_per_final);
+                                    }else{
+                                        discount_per_cal = Number(x.equip.discount_per);
                                     }
+                                    disc_amount = ((Number(discount_per_cal)/100)*Number(x.equip.price)).toFixed(2);
+
+                                    myElement2 +=`<tr>
+                                <td>
+                                    <input type="hidden" name="bill_item[]" value="${x.equip.id}" />
+                                    <input type="hidden" name="discountable[${x.equip.id}]" value="${x.equip.discountable}" />
+                                    <input type="hidden" name="service_category_id[${x.equip.id}]" value="${x.equip.service_category_id}" />
+                                    ${x.equip.item_name}
+                                </td>
+                                <td id="price${x.equip.id}">${x.equip.price}</td>
+                                <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${x.equip.id}" type="text" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="${x.quantity}"></td>
+                                <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${x.equip.id}" data-id="${result.item.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.price)}" readonly></td>
+                                <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${x.equip.id}" data-discountable="${x.equip.discountable}" type="text" id="dis-per${x.equip.id}" name="discount_per[${x.equip.id}]" value="${discount_per_cal}" ${Boolean(x.equip.discountable)?"":"readonly"}></td>
+                                <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${x.equip.id}" type="text" id="dis-amt${x.equip.id}" name="discount_amt[${x.equip.id}]" value="${disc_amount}" ${Boolean(x.equip.discountable)?"":"readonly"}></td>
+                                <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${x.equip.id}" type="text" id="total-payable${x.equip.id}" name="total_payable[${x.equip.id}]" value="${(Number(x.equip.price)-disc_amount).toFixed(2)}"></td>
+                                <td>
+                                    <div class="input-group date  w-100" id="delivery_date${x.equip.id}" data-target-input="nearest">
+                                        <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${x.equip.id}" name="delivery_date[${x.equip.id}]" readonly/>
+                                        <div class="input-group-append" data-target="#delivery_date${x.equip.id}" data-toggle="datetimepicker">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
+                                        <i class="fas fa-times p-1"></i>
+                                    </button>
+                                </td>
+
+                                </tr>
+                            `;
+                                    $("#bill-equip-add-list").append(myElement2);
                                     calculateBill();
                                     $(function () {
                                         let todaydate = new Date();
-                                        $("#delivery_date"+result.item.id).datetimepicker({
-                                            format: 'YYYY-MM-DD',
-                                            defaultDate: todaydate.setDate(todaydate.getDate() + result.item.duration),
-                                        });
-
+                                    $("#delivery_date"+x.equip.id).datetimepicker({
+                                        format: 'YYYY-MM-DD',
+                                        defaultDate: todaydate,
                                     });
 
-                            }
-                                if(result.equipments){
-                                    result.equipments.map(x=>{
-                                        if($("#qty"+x.equip.id).val()){
-                                            console.log($("#qty"+x.equip.id).val())
-                                            let qty = $("#qty"+x.equip.id).val();
-                                            let amt = $("#amt"+x.equip.id).val();
-                                            let disc_per = $("#dis-per"+x.equip.id).val();
-                                            let total_qty = Number(qty)+Number(x.quantity);
-                                            let total_amt = (Number(x.equip.price)*total_qty).toFixed(2);
-                                            let discount_amount = ((Number(disc_per)/100)*Number(x.equip.price)).toFixed(2);
-                                            let total_dis_amt = discount_amount*total_qty;
-                                            let total_payable_amt = (total_amt- total_dis_amt).toFixed(2);
-
-                                            $("#qty"+x.equip.id).val(total_qty);
-                                            $("#amt"+x.equip.id).val(total_amt);
-                                            $("#dis-amt"+x.equip.id).val(total_dis_amt);
-                                            $("#total-payable"+x.equip.id).val(total_payable_amt);
-
-                                            calculateBill();
-                                        }else{
-
-                                            let discount_per_final =  $("#bill-in-per").val();
-                                            let disc_amount = 0;
-                                            if(Boolean(x.equip.discountable)&&(!isNaN(discount_per_final)&&discount_per_final!=""  && discount_per_final > 0)){
-
-                                                discount_per_cal = Number(discount_per_final);
-                                            }else{
-                                                discount_per_cal = Number(x.equip.discount_per);
-                                            }
-                                            disc_amount = ((Number(discount_per_cal)/100)*Number(x.equip.price)).toFixed(2);
-
-                                            myElement2 +=`<tr>
-                                        <td>
-                                            <input type="hidden" name="bill_item[]" value="${x.equip.id}" />
-                                            <input type="hidden" name="discountable[${x.equip.id}]" value="${x.equip.discountable}" />
-                                            <input type="hidden" name="service_category_id[${x.equip.id}]" value="${x.equip.service_category_id}" />
-                                            ${x.equip.item_name}
-                                        </td>
-                                        <td id="price${x.equip.id}">${x.equip.price}</td>
-                                        <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${x.equip.id}" type="text" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="${x.quantity}"></td>
-                                        <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${x.equip.id}" data-id="${result.item.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.price)}" readonly></td>
-                                        <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${x.equip.id}" data-discountable="${x.equip.discountable}" type="text" id="dis-per${x.equip.id}" name="discount_per[${x.equip.id}]" value="${discount_per_cal}" ${Boolean(x.equip.discountable)?"":"readonly"}></td>
-                                        <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${x.equip.id}" type="text" id="dis-amt${x.equip.id}" name="discount_amt[${x.equip.id}]" value="${disc_amount}" ${Boolean(x.equip.discountable)?"":"readonly"}></td>
-                                        <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${x.equip.id}" type="text" id="total-payable${x.equip.id}" name="total_payable[${x.equip.id}]" value="${(Number(x.equip.price)-disc_amount).toFixed(2)}"></td>
-                                        <td>
-                                            <div class="input-group date  w-100" id="delivery_date${x.equip.id}" data-target-input="nearest">
-                                                <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${x.equip.id}" name="delivery_date[${x.equip.id}]" readonly/>
-                                                <div class="input-group-append" data-target="#delivery_date${x.equip.id}" data-toggle="datetimepicker">
-                                                    <div class="input-group-text">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            <button type="button" class="btn btn-danger btn-xs remove-btn" title="Remove">
-                                                <i class="fas fa-times p-1"></i>
-                                            </button>
-                                        </td>
-
-                                        </tr>
-                                    `;
-                                            $("#bill-equip-add-list").append(myElement2);
-                                            calculateBill();
-                                            $(function () {
-                                                let todaydate = new Date();
-                                            $("#delivery_date"+x.equip.id).datetimepicker({
-                                                format: 'YYYY-MM-DD',
-                                                defaultDate: todaydate,
-                                            });
-
-                                    });
-                                        }
-                                    });
+                            });
                                 }
-                                $(".billing-item-qty").on('keyup',function(e){
-                                    let id = $(this).data('id');
-                                    billItemotalCal(id);
-                                })
-                                $(".billing-item-dis-per").on('keyup',function(e){
-                                    let id = $(this).data('id');
-                                    billItemotalCal(id);
-                                })
-                                $(".billing-item-dis-amt").on('keyup',function(e){
-                                    let id = $(this).data('id');
-                                    billItemotalCal(id);
-                                })
-                                $(".billing-item-total-payable").on('keyup',function(e){
-                                    let id = $(this).data('id');
-                                    billItemotalCal(id);
-                                })
-                                $('.billing-item-amount').on('keyup',function(e){
-                                    calculateBill();
-                                });
-                                $('.remove-btn').on('click',function(e){
-                                    console.log("Prottoy");
-                                    $(this).closest("tr").remove();
-                                    calculateBill();
-                                });
-                        },
-                        error: function (req, status, error) {
+                            });
+                        }
+                        $(".billing-item-qty").on('keyup',function(e){
+                            let id = $(this).data('id');
+                            billItemotalCal(id);
+                        })
+                        $(".billing-item-dis-per").on('keyup',function(e){
+                            let id = $(this).data('id');
+                            billItemotalCal(id);
+                        })
+                        $(".billing-item-dis-amt").on('keyup',function(e){
+                            let id = $(this).data('id');
+                            billItemotalCal(id);
+                        })
+                        $(".billing-item-total-payable").on('keyup',function(e){
+                            let id = $(this).data('id');
+                            billItemotalCal(id);
+                        })
+                        $('.billing-item-amount').on('keyup',function(e){
+                            calculateBill();
+                        });
+                        $('.remove-btn').on('click',function(e){
+                            console.log("Prottoy");
+                            $(this).closest("tr").remove();
+                            calculateBill();
+                        });
+                    },
+                    error: function (req, status, error) {
                         var err = req.responseText;
                         console.log(err);
-                        }
+                    }
 
-                    });
+            });
+        }
 
+        $(".bill-item-add").on('click',function(){
+            let id = $(this).attr('data-id');
+            billItemAdd(id);
         });
+
+
         $("#new_billing_details_create").submit(function(e){
             e.preventDefault();
             let formdata = $('#new_billing_details_create').serialize();
@@ -577,6 +582,47 @@ body * { visibility: hidden; }
             }
 
         })
+
+        $("#investigation_type_id").on('change',function(e){
+            value = $(this).val();
+            console.log(value);
+                if(value){
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{url('billitemsearch')}}",
+                        data: {
+                            'search':value,
+                            '_token': '{{ csrf_token() }}',
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            let element="";
+                            response.map(x=>{
+                            element +=`
+                            <tr class="bill-item-add" data-id="${x.id}">
+                                    <td>${x.id}</td>
+                                    <td>${x.item_name}</td>
+                                    <td>${x.price}</td>
+                                </tr>`
+
+                            });
+                            $("#bill-item-list").empty();
+                            $("#bill-item-list").append(element);
+                            $(".bill-item-add").on('click',function(){
+                                let id = $(this).attr('data-id');
+                                billItemAdd(id);
+                            });
+
+                        },
+                        error:function(req,status,err){
+                            console.log(err);
+                        }
+                    });
+                }else{
+                    toastr.error('Please Select Bill');
+                }
+
+        });
 
 
     });

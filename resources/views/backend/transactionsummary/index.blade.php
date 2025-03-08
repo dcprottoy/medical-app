@@ -4,51 +4,142 @@
     <x-breadcumb title="Collection Summary"/>
     <div class="content">
         <div class="container-fluid">
-            <div class="col-sm-4">
-                <div class="card">
-                <div class="card-header border-0">
-                    <h3 class="card-title">Bill Collection Overview</h3>
-                    <div class="card-tools">
-                    <a href="#" class="btn btn-sm btn-tool">
-                        <i class="fas fa-bars"></i>
-                    </a>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                        <p class="d-flex flex-column text-right">
-                            <span class="text-muted">Today Collectable Amount</span>
-                            <span class="font-weight-bold">
-                                <i class="ion ion-android-arrow-up text-success"></i> 12%
-                            </span>
-                        </p>
-                    </div>
-                    <!-- /.d-flex -->
-                    <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
-                        <p class="d-flex flex-column text-right">
-                                <span class="text-muted">Today Collectable Amount</span>
-                                <span class="font-weight-bold">
-                                    <i class="ion ion-android-arrow-up text-success"></i> 12%
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card">
+                        @php
+                            $totalPaidAmount = collect($transactions)->sum('paid_amount');
+                            $totalDueCollectedAmount = collect($transactions)->where('prev_due','!=',0)->sum('paid_amount');
+                            $totalBillCollectedAmount = collect($transactions)->where('prev_due','=',0)->sum('paid_amount');
+
+                        @endphp
+                        <div class="card-header border-0">
+                            <h3 class="card-title"> Bill Collection Overview</h3>
+                            <div class="card-tools">
+                            </div>
+                        </div>
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right text-info">Today Bill Collected Amount</span>
+                                <span class="font-weight-bold text-xl text-info">
+                                    {!! number_format($totalBillCollectedAmount,2) !!}
                                 </span>
-                        </p>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right  text-primary">Today Due Collected</span>
+                                <span class="font-weight-bold text-xl  text-primary">
+                                    {!! number_format($totalDueCollectedAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-lg text-right text-success">Today Total Collected Amount</span>
+                                <span class="font-weight-bold text-xl text-success">
+                                    {!! number_format($totalPaidAmount,2) !!}
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                    <!-- /.d-flex -->
-                    <div class="d-flex justify-content-between align-items-center mb-0">
-                    <p class="text-danger text-xl">
-                        <i class="ion ion-ios-people-outline"></i>
-                    </p>
-                    <p class="d-flex flex-column text-right">
-                        <span class="font-weight-bold">
-                        <i class="ion ion-android-arrow-down text-danger"></i> 1%
-                        </span>
-                        <span class="text-muted">REGISTRATION RATE</span>
-                    </p>
-                    </div>
-                    <!-- /.d-flex -->
                 </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        @php
+                            $totalBillAmount = collect($transactions)->where('prev_due','=',0)->sum('total_amount');
+                            $totalDiscountAmount = collect($transactions)->where('prev_due','=',0)->sum('discount_amount');
+                            $totalCollectableAmount = collect($transactions)->where('prev_due','=',0)->sum('payable_amount');
+                            $totalPaidAmount = collect($transactions)->where('prev_due','=',0)->sum('paid_amount');
+                            $totalDueAmount = collect($transactions)->where('prev_due','=',0)->sum('due_amount');
+                        @endphp
+                        <div class="card-header border-0">
+                            <h3 class="card-title"> Bill Collection Overview</h3>
+                            <div class="card-tools">
+                                ({{ collect($transactions)->where('prev_due','=',0)->count(); }})
+                            </div>
+                        </div>
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right">Today Bill Amount</span>
+                                <span class="font-weight-bold text-xl">
+                                    {!! number_format($totalBillAmount,2) !!}
+                                </span>
+
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right">Today Discount Amount</span>
+                                <span class="font-weight-bold text-xl">
+                                    {!! number_format($totalDiscountAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right">Today Collectable Amount</span>
+                                <span class="font-weight-bold text-xl">
+                                    {!! number_format($totalCollectableAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-centerborder-bottom  mb-3">
+                                <span class="text-lg text-right text-success">Today Collected Amount</span>
+                                <span class="font-weight-bold text-xl text-success">
+                                    {!! number_format($totalPaidAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-lg text-right  text-danger">Today Due Amount</span>
+                                <span class="font-weight-bold text-xl  text-danger">
+                                    {!! number_format($totalDueAmount,2) !!}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card">
+                        @php
+                            $totalBillAmount = collect($transactions)->where('prev_due','!=',0)->sum('prev_due');
+                            $totalDiscountAmount = collect($transactions)->where('prev_due','!=',0)->sum('discount_amount');
+                            $totalCollectableAmount = collect($transactions)->where('prev_due','!=',0)->sum('payable_amount');
+                            $totalPaidAmount = collect($transactions)->where('prev_due','!=',0)->sum('paid_amount');
+                            $totalDueAmount = collect($transactions)->where('prev_due','!=',0)->sum('due_amount');
+                        @endphp
+                        <div class="card-header border-0">
+                            <h3 class="card-title"> Due Collection Overview</h3>
+                            <div class="card-tools">
+                            </div>
+                        </div>
+                        <div class="card-body pb-0">
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right">Today Due Amount</span>
+                                <span class="font-weight-bold text-xl">
+                                    {!! number_format($totalBillAmount,2) !!}
+                                </span>
+
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right">Today Discount Amount</span>
+                                <span class="font-weight-bold text-xl">
+                                    {!! number_format($totalDiscountAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right">Today Collectable Amount</span>
+                                <span class="font-weight-bold text-xl">
+                                    {!! number_format($totalCollectableAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+                                <span class="text-lg text-right text-success">Today Collected Amount</span>
+                                <span class="font-weight-bold text-xl text-success">
+                                    {!! number_format($totalPaidAmount,2) !!}
+                                </span>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="text-lg text-right  text-danger">Today Due Amount</span>
+                                <span class="font-weight-bold text-xl  text-danger">
+                                    {!! number_format($totalDueAmount,2) !!}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

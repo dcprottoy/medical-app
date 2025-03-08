@@ -128,6 +128,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
         Route::put('/patient',[PatientsController::class,'search']);
         Route::put('/doctor',[DoctorController::class,'search']);
         Route::put('/billing',[BillingController::class,'search']);
+        Route::put('/billitemsearch',[BillingController::class,'billItemSearch']);
+
         Route::put('/duecollection',[DueController::class,'search']);
         Route::put('/billreference',[BillReferenceControllers::class,'search']);
 

@@ -162,6 +162,22 @@ class BillingController extends Controller
         return $lastid;
     }
 
+
+    public function billItemSearch(Request $request)
+    {
+
+
+        if($request->search == 0){
+            $lastid = BillItems::all();
+
+        }else{
+            $lastid = BillItems::where('service_category_id', '=', $request->search)->get();
+
+        }
+        return $lastid;
+    }
+
+
     public function convert_number($number)
     {
         $my_number = $number;
