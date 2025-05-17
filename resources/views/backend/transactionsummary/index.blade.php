@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                {{-- <div class="col-sm-4">
                     <div class="card">
                         @php
                             $totalBillAmount = collect($transactions)->where('prev_due','=',0)->sum('total_amount');
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

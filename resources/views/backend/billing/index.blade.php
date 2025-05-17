@@ -429,6 +429,7 @@ body * { visibility: hidden; }
                         }
                         if(result.equipments){
                             result.equipments.map(x=>{
+                                myElement2="";
                                 if($("#qty"+x.equip.id).val()){
                                     console.log($("#qty"+x.equip.id).val())
                                     let qty = $("#qty"+x.equip.id).val();
@@ -467,10 +468,10 @@ body * { visibility: hidden; }
                                 </td>
                                 <td id="price${x.equip.id}">${x.equip.price}</td>
                                 <td><input class="form-control form-control-sm billing-item-qty w-100 text-center" data-id="${x.equip.id}" type="text" id="qty${x.equip.id}" name="quantity[${x.equip.id}]" value="${x.quantity}"></td>
-                                <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${x.equip.id}" data-id="${result.item.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.price)}" readonly></td>
+                                <td><input class="form-control form-control-sm billing-item-amount w-100 text-center" type="text" id="amt${x.equip.id}" data-id="${result.item.id}" name="amount[${x.equip.id}]" value="${Number(x.equip.price)*Number(x.quantity)}" readonly></td>
                                 <td><input class="form-control form-control-sm billing-item-dis-per w-100 text-center" data-id="${x.equip.id}" data-discountable="${x.equip.discountable}" type="text" id="dis-per${x.equip.id}" name="discount_per[${x.equip.id}]" value="${discount_per_cal}" ${Boolean(x.equip.discountable)?"":"readonly"}></td>
                                 <td><input class="form-control form-control-sm billing-item-dis-amt w-100 text-center" data-id="${x.equip.id}" type="text" id="dis-amt${x.equip.id}" name="discount_amt[${x.equip.id}]" value="${disc_amount}" ${Boolean(x.equip.discountable)?"":"readonly"}></td>
-                                <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${x.equip.id}" type="text" id="total-payable${x.equip.id}" name="total_payable[${x.equip.id}]" value="${(Number(x.equip.price)-disc_amount).toFixed(2)}"></td>
+                                <td><input class="form-control form-control-sm billing-item-total-payable w-100 text-center" data-id="${x.equip.id}" type="text" id="total-payable${x.equip.id}" name="total_payable[${x.equip.id}]" value="${((Number(x.equip.price)*Number(x.quantity))-disc_amount).toFixed(2)}"></td>
                                 <td>
                                     <div class="input-group date  w-100" id="delivery_date${x.equip.id}" data-target-input="nearest">
                                         <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#delivery_date${x.equip.id}" name="delivery_date[${x.equip.id}]" readonly/>
