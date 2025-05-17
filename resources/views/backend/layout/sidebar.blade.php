@@ -67,7 +67,7 @@
                 </ul>
             </li>
             <!-- Appointment Setup -->
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon far fa-sticky-note"></i>
                 <p>Appointment Setup
@@ -88,7 +88,7 @@
                         </a>
                     </li>
                 </ul>
-            </li> -->
+            </li>
              <!-- Investigation Setup -->
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -142,7 +142,7 @@
                 </ul>
             </li>
              <!-- Prescription Setup -->
-            <!-- <li class="nav-item">
+            <li class="nav-item">
                 <a href="#" class="nav-link">
                 <i class="nav-icon far fa-file-word"></i>
                 <p>Prescription Setup
@@ -203,7 +203,7 @@
                         </a>
                     </li>
                 </ul>
-            </li> -->
+            </li>
              <!-- Hospital Management -->
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -213,38 +213,38 @@
                 </p>
                 </a>
                 <ul class="nav nav-treeview">
-                    <!-- <li class="nav-item " >
+                    <li class="nav-item " >
                         <a href="{{route('doctors.home')}}" class="nav-link {{ Route::currentRouteName() == 'doctors.home'||Route::currentRouteName() == 'doctors.create'||Route::currentRouteName() == 'doctors.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Doctors</p>
                         </a>
-                    </li> -->
+                    </li>
                     <li class="nav-item " >
                         <a href="{{route('patients.home')}}" class="nav-link {{ Route::currentRouteName() == 'patients.home'||Route::currentRouteName() == 'patients.create'||Route::currentRouteName() == 'patients.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Patients</p>
                         </a>
                     </li>
-                    <!-- <li class="nav-item " >
+                    <li class="nav-item " >
                         <a href="{{route('departments.home')}}" class="nav-link {{ Route::currentRouteName() == 'departments.home'||Route::currentRouteName() == 'departments.create'||Route::currentRouteName() == 'departments.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Departments</p>
                         </a>
-                    </li> -->
-                    <!-- <li class="nav-item " >
+                    </li> 
+                    <li class="nav-item " >
                         <a href="{{route('appoinments.home')}}" class="nav-link {{ Route::currentRouteName() == 'appoinments.home'||Route::currentRouteName() == 'appoinments.create'||Route::currentRouteName() == 'appoinments.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-calendar-check"></i>
                             <p>Appoinments</p>
                         </a>
-                    </li> -->
-                    <!-- <li class="nav-item " >
+                    </li>
+                    <li class="nav-item " >
                         <a href="{{route('appointed.home')}}" class="nav-link {{ Route::currentRouteName() == 'appointed.home'||Route::currentRouteName() == 'appointed.create'||Route::currentRouteName() == 'appointed.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                         <p>
                             Today Appointments
                         </p>
                         </a>
-                    </li> -->
+                    </li>
                 </ul>
             </li>
             <!-- Billing Setup -->
