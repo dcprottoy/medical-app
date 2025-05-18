@@ -43,6 +43,7 @@
                     </li>
                 </ul>
             </li>
+            
             <!-- Application Setup -->
             <li class="nav-item ">
                 <a href="#" class="nav-link">
@@ -66,6 +67,7 @@
                     </li>
                 </ul>
             </li>
+            @if(Auth::user()->user_role != "reception" )
             <!-- Appointment Setup -->
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -89,6 +91,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
              <!-- Investigation Setup -->
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -141,6 +144,7 @@
                     </li>
                 </ul>
             </li>
+            @if(Auth::user()->user_role != "reception" )
              <!-- Prescription Setup -->
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -204,6 +208,7 @@
                     </li>
                 </ul>
             </li>
+            @endif
              <!-- Hospital Management -->
             <li class="nav-item">
                 <a href="#" class="nav-link">
@@ -292,12 +297,14 @@
                             <p>Due Collection</p>
                         </a>
                     </li>
+                    @if(Auth::user()->user_role != "reception" )
                     <li class="nav-item " >
                         <a href="{{route('collectionreport.home')}}" class="nav-link {{ Route::currentRouteName() == 'collectionreport.home'||Route::currentRouteName() == 'collectionreport.create'||Route::currentRouteName() == 'collectionreport.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-file-invoice-dollar"></i>
                             <p>Collection Report</p>
                         </a>
                     </li>
+                    @endif
                 </ul>
             </li>
           <!-- Log Out Button Start -->

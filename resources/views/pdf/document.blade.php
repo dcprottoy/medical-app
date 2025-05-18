@@ -4,7 +4,7 @@
 </head>
 <style>
     @page {
-        margin:50px;
+        margin:20px;
     }
     .footer-div {
         position: fixed;
