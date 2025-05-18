@@ -60,6 +60,7 @@ class BillingDetailsController extends Controller
         if($billMain){
             $createOrUpdate = BillDetails::where('bill_main_id','=',$billMainID)->exists();
             if($createOrUpdate){
+                if(Auth::user()->user_role = "reception") return response()->json(["message"=>"You are not permitted to update Bill Information"]);
                 BillDetails::where('bill_main_id','=',$billMainID)->delete();
                 $billItems = $request->bill_item;
                 // return $request->all();

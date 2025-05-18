@@ -41,6 +41,68 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
+        function finalBillCalculation(){
+          let billAmount =  $("#bill-amount").val();
+          let discountAmount =  $("#bill-dis-amt").val();
+          let discountPer =  $("#bill-in-per").val();
+          let finalAmount =  $("#bill-total-amount").val();
+          let paidAmount =  $("#bill-paid-amount").val();
+          let dueAmount =  $("#bill-due-amount").val();
+          let newFinalAmount = billAmount;
+          if((!isNaN(discountAmount)) && discountAmount != 0){
+            newFinalAmount = (Number(billAmount)-Number(discountAmount)).toFixed(2);
+          }
+          if(!isNaN(paidAmount)){
+            let newDueAmount = (Number(newFinalAmount)-Number(paidAmount)).toFixed(2);
+            $("#bill-due-amount").val(newDueAmount);
+          }
+          $("#bill-total-amount").val(newFinalAmount);
+
+
+        }
+        function calculateBill(){
+            let amtResult = 0;
+            let discResult = 0;
+                $(".billing-item-amount").each(function(){
+                    amtResult += Number($(this).val());
+                });
+                console.log(amtResult);
+                $(".billing-item-dis-amt").each(function(){
+
+                    discResult += Number($(this).val());
+                });
+                $("#bill-amount").val(amtResult);
+                $("#bill-dis-amt").val(discResult);
+                finalBillCalculation();
+        }
+        function billItemotalCal(id){
+            let quantity = $("#qty"+id).val();
+            let discount_per = $("#dis-per"+id).val();
+            let isDiscountable = $("#dis-per"+id).attr('data-discountable');
+            if(!isNaN(quantity)&&quantity!=""){
+                let price = $("#price"+id).text();
+                let total_price = (Number(price)*Number(quantity)).toFixed(2);
+                let discount_amount = ((Number(discount_per)/100)*Number(price)).toFixed(2);
+                let total_discount_amount = (discount_amount*Number(quantity)).toFixed(2);
+                let total_payable = (total_price-total_discount_amount).toFixed(2);
+                if(isDiscountable == 1){
+                    $("#amt"+id).val(total_price);
+                    $("#dis-amt"+id).val(total_discount_amount);
+                    $("#total-payable"+id).val(total_payable);
+                }else{
+                    $("#amt"+id).val(Number(total_price).toFixed(2));
+                    $("#dis-amt"+id).val(0);
+                    $("#total-payable"+id).val(Number(total_price).toFixed(2));
+                    $("#dis-per"+id).val(0);
+                }
+            }else{
+                $("#amt"+id).val(0);
+                $("#dis-amt"+id).val(0);
+                $("#total-payable"+id).val(0);
+            }
+            calculateBill();
+        }
+
         function editBill(id){
                 $("#bill-item-add-list").empty();
                 $("#bill-equip-add-list").empty();

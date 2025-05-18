@@ -326,8 +326,8 @@
                     <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
                     <td >
                         <span style="font-size:30px;">Alif Medical Centre</span></br>
-                        <span style="font-size:16px;">Polashbari Bus Stand</span></br>
-                        <span style="font-size:16px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
+                        <span style="font-size:15px;">Polashbari Bus Stand</span></br>
+                        <span style="font-size:15px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
                     </td>
                     <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
             </table>

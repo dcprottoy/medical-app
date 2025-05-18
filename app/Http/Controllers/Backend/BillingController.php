@@ -158,6 +158,13 @@ class BillingController extends Controller
 
     public function search(Request $request)
     {
+        if($request->search== null ){
+            $date = Carbon::now()->format('Y-m-d');
+            // $bill_mains= BillMain::where('bill_date',$date)->orderBy('id','DESC')->get();
+            $bill_mains= BillMain::orderBy('id','DESC')->get();
+            return $bill_mains;
+
+        }
         $lastid = BillMain::where('bill_id', 'like', '%'.$request->search.'%')->get();
         return $lastid;
     }

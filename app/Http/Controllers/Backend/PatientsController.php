@@ -65,7 +65,10 @@ class PatientsController extends Controller
         }else{
             // return $request->input();
             $patient = new Patients();
+            $request->name = strtoupper($request->name);
+
             $patient->fill($request->all());
+            $patient->name = $request->name;
             $patient->patient_id = (int)$patient_id;
             if(!$request->filled('birth_date')){
                 $patient->birth_date = $birthDate;
@@ -164,6 +167,7 @@ class PatientsController extends Controller
                                     'birth_date',
                                     'sex']
                                 );
+            $data['name'] = strtoupper($data['name']);
             if($patient->birth_date == $data['birth_date']){
                 $data['birth_date'] = $date->subYears($request->year)->subMonths($request->month)->subDays($request->day)->toDateString();
             }
