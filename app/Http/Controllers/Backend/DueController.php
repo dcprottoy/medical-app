@@ -28,7 +28,7 @@ class DueController extends Controller
      */
     public function index()
     {
-        $data['bill_mains'] = BillMain::where('paid_status','=',0)->orderBy('id','DESC')->limit(50)->get();
+        $data['bill_mains'] = BillMain::where('paid_status','=',0)->where('total_amount','!=',0)->orderBy('id','DESC')->limit(50)->get();
         $data['service_category'] = ServiceCategory::whereNotIn('id',[1])->get();
 
 
