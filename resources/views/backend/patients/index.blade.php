@@ -24,29 +24,6 @@
                                     <input type="text" class="form-control form-control-sm" name='contact_no' placeholder="Contact Number" required>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>Emergency Contact No.</label>
-                                    <input type="text" class="form-control form-control-sm" name='emr_cont_no' placeholder="Emergency Contact Number">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" class="form-control form-control-sm" name='address' placeholder="Address" required>
-                                </div>
-                            </div>
-                            <div class="form-group  col-lg-3">
-                                <label>Birth Date</label>
-                                <div class="input-group date" id="birth_date" data-target-input="nearest">
-                                    <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#birth_date" name="birth_date" id="date"/>
-                                    <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-sm-3 d-flex">
                                 <div class="form-group pr-2">
                                     <label>Age</label>
@@ -59,6 +36,29 @@
                                 <div class="form-group pr-2">
                                     <label>&nbsp;</label>
                                     <input type="text" class="form-control form-control-sm" name='day' placeholder="Day">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Emergency Contact No.</label>
+                                    <input type="text" class="form-control form-control-sm" name='emr_cont_no' placeholder="Emergency Contact Number">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" class="form-control form-control-sm" name='address' placeholder="Address">
+                                </div>
+                            </div>
+                            <div class="form-group  col-lg-3">
+                                <label>Birth Date</label>
+                                <div class="input-group date" id="birth_date" data-target-input="nearest">
+                                    <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#birth_date" name="birth_date" id="date"/>
+                                    <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group col-lg-6 d-flex">
@@ -221,29 +221,6 @@
                                                 <input type="text" class="form-control form-control-sm" id='u-contact_no' name='contact_no' placeholder="Contact Number" required>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <label>Emergency Contact No.</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-emr_cont_no' name='emr_cont_no' placeholder="Emergency Contact Number">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label>Address</label>
-                                                <input type="text" class="form-control form-control-sm" id='u-address' name='address' placeholder="Address" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group  col-lg-3">
-                                            <label>Birth Date</label>
-                                            <div class="input-group date" id="birth_date_u" data-target-input="nearest">
-                                                <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#birth_date_u" name="birth_date" id="u-date"/>
-                                                <div class="input-group-append" data-target="#birth_date_u" data-toggle="datetimepicker">
-                                                    <div class="input-group-text">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-sm-3 d-flex">
                                             <div class="form-group pr-2">
                                                 <label>Year</label>
@@ -256,6 +233,29 @@
                                             <div class="form-group pr-2">
                                                 <label>&nbsp;Day</label>
                                                 <input type="text" class="form-control form-control-sm" name='day' id="u-day" placeholder="Day">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Emergency Contact No.</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-emr_cont_no' name='emr_cont_no' placeholder="Emergency Contact Number">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>Address</label>
+                                                <input type="text" class="form-control form-control-sm" id='u-address' name='address' placeholder="Address">
+                                            </div>
+                                        </div>
+                                        <div class="form-group  col-lg-3">
+                                            <label>Birth Date</label>
+                                            <div class="input-group date" id="birth_date_u" data-target-input="nearest">
+                                                <input type="text" class="form-control form-control-sm datetimepicker-input" data-target="#birth_date_u" name="birth_date" id="u-date"/>
+                                                <div class="input-group-append" data-target="#birth_date_u" data-toggle="datetimepicker">
+                                                    <div class="input-group-text">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-lg-6 d-flex">
@@ -290,7 +290,7 @@
 @push('scripts')
 <script>
     $(document).ready(function(){
-        $(".delete").on('click',function(e){
+        $("#example1").on('click','.delete',function(e){
             let id = $(this).attr("data-id");
             let link = "{{url('patients/')}}/"+id;
             $('#modal-default-delete').modal('show');
@@ -306,7 +306,7 @@
             });
         })
 
-        $(".update").on('click',function(e){
+        $("#example1").on('click','.update',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
                     url: "{{url('patients/')}}/"+id,
