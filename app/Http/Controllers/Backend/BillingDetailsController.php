@@ -60,7 +60,7 @@ class BillingDetailsController extends Controller
         if($billMain){
             $createOrUpdate = BillDetails::where('bill_main_id','=',$billMainID)->exists();
             if($createOrUpdate){
-                if(Auth::user()->user_role = "reception") return response()->json(["message"=>"You are not permitted to update Bill Information"]);
+                if(Auth::user()->user_role == "reception") return response()->json(["message"=>"You are not permitted to update Bill Information"]);
                 BillDetails::where('bill_main_id','=',$billMainID)->delete();
                 $billItems = $request->bill_item;
                 // return $request->all();
@@ -106,7 +106,7 @@ class BillingDetailsController extends Controller
                 $transaction->patient_name = $billMain->patient_name;
                 $transaction->referrence_id = (int)$billMainID;
                 $transaction->service_category_id = 2;
-                $transaction->transaction_date = $date;
+                // $transaction->transaction_date = $date;
                 $transaction->prev_due = 0;
                 $transaction->prev_paid = 0;
                 $transaction->total_amount = $request->bill_amount;;
