@@ -217,7 +217,7 @@ body * { visibility: hidden; }
                                     </div>
                                 </div>
                                 <div class="card-footer text-right m-0 p-1">
-                                    <button type="reset" class="btn btn-sm btn-danger float-left">&nbsp;Clear&nbsp;</button>
+                                    <button type="reset" class="btn btn-sm btn-danger float-left" id="clear-btn">&nbsp;Clear&nbsp;</button>
                                     <button type="submit" class="btn btn-sm btn-success">&nbsp;Save&nbsp;</button>
                                 </div>
                             </div>
@@ -625,6 +625,12 @@ body * { visibility: hidden; }
 
         });
 
+        $('#clear-btn').on('click',function(e){
+            $("#bill-item-add-list").empty();
+            $("#bill-service-add-list").empty();
+            $("#bill-equip-add-list").empty();
+
+        });
 
     });
 

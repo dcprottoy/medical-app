@@ -135,15 +135,15 @@
                                         $("#bill-date").text(response.bill_date);
                                         $("#bill-no").text(response.bill_id);
                                         $("#bill_main_id").val(response.bill_id);
-                                        $("#bill-item-add-list").empty();
-                                        $("#bill-service-add-list").empty();
-                                        $("#bill-equip-add-list").empty();
-                                        $("#bill-amount").val(0);
-                                        $("#bill-dis-amt").val(0);
-                                        $("#bill-in-per").val(0);
-                                        $("#bill-total-amount").val(0);
-                                        $("#bill-paid-amount").val(0);
-                                        $("#bill-due-amount").val(0);
+                                        // $("#bill-item-add-list").empty();
+                                        // $("#bill-service-add-list").empty();
+                                        // $("#bill-equip-add-list").empty();
+                                        // $("#bill-amount").val(0);
+                                        // $("#bill-dis-amt").val(0);
+                                        // $("#bill-in-per").val(0);
+                                        // $("#bill-total-amount").val(0);
+                                        // $("#bill-paid-amount").val(0);
+                                        // $("#bill-due-amount").val(0);
                                         toastr.success('New Bill Is Created');
                                     },
                                 });

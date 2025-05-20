@@ -26,7 +26,7 @@
                                           <select class="form-control form-control-sm"  name="investigation_type_id" id="investigation_type_id">
                                             <option value="" selected disabled>Please select</option>
                                             @foreach($inv_types as $inv_type)
-                                            <option value="{{$inv_type->id}}">{{$inv_type->name_eng}}</option>
+                                            <option value="{{$inv_type->duration}}">{{$inv_type->name_eng}}</option>
                                             @endforeach
                                           </select>
                                         </div>

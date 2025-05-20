@@ -85,13 +85,13 @@
                 <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
             </tr>
             @foreach ($details as $item)
-                <tr >
+                <tr style="{{count($details)>12?'font-size:12px;':''}}">
                     <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
-                    <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
+                    <td style="border-top:1px solid black;border-left:1px solid black;">{!! $item->item_name !!}</td>
                     {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                    <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->item_rate !!}</td>
-                    <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->quantity !!}</td>
-                    <td style="text-align:right;padding:2px;border-top:1px solid black;">{!! $item->price !!}</td>
+                    <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->item_rate !!}</td>
+                    <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->quantity !!}</td>
+                    <td style="text-align:right;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->price !!}</td>
 
                 </tr>
             @endforeach
@@ -239,13 +239,13 @@
                         <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
                     </tr>
                     @foreach ($details as $item)
-                        <tr >
+                        <tr style="{{count($details)>12?'font-size:12px;':''}}">
                             <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
-                            <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
+                            <td style="border-top:1px solid black;border-left:1px solid black;">{!! $item->item_name !!}</td>
                             {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->item_rate !!}</td>
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->quantity !!}</td>
-                            <td style="text-align:right;padding:2px;border-top:1px solid black;">{!! $item->price !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->item_rate !!}</td>
+                            <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->quantity !!}</td>
+                            <td style="text-align:right;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->price !!}</td>
 
                         </tr>
                     @endforeach
@@ -384,7 +384,7 @@
                         <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
                     </tr>
                     @foreach ($details as $item)
-                        <tr >
+                        <tr style="{{count($details)>12?'font-size:12px;':''}}">
                             <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
                             <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
                             {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
