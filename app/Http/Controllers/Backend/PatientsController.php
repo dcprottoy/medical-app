@@ -38,35 +38,28 @@ class PatientsController extends Controller
      */
     public function store(Request $request)
     {
-        // return response()->json($request);
+        // return $request->all();
         $date = Carbon::now();
         $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
         $lastid = Patients::where('patient_id','>',$checkingID)->orderBy('patient_id', 'desc')->first();
-
         if($lastid){
             $patient_id = $lastid->patient_id+1;
         }else{
             $patient_id = strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0001';
         }
-        // return $patient_id;
         $validated = Validator::make($request->all(),[
             'name' => 'required',
             'contact_no' => 'required'
         ]);
-        // return $request->all();
         $year_input = $request->filled('year') ? (int)$request->year:0;
         $month_input = $request->filled('month') ? (int)$request->month:0;
         $day_input = $request->filled('day') ? (int)$request->day:0;
         $birthDate = $date->subYears($year_input)->subMonths($month_input)->subDays($day_input)->toDateString();
-        // return $birthDate;
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
-            // return back()->withErrors($validated)->withInput();
         }else{
-            // return $request->input();
             $patient = new Patients();
             $request->name = strtoupper($request->name);
-
             $patient->fill($request->all());
             $patient->name = $request->name;
             $patient->patient_id = (int)$patient_id;
@@ -83,7 +76,6 @@ class PatientsController extends Controller
                     $date = Carbon::now();
                     $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
                     $lastid = Appoinments::where('appoint_id','>',$checkingID)->orderBy('appoint_id', 'desc')->first();
-
                     if($lastid){
                         $appoint_id = $lastid->appoint_id+1;
                     }else{
@@ -108,17 +100,8 @@ class PatientsController extends Controller
                         "success"=>$appointed,
                         "patient"=>$patient
                     ]);
-
-                    // return response()->json(["success"=>$date->format('Y-m-d')]);
                 }elseif($request->save_type == 3){
-                    // if(){
-
-                    // }
                     return response()->json($patient);
-
-
-
-                    // return response()->json(["success"=>$date->format('Y-m-d')]);
                 }
             }else{
                 return back()->with('success','New Patient Created Successfully');
@@ -191,9 +174,9 @@ class PatientsController extends Controller
         if(Patients::find($id)){
             $createObject = Patients::find($id);
             $createObject->delete();
-            return back()->with('success','Brand Image Remove Successfully');
+            return back()->with('success','Patient Remove Successfully');
         }else{
-            return back()->with('danger','Brand Image Not Found');
+            return back()->with('danger','Patient Not Found');
         }
     }
 

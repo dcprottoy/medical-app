@@ -25,6 +25,8 @@ use App\Http\Controllers\Backend\ExaminationController;
 use App\Http\Controllers\Backend\ReferredController;
 use App\Http\Controllers\Backend\DueController;
 use App\Http\Controllers\Backend\BillReferenceControllers;
+use App\Http\Controllers\Backend\PrescribeController;
+
 
 use App\Http\Controllers\Backend\UsageController;
 use App\Http\Controllers\Backend\DoseController;
@@ -124,6 +126,16 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
         ]);
         Route::post('appointment/checkserial',[AppoinmentController::class,'getSerial']);
         Route::get('appointed/patientlist/{id}',[AppointedPatientController::class,'patientList']);
+
+        Route::resource('/prescribe',PrescribeController::class)->names([
+            'index'=>'prescribe.home',
+            'create'=>'prescribe.create',
+            'store'=>'prescribe.save',
+            'edit'=>'prescribe.edit',
+            'update'=>'prescribe.update',
+            'destroy'=>'prescribe.delete'
+        ]);
+
 
         Route::put('/patient',[PatientsController::class,'search']);
         Route::put('/doctor',[DoctorController::class,'search']);

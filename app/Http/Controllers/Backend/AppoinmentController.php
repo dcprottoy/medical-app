@@ -40,7 +40,6 @@ class AppoinmentController extends Controller
     public function store(Request $request)
     {
 
-
         $date = Carbon::now();
         $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
         $lastid = Appoinments::where('appoint_id','>',$checkingID)->orderBy('appoint_id', 'desc')->first();

@@ -27,7 +27,7 @@ class AppointedPatientController extends Controller
         $data['complaints'] = Complaint::where('status',TRUE)->get();
         $data['complaintdurations'] = ComplaintDuration::where('status',TRUE)->get();
         $data['diagnosis'] = Diagnosis::where('status',TRUE)->get();
-        return view('backend.appointed.indexLatest',$data);
+        return view('backend.appointed.index',$data);
     }
 
     /**
