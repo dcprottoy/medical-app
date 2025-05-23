@@ -150,7 +150,7 @@ class BillingController extends Controller
         // $customPaper = array(0,0,650,1100);
         // $pdf = PDF::setPaper($customPaper,'potrait')->loadView('pdf.document', $data);
         // return view('pdf.document', $data);
-        $pdf = PDF::setPaper('A5','potrait')->loadView('pdf.document', $data);
+        $pdf = PDF::setPaper('A4','potrait')->loadView('pdf.document', $data);
 
         return $pdf->stream('document.pdf');
 
