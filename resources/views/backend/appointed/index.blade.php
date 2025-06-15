@@ -268,46 +268,46 @@ body * { visibility: hidden; }
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="col-sm-12">
-                                        <h4 class="text-center">Complaint Information</h4>
-                                        <div class="row">
-                                            <div class="col-9 border-right" >
-                                                <div class="row">
-                                                    <div class="col-5">
-                                                        <div class="form-group text-center">
-                                                            <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
-                                                        </div>
-                                                        <ul class="list-group complaint-search-list" id="complaint-list">
-                                                            @foreach($complaints as $complaint)
-                                                                <li class="list-group-item complaint-list-item" data-value="{{$complaint->id}}">{{$complaint->name_eng}}</li>
-                                                            @endforeach
-                                                        </ul>
+                                    <div class="container">
+                                        <div class="row" style="min-height: 300px;">
+                                            <div class="col-sm-4">
+                                                <div class="dropdown">
+                                                    <div class="form-group">
+                                                        <label>Complaint Name</label>
+                                                        <input type="text" class="form-control form-control-sm" name='complaint_name' id="complaint_name" placeholder="Complaint Name">
                                                     </div>
-                                                    <div class="col-4">
-                                                        <div class="form-group text-center">
-                                                            <input type="text" class="form-control form-control-md" id="compalint-duration-search" placeholder="Search..">
-                                                        </div>
-                                                        <ul class="list-group complaint-search-list" id="complaint-duration-list">
-                                                            @foreach($complaintdurations as $complaintdration)
-                                                                <li class="list-group-item complaint-duration-list-item" data-value="{{$complaintdration->id}}">{{$complaintdration->name_eng}}</li>
-                                                            @endforeach
-                                                        </ul>
+                                                    <div class="dropdown-menu w-100" style="max-height:350px;overflow-y:scroll;" id="complaint_name_dropdown-menu" aria-labelledby="dLabel">
+                                                        @foreach($complaints as $item)
+                                                            <li class="dropdown-item" >{{$item->name_eng}}</li>
+                                                        @endforeach
                                                     </div>
-                                                    <div class="col-sm-3">
-                                                        <div class="form-group mt-5">
-                                                            <label>Complaint Value</label>
-                                                            <input type="text" class="form-control form-control-md" name='complaint_value' placeholder="Complaint Value" id="complaint_value">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <button class="btn btn-md btn-success"  id="complaint-add" >Add Complaint</button>
-                                                        </div>
-                                                    </div>
-
                                                 </div>
                                             </div>
-                                            <div class="col-3" style="min-height:500px;">
-                                                <ul id="complaint-list-text">
-                                                </ul>
+                                            <div class="col-sm-4">
+                                                <div class="dropdown">
+                                                    <div class="form-group">
+                                                        <label>Complaint Duration</label>
+                                                        <input type="text" class="form-control form-control-sm" name='manufacturer' id="manufacturer" placeholder="Manufacturer Name">
+                                                    </div>
+                                                    <div class="dropdown-menu w-100" style="max-height:350px;overflow-y:scroll;" id="dropdown-menu" aria-labelledby="dLabel">
+                                                        @foreach($complaints as $item)
+                                                            <li class="dropdown-item" >{{$item->name_eng}}</li>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="dropdown">
+                                                    <div class="form-group">
+                                                        <label>Complaint Duration Value</label>
+                                                        <input type="text" class="form-control form-control-sm" name='manufacturer' id="manufacturer" placeholder="Manufacturer Name">
+                                                    </div>
+                                                    <div class="dropdown-menu w-100" style="max-height:350px;overflow-y:scroll;" id="dropdown-menu" aria-labelledby="dLabel">
+                                                        @foreach($complaints as $item)
+                                                            <li class="dropdown-item" >{{$item->name_eng}}</li>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -560,6 +560,62 @@ body * { visibility: hidden; }
     $(document).ready(function(){
 
 
+
+
+        $("#manufacturer").on('keyup',function(){
+            var value = $(this).val().toLowerCase();
+            let result = false;
+            $("#dropdown-menu li").filter(function() {
+                if(!result) result = $(this).text().toLowerCase().indexOf(value) > -1;
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+            console.log(result);
+            if(result) $("#dropdown-menu").show();
+            else $("#dropdown-menu").hide();
+
+            $('#dropdown-menu li').on('mouseenter', function() {
+                $(this).css('background-color', 'lightgreen');
+            });
+
+            $('#dropdown-menu li').on('mouseleave', function() {
+                $(this).css('background-color', 'white');
+            });
+
+        })
+
+        $("#dropdown-menu li").on('click',function(e){
+            $("#manufacturer").val($(this).text());
+            $("#dropdown-menu").hide();
+        })
+        $("#manufacturer").on('focusout',function(){
+            $("#dropdown-menu").fadeOut()
+        })
+
+        $("#manufacturer").on('focusin',function(){
+            var value = $(this).val().toLowerCase();
+            let result = false;
+            $("#dropdown-menu li").filter(function() {
+                if(!result) result = $(this).text().toLowerCase().indexOf(value) > -1;
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+            console.log(result);
+            if(result) $("#dropdown-menu").show();
+            else $("#dropdown-menu").hide();
+
+            $('#dropdown-menu li').on('mouseenter', function() {
+                $(this).css('background-color', 'lightgreen');
+            });
+
+            $('#dropdown-menu li').on('mouseleave', function() {
+                $(this).css('background-color', 'white');
+            });
+        })
+
+
+
+
+
+
         function getTodayDate() {
             const today = new Date();
             const year = today.getFullYear();
@@ -789,297 +845,9 @@ body * { visibility: hidden; }
 
 
 
+       
 
-
-
-
-
-
-
-
-
-
-        $("#symptom-dropdown").on('change',function(){
-            let sypmtomp = $("#symptom-dropdown option:selected").val();
-            $("#symptomp-list").append(`
-            <li style="list-style-type: none;">
-                <div class="row">
-                <div class="col-sm-10">${"-"+sypmtomp}</div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                </div>
-
-
-                </li>
-            `);
-            $('.remove-btn').on('click',function(e){
-                console.log("Prottoy");
-                $(this).closest("li").remove();
-            });
-        });
-        $("#advice-dropdown").on('change',function(){
-            let advice = $("#advice-dropdown option:selected").val();
-            $("#advice-list").append(`
-            <li style="list-style-type: none;">
-                <div class="row">
-                <div class="col-sm-10">${"-"+advice}</div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                </div>
-
-
-                </li>
-            `);
-            $('.remove-btn').on('click',function(e){
-                console.log("Prottoy");
-                $(this).closest("li").remove();
-            });
-        });
-        $("#test-dropdown").on('change',function(){
-            let test = $("#test-dropdown option:selected").val();
-            $("#test-list").append(`
-            <li style="list-style-type: none;">
-                <div class="row">
-                <div class="col-sm-10">${"-"+test}</div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-xs remove-btn" title="Remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                </div>
-
-
-                </li>
-            `);
-
-            $('.remove-btn').on('click',function(e){
-                console.log("Prottoy");
-                $(this).closest("li").remove();
-            });
-        });
-
-        function removeComplaint(id){
-            chiefComplaint = chiefComplaint.filter(x=>{
-               return x.complaint_id != id;
-            });
-            renderComplaint();
-        }
-
-        function renderComplaint(){
-            $("#complaint-list-text").empty();
-            $("#onexam-list").empty();
-            let myElement = "";
-            chiefComplaint.forEach(x=>{
-                tempCompleteComplaint = x.complaint_text+" "+x.complaint_value+" "+x.complaint_duration_text;
-                myElement +=`
-            <li style="list-style-type: none;">
-                <div class="row">
-                <div class="col-sm-10">${"- &ensp;"+tempCompleteComplaint}</div>
-                <div class="col-sm-2">
-                    <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${x.complaint_id} title="Remove">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-
-                </div>
-
-
-                </li>
-            `;
-            });
-
-            $("#complaint-list-text").append(myElement);
-            $("#onexam-list").append(myElement);
-
-            $('.remove-complaint-btn').on('click',function(e){
-                console.log("Prottoy");
-                let removeID = $(this).attr('data-id');
-                removeComplaint(removeID);
-            });
-
-           console.log(tempCompleteComplaint);
-        }
-
-        $("#chiefcomplaintbtn").on('click',function(){
-            renderComplaint();
-        });
-        $(".complaint-list-item").on('click',function(){
-           let text = $(this).text();
-           let id = $(this).attr('data-value');
-           $('.complaint-list-item').each(function(){
-            $(this).css("background-color", "white");
-           });
-           $(this).css("background-color", "beige");
-           tempComplaintID = id;
-           tempComplaintText = text;
-           console.log([tempComplaintID,tempComplaintText]);
-        });
-        $(".complaint-duration-list-item").on('click',function(){
-           let text = $(this).text();
-           let id = $(this).attr('data-value');
-           $('.complaint-duration-list-item').each(function(){
-            $(this).css("background-color", "white");
-           });
-           if(tempComplaintDurationID != id){
-                $(this).css("background-color", "beige");
-            tempComplaintDurationID = id;
-            tempComplaintDurationText = text;
-            console.log([tempComplaintDurationID,tempComplaintDurationText]);
-           }else{
-            tempComplaintDurationID = '';
-            tempComplaintDurationText = '';
-           }
-
-        });
-        $("#complaint-add").on('click',function(){
-            let text = $("#complaint_value").val();
-
-            let checkExistence = false;
-            chiefComplaint.forEach(x=>{
-                if(x.complaint_id == tempComplaintID){
-                    checkExistence =  true ;
-                }
-            });
-            if(tempComplaintID && tempComplaintText){
-                if(!checkExistence){
-                    chiefComplaint = [...chiefComplaint,{
-                    'complaint_id':tempComplaintID,
-                    'complaint_text':tempComplaintText,
-                    'complaint_duration_id':tempComplaintDurationID,
-                    'complaint_duration_text':tempComplaintDurationText,
-                    'complaint_value':text
-                    }]
-                }else{
-                    chiefComplaint = chiefComplaint.map( x =>{
-
-                        if(x.complaint_id == tempComplaintID){
-                            x.complaint_id = tempComplaintID,
-                            x.complaint_text = tempComplaintText,
-                            x.complaint_duration_id = tempComplaintDurationID,
-                            x.complaint_duration_text = tempComplaintDurationText,
-                            x.complaint_value = text
-                        }
-
-                        return x;
-
-
-                    });
-                }
-
-                console.log(chiefComplaint);
-                renderComplaint();
-                $('.complaint-duration-list-item').each(function(){
-                    $(this).css("background-color", "white");
-                });
-                $('.complaint-list-item').each(function(){
-                    $(this).css("background-color", "white");
-                });
-                $("#complaint_value").val('');
-                tempComplaintID = '';
-                tempComplaintText = '';
-                tempComplaintDurationID = '';
-                tempComplaintDurationText = '';
-                text = '';
-            }
-        });
-        $('#complaint-search').on('keyup', function() {
-                var value = $(this).val().toLowerCase(); // Get the search input value
-                $('#complaint-list li').filter(function() {
-                    // Show or hide list items based on the search query
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-        });
-        $('#compalint-duration-search').on('keyup', function() {
-                var value = $(this).val().toLowerCase(); // Get the search input value
-                $('#complaint-duration-list li').filter(function() {
-                    // Show or hide list items based on the search query
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-                });
-        });
-        function removeOnExamination(id){
-            onExamination[id]='';
-            renderOnExamination();
-        }
-        function renderOnExamination(){
-            $("#onexamination-list").empty();
-            $("#bloodPressure").val(onExamination.blood_pressure);
-            $("#bodyTemperature").val(onExamination.body_temperature);
-            $("#bodyWeight").val(onExamination.body_weight);
-            let myElement = "";
-
-            if(onExamination.blood_pressure!=''){
-                myElement +=`
-                <li style="list-style-type: none;">
-                    <div class="row">
-                    <div class="col-sm-10">Blood Pressure${":&ensp;"+onExamination.blood_pressure}</div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='blood_pressure' title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    </div>
-                </li>
-                `;
-            }
-            if(onExamination.body_temperature!=''){
-                myElement +=`
-                <li style="list-style-type: none;">
-                    <div class="row">
-                    <div class="col-sm-10">Body Temperature${":&ensp;"+onExamination.body_temperature}<sup>o</sup></div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='body_temperature' title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    </div>
-                </li>
-                `;
-            }
-            if(onExamination.body_weight!=''){
-                myElement +=`
-                <li style="list-style-type: none;">
-                    <div class="row">
-                    <div class="col-sm-10">Body Weight${":&ensp;"+onExamination.body_weight} kg</div>
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-xs remove-onexamination-btn" data-id='body_weight' title="Remove">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                    </div>
-                </li>
-                `;
-            }
-
-            $("#onexamination-list").append(myElement);
-
-            $('.remove-onexamination-btn').on('click',function(e){
-                console.log("Prottoy");
-                let removeID = $(this).attr('data-id');
-                removeOnExamination(removeID);
-            });
-
-        }
-
-        $("#on-examination-save").on('click',function(){
-            onExamination.blood_pressure = $("#bloodPressure").val();
-            onExamination.body_temperature = $("#bodyTemperature").val();
-            onExamination.body_weight = $("#bodyWeight").val();
-            renderOnExamination();
-            $('#onExamination').modal('hide');
-        });
-
-        $("#onExaminationbtn").on('click',function(){
-            renderOnExamination();
-        });
+        
 
 
     });
