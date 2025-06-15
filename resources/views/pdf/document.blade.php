@@ -5,6 +5,7 @@
 <style>
     @page {
         margin:20px;
+        margin-top:30px;
     }
     .footer-div {
         position: fixed;
@@ -21,33 +22,35 @@
     }
 </style>
 <body>
-    <table style="line-height: 1em;padding:0px;">
-        <tr>
-            <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
-            <td >
-                <span style="font-size:30px;">Alif Medical Centre</span></br>
-                <span style="font-size:15px;">Polashbari Bus Stand</span></br>
-                <span style="font-size:15px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
+    <table style="line-height: 1em;padding:0px;width:100%;">
+        <tr style="">
+            <td style="padding:0px;width:50%;">
+                <img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:110px;width:110px;">
             </td>
-            <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
+            <td style="padding:0px;width:50%;text-align:right;">
+                <span style="font-size:22px;text-transform:uppercase;font-weight:bold;line-height: 2em;">DR. MD Golam Hossain</span></br>
+                <span style="font-size:15px;text-transform:uppercase;">MBBS (du),mcps(bcps),fcgp(bd), FIAGP(INDIA)</span></br>
+                <span style="font-size:15px;text-transform:uppercase;">ccu(sub), C.paed(bich),c.diab(birdem)</span></br>
+                <span style="font-size:14px;text-transform:capitalize;">specialist in family medecine</span></br>
+                <span style="font-size:14px;text-transform:capitalize;">sonologist, diabetologist & children's physician</span>
+            </td>
+
 
     </table>
-    <table style="width:100%;">
+    <table style="width:100%;margin-top:5px;">
         <tr>
-            <td style="width: 40%;">
-                <img src="data:image/png;base64,{{ base64_encode($billImg) }}" style="opacity: .8;height:20px;width:100px;">
+            <td style="width: 50%;">
+                <img src="data:image/png;base64,{{ base64_encode($billImg) }}" style="opacity: .8;height:25px;width:200px;">
             </td>
-            <td  style="width: 20%;"><span style="border:1px solid black;padding:10px;font-weight:bold;">{!! "Patient Copy" !!}</span></td>
-            <td  style="width: 40%;text-align:right;">
-                <img src="data:image/png;base64,{{ base64_encode($patientImg) }}" style="opacity: .8;height:20px;width:100px;">
+            <td  style="width: 50%;text-align:right;">
+                <img src="data:image/png;base64,{{ base64_encode($patientImg) }}" style="opacity: .8;height:25px;width:200px;">
             </td>
         </tr>
         <tr>
-            <td style="width: 35%;font-size:16px;">
-                Invoice No. {!! $main->bill_id !!}
+            <td style="width: 50%;font-size:12px;">
+                Prescription No. {!! $main->bill_id !!}
             </td>
-            <td  style="width: 30%;"></td>
-            <td  style="width: 35%;text-align:right;font-size:16px;">
+            <td  style="width: 50%;text-align:right;font-size:12px;">
                 Patient ID. {!! $main->patient->patient_id !!}
             </td>
         </tr>
