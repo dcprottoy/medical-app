@@ -41,13 +41,13 @@ class AppoinmentController extends Controller
     {
 
         $date = Carbon::now();
-        $checkingID = (int)strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0000';
+        $checkingID = (int)strval($date->year).'000000';
         $lastid = Appoinments::where('appoint_id','>',$checkingID)->orderBy('appoint_id', 'desc')->first();
 
         if($lastid){
             $appoint_id = $lastid->appoint_id+1;
         }else{
-            $appoint_id = strval($date->year).str_pad(strval($date->month),2,'0',STR_PAD_LEFT).'0001';
+            $appoint_id = strval($date->year).'000001';
         }
         // return $patient_id;
         $validated = Validator::make($request->all(),[

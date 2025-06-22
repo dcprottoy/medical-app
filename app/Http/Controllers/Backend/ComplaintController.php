@@ -99,4 +99,9 @@ class ComplaintController extends Controller
             return back()->with('danger','Complaint Not Found');
         }
     }
+    public function search(Request $request){
+        $search = $request->q;
+        $complaint = Complaint::where('name_eng','LIKE','%'.$search.'%')->orWhere('name_bang','LIKE','%'.$search.'%')->get();
+        return $complaint;
+    }
 }

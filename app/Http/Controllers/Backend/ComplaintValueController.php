@@ -5,18 +5,18 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use App\Models\Backend\ComplaintDuration;
+use App\Models\Backend\ComplaintValue;
 use Illuminate\Support\Carbon;
 
-class ComplaintDurationController extends Controller
+class ComplaintValueController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['examinations'] = ComplaintDuration::paginate(5);
-        return view('backend.complaintduration.index',$data);
+        $data['examinations'] = ComplaintValue::paginate(5);
+        return view('backend.complaintvalue.index',$data);
     }
 
     /**
@@ -40,9 +40,9 @@ class ComplaintDurationController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new ComplaintDuration();
+            $advice = new ComplaintValue();
             $advice->fill($request->all())->save();
-            return back()->with('success','New Complaint Duration Created Successfully');
+            return back()->with('success','New Complaint Created Successfully');
 
         }
     }
@@ -52,7 +52,7 @@ class ComplaintDurationController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = ComplaintDuration::findOrFail($id);
+        $lastid = ComplaintValue::findOrFail($id);
         return $lastid;
     }
 
@@ -75,13 +75,13 @@ class ComplaintDurationController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = ComplaintDuration::findOrFail($id);
+            $advice = ComplaintValue::findOrFail($id);
             $data = $request->only(['name_eng',
                                     'name_bang',
                                     'status']
                                 );
             $advice->fill($data)->save();
-            return back()->with('success','Complaint Duration '.$advice->name_eng.' Updated Successfully');
+            return back()->with('success','Complaint '.$advice->name_eng.' Updated Successfully');
         }
     }
 
@@ -90,20 +90,18 @@ class ComplaintDurationController extends Controller
      */
     public function destroy(string $id)
     {
-        if(ComplaintDuration::find($id)){
-            $createObject = ComplaintDuration::find($id);
+        if(ComplaintValue::find($id)){
+            $createObject = ComplaintValue::find($id);
             @unlink($createObject->Image);
             $createObject->delete();
-            return back()->with('success','Complaint Duration Remove Successfully');
+            return back()->with('success','Complaint Remove Successfully');
         }else{
-            return back()->with('danger','Complaint Duration Not Found');
+            return back()->with('danger','Complaint Not Found');
         }
     }
-
-
     public function search(Request $request){
         $search = $request->q;
-        $complaint = ComplaintDuration::where('name_eng','LIKE','%'.$search.'%')->orWhere('name_bang','LIKE','%'.$search.'%')->get();
+        $complaint = ComplaintValue::where('name_eng','LIKE','%'.$search.'%')->orWhere('name_bang','LIKE','%'.$search.'%')->get();
         return $complaint;
     }
 }

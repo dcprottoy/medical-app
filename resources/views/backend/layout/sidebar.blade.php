@@ -206,6 +206,12 @@
                             <p>Complaint Duration</p>
                         </a>
                     </li>
+                    <li class="nav-item " >
+                        <a href="{{route('complaintvalue.home')}}" class="nav-link {{ Route::currentRouteName() == 'complaintvalue.home'||Route::currentRouteName() == 'complaintvalue.create'||Route::currentRouteName() == 'complaintvalue.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Complaint Value</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endif

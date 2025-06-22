@@ -221,7 +221,6 @@ body * { visibility: hidden; }
                                             </div>
 
                                     </div>
-
                                 </div>
                             </form>
                         </div>
@@ -260,63 +259,45 @@ body * { visibility: hidden; }
                     <button class="btn btn-sm btn-info" style="min-width:115px;" data-toggle="modal" id="chiefcomplaintbtn" data-target="#cheifComplaint">Cheif Complaint</button>
                     <div class="modal fade" id="cheifComplaint" tabindex="-1" role="dialog" aria-labelledby="cheifComplaintLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header  bg-info">
-                                <h5 class="modal-title" id="cheifComplaintModalLabel">Chief Complaint List</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="container">
-                                        <div class="row" style="min-height: 300px;">
-                                            <div class="col-sm-4">
-                                                <div class="dropdown">
+                            <form action="{{route('prescriptioncomplaint.save')}}" method="post" enctype="multipart/form-data" id="prescription_complaint_create">
+                            @csrf
+                                <div class="modal-content">
+                                    <div class="modal-header  bg-info">
+                                    <h5 class="modal-title" id="cheifComplaintModalLabel">Chief Complaint List</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="row" style="min-height: 300px;">
+                                                <div class="col-sm-3">
                                                     <div class="form-group">
-                                                        <label>Complaint Name</label>
-                                                        <input type="text" class="form-control form-control-sm" name='complaint_name' id="complaint_name" placeholder="Complaint Name">
-                                                    </div>
-                                                    <div class="dropdown-menu w-100" style="max-height:350px;overflow-y:scroll;" id="complaint_name_dropdown-menu" aria-labelledby="dLabel">
-                                                        @foreach($complaints as $item)
-                                                            <li class="dropdown-item" >{{$item->name_eng}}</li>
-                                                        @endforeach
+                                                        <label>Complaint Type</label>
+                                                        <select class="form-control form-control-sm"  name="complaint_id" id="complaint_id"></select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="dropdown">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label>Complaint Duration</label>
-                                                        <input type="text" class="form-control form-control-sm" name='manufacturer' id="manufacturer" placeholder="Manufacturer Name">
-                                                    </div>
-                                                    <div class="dropdown-menu w-100" style="max-height:350px;overflow-y:scroll;" id="dropdown-menu" aria-labelledby="dLabel">
-                                                        @foreach($complaints as $item)
-                                                            <li class="dropdown-item" >{{$item->name_eng}}</li>
-                                                        @endforeach
+                                                        <select class="form-control form-control-sm"  name="complaint_duration_id" id="complaint_duration_id"></select>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="dropdown">
+                                                <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label>Complaint Duration Value</label>
-                                                        <input type="text" class="form-control form-control-sm" name='manufacturer' id="manufacturer" placeholder="Manufacturer Name">
-                                                    </div>
-                                                    <div class="dropdown-menu w-100" style="max-height:350px;overflow-y:scroll;" id="dropdown-menu" aria-labelledby="dLabel">
-                                                        @foreach($complaints as $item)
-                                                            <li class="dropdown-item" >{{$item->name_eng}}</li>
-                                                        @endforeach
+                                                        <label>Complaint Value</label>
+                                                        <select class="form-control form-control-sm"  name="complaint_value_id" id="complaint_value_id"></select>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit">&nbsp;Save&nbsp;</button>
+                                    </div>
                                 </div>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
-
-                                </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
@@ -339,11 +320,19 @@ body * { visibility: hidden; }
                                                     <input type="text" class="form-control form-control-sm" id="bloodPressure" name='blood_pressure' placeholder="Pressure">
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Body Temperature</label>
-                                                    <input type="text" class="form-control form-control-sm" id="bodyTemperature" name='body_temperature' placeholder="Temperature">
+                                                    <label>Body Height</label>
+                                                    <input type="text" class="form-control form-control-sm" id='bodyHeight' name='body_height' placeholder="height">
+                                                </div>
+                                                 <div class="form-group">
+                                                    <label>BMI</label>
+                                                    <input type="text" class="form-control form-control-sm" id='bmi' name='bmi' placeholder="BMI">
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label>Body Temperature</label>
+                                                    <input type="text" class="form-control form-control-sm" id="bodyTemperature" name='body_temperature' placeholder="Temperature">
+                                                </div>
                                                 <div class="form-group">
                                                     <label>Body Weight</label>
                                                     <input type="text" class="form-control form-control-sm" id='bodyWeight' name='body_weight' placeholder="Weight">
@@ -520,7 +509,7 @@ body * { visibility: hidden; }
                     <div class="row">
                         <div class="col-sm-3">
                             <h6>Cheif Complaint</h6>
-                            <ul class="border-top pt-2" id="onexam-list" style="min-height:200px;">
+                            <ul class="border-top pt-2" id="cheif-complaint-list" style="min-height:200px;">
                             </ul>
                             <h6>On Examination</h6>
                             <ul class="border-top pt-2" id="onexamination-list" style="min-height:200px;">
@@ -559,62 +548,207 @@ body * { visibility: hidden; }
 <script>
     $(document).ready(function(){
 
+        //Complaint Section Add Delete Start Here
+        $('#complaint_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('complaint/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#cheifComplaint'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+        $('#complaint_duration_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('complaintduration/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#cheifComplaint'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+         $('#complaint_value_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('complaintvalue/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#cheifComplaint'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+        function removeComplaint(id){
+            $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    url: "{{ url('prescriptioncomplaint') }}/"+id,
+                    data: {
+                        _token:'{{ csrf_token() }}',
+                        _method:'DELETE'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success){
+                            toastr.success("Complaint Remove Successfully");
+                            $("#remove-complaint-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+                });
+        }
+        $("#prescription_complaint_create").on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+                $('#cheifComplaint').modal('hide');
+            }
+            else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptioncomplaint') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Complaint Added Successfully");
+                            let element = `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.complaint}    ${data.complaint_duration == undefined ? '' : data.complaint_duration}      ${data.complaint_duration_value == undefined ? '' : data.complaint_duration_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            $("#cheif-complaint-list").append(element);
+                            $("#complaint_id").val('').trigger('change');
+                            $("#complaint_duration_id").val('').trigger('change');
+                            $("#complaint_value_id").val('').trigger('change');
+                            setTimeout(() => {
+                                $('#cheifComplaint').modal('hide');
+                            }, 100);
+
+                            $('.remove-complaint-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeComplaint(id);
+                            });
+                        }
+                    });
+            }
+        });
+        //Complaint Section Add Delete End Here
 
 
 
-        $("#manufacturer").on('keyup',function(){
-            var value = $(this).val().toLowerCase();
-            let result = false;
-            $("#dropdown-menu li").filter(function() {
-                if(!result) result = $(this).text().toLowerCase().indexOf(value) > -1;
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-            console.log(result);
-            if(result) $("#dropdown-menu").show();
-            else $("#dropdown-menu").hide();
-
-            $('#dropdown-menu li').on('mouseenter', function() {
-                $(this).css('background-color', 'lightgreen');
-            });
-
-            $('#dropdown-menu li').on('mouseleave', function() {
-                $(this).css('background-color', 'white');
-            });
-
-        })
-
-        $("#dropdown-menu li").on('click',function(e){
-            $("#manufacturer").val($(this).text());
-            $("#dropdown-menu").hide();
-        })
-        $("#manufacturer").on('focusout',function(){
-            $("#dropdown-menu").fadeOut()
-        })
-
-        $("#manufacturer").on('focusin',function(){
-            var value = $(this).val().toLowerCase();
-            let result = false;
-            $("#dropdown-menu li").filter(function() {
-                if(!result) result = $(this).text().toLowerCase().indexOf(value) > -1;
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
-            console.log(result);
-            if(result) $("#dropdown-menu").show();
-            else $("#dropdown-menu").hide();
-
-            $('#dropdown-menu li').on('mouseenter', function() {
-                $(this).css('background-color', 'lightgreen');
-            });
-
-            $('#dropdown-menu li').on('mouseleave', function() {
-                $(this).css('background-color', 'white');
-            });
-        })
 
 
-
-
-
+        $(document).on('select2:open', function (e) {
+            const searchField = document.querySelector('.select2-container--open .select2-search__field');
+            if (searchField) {
+                searchField.focus();
+            }
+        });
+        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
 
         function getTodayDate() {
             const today = new Date();

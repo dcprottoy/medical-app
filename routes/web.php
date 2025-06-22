@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\AdviceController;
 use App\Http\Controllers\Backend\DiagnosisController;
 use App\Http\Controllers\Backend\ComplaintController;
 use App\Http\Controllers\Backend\ComplaintDurationController;
+use App\Http\Controllers\Backend\ComplaintValueController;
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
@@ -26,6 +27,8 @@ use App\Http\Controllers\Backend\ReferredController;
 use App\Http\Controllers\Backend\DueController;
 use App\Http\Controllers\Backend\BillReferenceControllers;
 use App\Http\Controllers\Backend\PrescribeController;
+use App\Http\Controllers\Backend\PrescriptionComplaintController;
+
 
 
 use App\Http\Controllers\Backend\UsageController;
@@ -164,6 +167,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'update'=>'diagnosis.update',
             'destroy'=>'diagnosis.delete'
         ]);
+
+        Route::put('complaint/search',[ComplaintController::class,'search']);
         Route::resource('/complaint',ComplaintController::class)->names([
             'index'=>'complaint.home',
             'create'=>'complaint.create',
@@ -173,6 +178,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'complaint.delete'
         ]);
 
+        Route::put('complaintduration/search',[ComplaintDurationController::class,'search']);
         Route::resource('/complaintduration',ComplaintDurationController::class)->names([
             'index'=>'complaintduration.home',
             'create'=>'complaintduration.create',
@@ -181,6 +187,17 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'update'=>'complaintduration.update',
             'destroy'=>'complaintduration.delete'
         ]);
+
+        Route::put('complaintvalue/search',[ComplaintValueController::class,'search']);
+        Route::resource('/complaintvalue',ComplaintValueController::class)->names([
+            'index'=>'complaintvalue.home',
+            'create'=>'complaintvalue.create',
+            'store'=>'complaintvalue.save',
+            'edit'=>'complaintvalue.edit',
+            'update'=>'complaintvalue.update',
+            'destroy'=>'complaintvalue.delete'
+        ]);
+
 
         Route::resource('/appointtype',AppointmentTypeController::class)->names([
             'index'=>'appointtype.home',
@@ -381,6 +398,20 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'collectionsummary.edit',
             'update'=>'collectionsummary.update',
             'destroy'=>'collectionsummary.delete'
+        ]);
+
+
+        //Prescription Save Part Start
+
+        /** Prescription Complaint Start */
+
+        Route::resource('/prescriptioncomplaint',PrescriptionComplaintController::class)->names([
+            'index'=>'prescriptioncomplaint.home',
+            'create'=>'prescriptioncomplaint.create',
+            'store'=>'prescriptioncomplaint.save',
+            'edit'=>'prescriptioncomplaint.edit',
+            'update'=>'prescriptioncomplaint.update',
+            'destroy'=>'prescriptioncomplaint.delete'
         ]);
 
 
