@@ -321,7 +321,7 @@ body * { visibility: hidden; }
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Body Height</label>
-                                                    <input type="text" class="form-control form-control-sm" id='bodyHeight' name='body_height' placeholder="height">
+                                                    <input type="text" class="form-control form-control-sm" id='bodyHight' name='body_height' placeholder="height">
                                                 </div>
                                                  <div class="form-group">
                                                     <label>BMI</label>
