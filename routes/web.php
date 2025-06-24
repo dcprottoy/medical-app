@@ -13,6 +13,10 @@ use App\Http\Controllers\Backend\DiagnosisController;
 use App\Http\Controllers\Backend\ComplaintController;
 use App\Http\Controllers\Backend\ComplaintDurationController;
 use App\Http\Controllers\Backend\ComplaintValueController;
+use App\Http\Controllers\Backend\TestsControllers;
+use App\Http\Controllers\Backend\MedicinesController;
+
+
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
@@ -26,8 +30,18 @@ use App\Http\Controllers\Backend\ExaminationController;
 use App\Http\Controllers\Backend\ReferredController;
 use App\Http\Controllers\Backend\DueController;
 use App\Http\Controllers\Backend\BillReferenceControllers;
+
 use App\Http\Controllers\Backend\PrescribeController;
 use App\Http\Controllers\Backend\PrescriptionComplaintController;
+use App\Http\Controllers\Backend\PrescriptionOnExaminationController;
+use App\Http\Controllers\Backend\PrescriptionDiagnosisController;
+use App\Http\Controllers\Backend\PrescriptionAdviceController;
+use App\Http\Controllers\Backend\PrescriptionInvestigationController;
+use App\Http\Controllers\Backend\PrescriptionMedicineController;
+
+
+
+
 
 
 
@@ -149,7 +163,19 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
         Route::put('/billreference',[BillReferenceControllers::class,'search']);
 
 
+        Route::put('medicines/search',[MedicinesController::class,'search']);
+        Route::resource('/medicines',MedicinesController::class)->names([
+            'index'=>'medicines.home',
+            'create'=>'medicines.create',
+            'store'=>'medicines.save',
+            'edit'=>'medicines.edit',
+            'update'=>'medicines.update',
+            'destroy'=>'medicines.delete'
+        ]);
 
+
+
+        Route::put('advices/search',[AdviceController::class,'search']);
         Route::resource('/advices',AdviceController::class)->names([
             'index'=>'advices.home',
             'create'=>'advices.create',
@@ -159,6 +185,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'advices.delete'
         ]);
 
+
+        Route::put('diagnosis/search',[DiagnosisController::class,'search']);
         Route::resource('/diagnosis',DiagnosisController::class)->names([
             'index'=>'diagnosis.home',
             'create'=>'diagnosis.create',
@@ -198,6 +226,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'complaintvalue.delete'
         ]);
 
+        Route::put('tests/search',[TestsControllers::class,'search']);
+        Route::resource('/tests',TestsControllers::class)->names([
+            'index'=>'tests.home',
+            'create'=>'tests.create',
+            'store'=>'tests.save',
+            'edit'=>'tests.edit',
+            'update'=>'tests.update',
+            'destroy'=>'tests.delete'
+        ]);
 
         Route::resource('/appointtype',AppointmentTypeController::class)->names([
             'index'=>'appointtype.home',
@@ -283,6 +320,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'referred.delete'
         ]);
 
+        Route::put('usage/search',[UsageController::class,'search']);
         Route::resource('/usage',UsageController::class)->names([
             'index'=>'usage.home',
             'create'=>'usage.create',
@@ -292,6 +330,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'usage.delete'
         ]);
 
+        Route::put('dose/search',[DoseController::class,'search']);
         Route::resource('/dose',DoseController::class)->names([
             'index'=>'dose.home',
             'create'=>'dose.create',
@@ -300,6 +339,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'update'=>'dose.update',
             'destroy'=>'dose.delete'
         ]);
+
+        Route::put('doseduration/search',[DoseDurationController::class,'search']);
 
         Route::resource('/doseduration',DoseDurationController::class)->names([
             'index'=>'doseduration.home',
@@ -412,6 +453,54 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'prescriptioncomplaint.edit',
             'update'=>'prescriptioncomplaint.update',
             'destroy'=>'prescriptioncomplaint.delete'
+        ]);
+
+        /** Prescription On Examination Start */
+
+        Route::resource('/prescriptiononexam',PrescriptionOnExaminationController::class)->names([
+            'index'=>'prescriptiononexam.home',
+            'create'=>'prescriptiononexam.create',
+            'store'=>'prescriptiononexam.save',
+            'edit'=>'prescriptiononexam.edit',
+            'update'=>'prescriptiononexam.update',
+            'destroy'=>'prescriptiononexam.delete'
+        ]);
+
+        Route::resource('/prescriptiondiagnosis',PrescriptionDiagnosisController::class)->names([
+            'index'=>'prescriptiondiagnosis.home',
+            'create'=>'prescriptiondiagnosis.create',
+            'store'=>'prescriptiondiagnosis.save',
+            'edit'=>'prescriptiondiagnosis.edit',
+            'update'=>'prescriptiondiagnosis.update',
+            'destroy'=>'prescriptiondiagnosis.delete'
+        ]);
+
+        Route::resource('/prescriptionadvice',PrescriptionAdviceController::class)->names([
+            'index'=>'prescriptionadvice.home',
+            'create'=>'prescriptionadvice.create',
+            'store'=>'prescriptionadvice.save',
+            'edit'=>'prescriptionadvice.edit',
+            'update'=>'prescriptionadvice.update',
+            'destroy'=>'prescriptionadvice.delete'
+        ]);
+
+
+        Route::resource('/prescriptioninvestigation',PrescriptionInvestigationController::class)->names([
+            'index'=>'prescriptioninvestigation.home',
+            'create'=>'prescriptioninvestigation.create',
+            'store'=>'prescriptioninvestigation.save',
+            'edit'=>'prescriptioninvestigation.edit',
+            'update'=>'prescriptioninvestigation.update',
+            'destroy'=>'prescriptioninvestigation.delete'
+        ]);
+
+        Route::resource('/prescriptionmedicines',PrescriptionMedicineController::class)->names([
+            'index'=>'prescriptionmedicines.home',
+            'create'=>'prescriptionmedicines.create',
+            'store'=>'prescriptionmedicines.save',
+            'edit'=>'prescriptionmedicines.edit',
+            'update'=>'prescriptionmedicines.update',
+            'destroy'=>'prescriptionmedicines.delete'
         ]);
 
 

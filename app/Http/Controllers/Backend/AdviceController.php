@@ -92,4 +92,10 @@ class AdviceController extends Controller
     {
         //
     }
+
+    public function search(Request $request){
+        $search = $request->q;
+        $diagnosis = Advice::where('name_eng','LIKE','%'.$search.'%')->orWhere('name_bang','LIKE','%'.$search.'%')->get();
+        return $diagnosis;
+    }
 }

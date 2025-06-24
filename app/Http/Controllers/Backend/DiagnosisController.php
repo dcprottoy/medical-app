@@ -106,4 +106,11 @@ class DiagnosisController extends Controller
             return back()->with('danger','Diagnosis Not Found');
         }
     }
+
+
+    public function search(Request $request){
+        $search = $request->q;
+        $diagnosis = Diagnosis::where('name_eng','LIKE','%'.$search.'%')->orWhere('name_bang','LIKE','%'.$search.'%')->get();
+        return $diagnosis;
+    }
 }

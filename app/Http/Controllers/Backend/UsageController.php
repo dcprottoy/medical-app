@@ -97,5 +97,11 @@ class UsageController extends Controller
             return back()->with('danger','Diagnosis Not Found');
         }
     }
+
+    public function search(Request $request){
+        $search = $request->q;
+        $diagnosis = Usage::where('name_eng','LIKE','%'.$search.'%')->get();
+        return $diagnosis;
+    }
 }
 

@@ -64,6 +64,8 @@ body * { visibility: hidden; }
         .complaint-search-list {
             -ms-overflow-style: scrollbar; /* Custom IE scrollbar style */
         }
+
+       
 </style>
 <div class="content-wrapper">
     <x-breadcumb title="Prescription"/>
@@ -305,53 +307,56 @@ body * { visibility: hidden; }
                     <div class="modal fade" id="onExamination" tabindex="-1" role="dialog" aria-labelledby="onExaminationLabel" aria-hidden="true">
                         <div class="modal-dialog modal-md" role="document">
                             <div class="modal-content">
-                                <div class="modal-header  bg-warning">
-                                <h5 class="modal-title" id="onExaminationModalLabel">On Examination</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="col-sm-12">
-                                        <div class="row">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label>Blood Pressure </label>
-                                                    <input type="text" class="form-control form-control-sm" id="bloodPressure" name='blood_pressure' placeholder="Pressure">
+                                <form action="{{route('prescriptiononexam.save')}}" method="post" enctype="multipart/form-data" id="prescription_onexam_create"> 
+                                    @csrf
+                                    <div class="modal-header  bg-warning">
+                                        <h5 class="modal-title" id="onExaminationModalLabel">On Examination</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Blood Pressure </label>
+                                                        <input type="text" class="form-control form-control-sm" id="bloodPressure" name='pressure' placeholder="Pressure">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Body Height</label>
+                                                        <input type="text" class="form-control form-control-sm" id='bodyHight' name='height' placeholder="height">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>BMI</label>
+                                                        <input type="text" class="form-control form-control-sm" id='bmi' name='bmi' placeholder="BMI">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label>Body Height</label>
-                                                    <input type="text" class="form-control form-control-sm" id='bodyHight' name='body_height' placeholder="height">
-                                                </div>
-                                                 <div class="form-group">
-                                                    <label>BMI</label>
-                                                    <input type="text" class="form-control form-control-sm" id='bmi' name='bmi' placeholder="BMI">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <label>Body Temperature</label>
-                                                    <input type="text" class="form-control form-control-sm" id="bodyTemperature" name='body_temperature' placeholder="Temperature">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Body Weight</label>
-                                                    <input type="text" class="form-control form-control-sm" id='bodyWeight' name='body_weight' placeholder="Weight">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label>Body Temperature</label>
+                                                        <input type="text" class="form-control form-control-sm" id="bodyTemperature" name='temperature' placeholder="Temperature">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Body Weight</label>
+                                                        <input type="text" class="form-control form-control-sm" id='bodyWeight' name='weight' placeholder="Weight">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="on-examination-save">&nbsp;Save&nbsp;</button>
-
-                                </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" id="on-examination-save">&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
 
                     <button class="btn btn-sm btn-success" style="min-width:115px;" data-toggle="modal" id="diagnosisbtn" data-target="#diagnosis">Diagnosis</button>
                     <div class="modal fade" id="diagnosis" tabindex="-1" role="dialog" aria-labelledby="diagnosisLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-dialog modal-md" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-success">
                                 <h5 class="modal-title" id="diagnosisModalLabel">Diagnosis List</h5>
@@ -359,31 +364,24 @@ body * { visibility: hidden; }
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="col-sm-12">
-                                        <h4 class="text-center">Diagnosis Information</h4>
-                                        <div class="row">
-                                            <div class="col-7 border-right">
-                                                <div class="form-group text-center">
-                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                <form action="{{route('prescriptiondiagnosis.save')}}" method="post" enctype="multipart/form-data" id="prescription_diagnosis_create">
+                                    @csrf
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm"  name="diagnosis_id" id="diagnosis_id"></select>
+                                                    </div>
                                                 </div>
-                                                <ul class="list-group complaint-search-list" id="complaint-list">
-                                                    @foreach($diagnosis as $diagnos)
-                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="col-5" style="min-height:500px;">
-                                                <ul id="complaint-list-text">
-                                                </ul>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
-
-                                </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -393,36 +391,48 @@ body * { visibility: hidden; }
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-danger">
-                                <h5 class="modal-title" id="medecineModalLabel">Medecine List</h5>
+                                    <h5 class="modal-title" id="medecineModalLabel">Medecine List</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="col-sm-12">
-                                        <h4 class="text-center">Medecine Information</h4>
-                                        <div class="row">
-                                            <div class="col-7 border-right">
-                                                <div class="form-group text-center">
-                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                <form action="{{route('tests.save')}}" method="post" enctype="multipart/form-data" id="prescription_medicines_create">
+                                    @csrf
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="medicines_id">Medicine Name</label>
+                                                        <select class="form-control form-control-sm"  name="medicines_id" id="medicines_id"></select>
+                                                    </div>
                                                 </div>
-                                                <ul class="list-group complaint-search-list" id="complaint-list">
-                                                    @foreach($diagnosis as $diagnos)
-                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="col-5" style="min-height:500px;">
-                                                <ul id="complaint-list-text">
-                                                </ul>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="dose_id">Dose</label>
+                                                        <select class="form-control form-control-sm"  name="dose_id" id="dose_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="dose_duration_id">Dose Duration</label>
+                                                        <select class="form-control form-control-sm"  name="dose_duration_id" id="dose_duration_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="usage_id">Usage</label>
+                                                        <select class="form-control form-control-sm"  name="usage_id" id="usage_id"></select>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
-
-                                </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -433,73 +443,61 @@ body * { visibility: hidden; }
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-primary">
-                                <h5 class="modal-title" id="adviceModalLabel">Diagnosis List</h5>
+                                    <h5 class="modal-title" id="adviceModalLabel">Advice List</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <div class="col-sm-12">
-                                        <h4 class="text-center">Diagnosis Information</h4>
-                                        <div class="row">
-                                            <div class="col-7 border-right">
-                                                <div class="form-group text-center">
-                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                                <form action="{{route('prescriptiondiagnosis.save')}}" method="post" enctype="multipart/form-data" id="prescription_advice_create">
+                                    @csrf
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm"  name="advice_id" id="advice_id"></select>
+                                                    </div>
                                                 </div>
-                                                <ul class="list-group complaint-search-list" id="complaint-list">
-                                                    @foreach($diagnosis as $diagnos)
-                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="col-5" style="min-height:500px;">
-                                                <ul id="complaint-list-text">
-                                                </ul>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
-
-                                </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="referredbtn" data-target="#referred">Referred</button>
-                    <div class="modal fade" id="referred" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
+                    <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="investigationsbtn" data-target="#investigations">Investigations</button>
+                    <div class="modal fade" id="investigations" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-secondary">
-                                <h5 class="modal-title" id="referredModalLabel">Referred List</h5>
+                                <h5 class="modal-title" id="investigationsModalLabel">Investigations List</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                        <h4 class="text-center">Referred Information</h4>
-                                        <div class="row">
-                                            <div class="col-7 border-right">
-                                                <div class="form-group text-center">
-                                                    <input type="text" class="form-control form-control-md" id="complaint-search" placeholder="Search..">
+                               <form action="{{route('tests.save')}}" method="post" enctype="multipart/form-data" id="prescription_investigations_create">
+                                    @csrf
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm"  name="investigations_id" id="investigations_id"></select>
+                                                    </div>
                                                 </div>
-                                                <ul class="list-group complaint-search-list" id="complaint-list">
-                                                    @foreach($diagnosis as $diagnos)
-                                                        <li class="list-group-item complaint-list-item" data-value="{{$diagnos->id}}">{{$diagnos->name_eng}}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                            <div class="col-5" style="min-height:500px;">
-                                                <ul id="complaint-list-text">
-                                                </ul>
                                             </div>
                                         </div>
-                                </div>
-                                <div class="modal-footer">
-                                <button class="btn btn-sm btn-success" id="cheif-complaint-save">&nbsp;Save&nbsp;</button>
-
-                                </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -508,23 +506,38 @@ body * { visibility: hidden; }
                 <div class="card-body" style = "min-height:250px;">
                     <div class="row">
                         <div class="col-sm-3">
-                            <h6>Cheif Complaint</h6>
+                            <h6><b>Cheif Complaint</b></h6>
                             <ul class="border-top pt-2" id="cheif-complaint-list" style="min-height:200px;">
                             </ul>
-                            <h6>On Examination</h6>
-                            <ul class="border-top pt-2" id="onexamination-list" style="min-height:200px;">
-                            </ul>
-                            <h6>Investigation</h6>
+                            <h6><b>On Examination</b></h6>
+                            <div class="row mb-2">
+                                <div class="col-sm-6 p-1 exam-part" style="display:none;">
+                                    Temperature : <span id="temperature_value"></span>&nbsp;<sup>o</sup>F
+                                </div>
+                                <div class="col-sm-6 p-1 exam-part" style="display:none;">
+                                    Pressure : <span id="pressure_value"></span>&nbsp;
+                                </div>
+                                <div class="col-sm-6 p-1 exam-part" style="display:none;">
+                                    Height : <span id="height_value"></span>
+                                </div>
+                                <div class="col-sm-6 p-1 exam-part" style="display:none;">
+                                    Weight : <span id="weight_value"></span>&nbsp;Kg
+                                </div>
+                                <div class="col-sm-6 p-1 exam-part" style="display:none;">
+                                    BMI : <span id="bmi_value"></span>
+                                </div>
+                            </div>
+                            <h6><b>Investigation</b></h6>
                             <ul class="border-top pt-2" id="test-list" style="min-height:200px;">
                             </ul>
                         </div>
                         <div class=" col-sm-6 border-left">
-                                <h6>Diagnosis</h6>
+                                <h6><b>Diagnosis</b></h6>
                                 <ul class="border-top pt-2" id="diagnosis-list" style="min-height:200px;">
                                 </ul>
                                 <h5>Rx</h5>
-                                <ul id="treatment-list">
-                                </ul>
+                                <ol id="treatment-list">
+                                </ol>
                         </div>
                         <div class="col-sm-3">
                             <div class="card">
@@ -554,6 +567,7 @@ body * { visibility: hidden; }
             minimumInputLength: 1,
             tags: true,
             autoClear: true,
+            allowClear: true,
             ajax: {
                 type: 'PUT',
                 url: "{{ url('complaint/search') }}",
@@ -594,6 +608,8 @@ body * { visibility: hidden; }
         $('#complaint_duration_id').select2({
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
+            autoClear: true,
+            allowClear: true,
             tags: true,
             ajax: {
                 type: 'PUT',
@@ -636,6 +652,8 @@ body * { visibility: hidden; }
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
             tags: true,
+            autoClear: true,
+            allowClear: true,
             ajax: {
                 type: 'PUT',
                 url: "{{ url('complaintvalue/search') }}",
@@ -721,12 +739,12 @@ body * { visibility: hidden; }
                                 </div>
                             </li>`;
                             $("#cheif-complaint-list").append(element);
-                            $("#complaint_id").val('').trigger('change');
-                            $("#complaint_duration_id").val('').trigger('change');
-                            $("#complaint_value_id").val('').trigger('change');
-                            setTimeout(() => {
-                                $('#cheifComplaint').modal('hide');
-                            }, 100);
+                            $("#complaint_id").val(null).empty().trigger('change');
+                            $("#complaint_duration_id").val(null).empty().trigger('change');
+                            $("#complaint_value_id").val(null).empty().trigger('change');
+                            // setTimeout(() => {
+                            //     $('#cheifComplaint').modal('hide');
+                            // }, 300);
 
                             $('.remove-complaint-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
@@ -737,6 +755,671 @@ body * { visibility: hidden; }
             }
         });
         //Complaint Section Add Delete End Here
+
+        //Prescription On Examination 
+        $("#prescription_onexam_create").on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptiononexam') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Complaint Added Successfully");
+                            let x = data.on_exam;
+                           
+                            if(x.pressure == null){
+                                $('#pressure_value').text("");
+                                $('#pressure_value').closest('.exam-part').hide();
+                            }else{
+                                $('#pressure_value').text(x.pressure);
+                                $('#pressure_value').closest('.exam-part').show();
+                            }
+                            if(x.temperature == null){
+                                $('#temperature_value').text("");
+                                $('#temperature_value').closest('.exam-part').hide();
+                            }else{
+                                $('#temperature_value').text(x.temperature);
+                                $('#temperature_value').closest('.exam-part').show();
+                            }
+                            if(x.height == null){
+                                $('#height_value').text("");
+                                $('#height_value').closest('.exam-part').hide();
+                            }else{
+                                $('#height_value').text(x.height);
+                                $('#height_value').closest('.exam-part').show();
+                            }
+                            if(x.weight == null){
+                                $('#weight_value').text("");
+                                $('#weight_value').closest('.exam-part').hide();
+                            }else{
+                                $('#weight_value').text(x.weight);
+                                $('#weight_value').closest('.exam-part').show();
+                            }
+                            if(x.bmi == null){
+                                $('#bmi_value').text("");
+                                $('#bmi_value').closest('.exam-part').hide();
+                            }else{
+                                $('#bmi_value').text(x.bmi);
+                                $('#bmi_value').closest('.exam-part').show();
+                            }
+                            
+                        }
+                    });
+            }
+            setTimeout(() => {
+                $("#onExamination").modal('hide');
+            }, 100);
+        });
+         //Complaint Section Add Delete Start Here
+        $('#diagnosis_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('diagnosis/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#diagnosis'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        function removeDiagnosis(id){
+            $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    url: "{{ url('prescriptiondiagnosis') }}/"+id,
+                    data: {
+                        _token:'{{ csrf_token() }}',
+                        _method:'DELETE'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success){
+                            toastr.success("Diagnosis Remove Successfully");
+                            $("#remove-diagnosis-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+                });
+        }
+
+        $('#prescription_diagnosis_create').on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptiondiagnosis') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Diagnosi Added Successfully");
+                            let element = `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.diagnosis_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-xs remove-diagnosis-btn" data-id=${data.id} title="Remove" id="remove-diagnosis-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            $("#diagnosis-list").append(element);
+                            $("#diagnosis_id").val('').trigger('change');
+                            setTimeout(() => {
+                                $('#diagnosis').modal('hide');
+                            }, 100);
+
+                            $('.remove-diagnosis-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeDiagnosis(id);
+                            });
+                            
+                        }
+                    });
+            }
+            setTimeout(() => {
+                $("#onExamination").modal('hide');
+            }, 100);
+        });
+
+         //Advice Section Add Delete Start Here
+        $('#advice_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('advices/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#advice'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        function removeAdvice(id){
+            $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    url: "{{ url('prescriptionadvice') }}/"+id,
+                    data: {
+                        _token:'{{ csrf_token() }}',
+                        _method:'DELETE'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success){
+                            toastr.success("Advice Remove Successfully");
+                            $("#remove-advice-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+                });
+        }
+
+        $('#prescription_advice_create').on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptionadvice') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Advice Added Successfully");
+                            let element = `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.advice_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            $("#test-list").append(element);
+                            $("#advice_id").val('').empty().trigger('change');
+                            setTimeout(() => {
+                                $('#advice').modal('hide');
+                            }, 100);
+
+                            $('.remove-advice-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeAdvice(id);
+                            });
+                            
+                        }
+                    });
+            }
+            setTimeout(() => {
+                $("#onExamination").modal('hide');
+            }, 100);
+        });
+
+        //Investigations Section Add Delete Start Here
+        $('#investigations_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('tests/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        function removeInvestigations(id){
+            $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    url: "{{ url('prescriptioninvestigation') }}/"+id,
+                    data: {
+                        _token:'{{ csrf_token() }}',
+                        _method:'DELETE'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success){
+                            toastr.success("Diagnosis Remove Successfully");
+                            $("#remove-test-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+                });
+        }
+
+        $('#prescription_investigations_create').on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptioninvestigation') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Investigation Added Successfully");
+                            let element = `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.investigations_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            $("#test-list").append(element);
+                            $("#investigations_id").val('').empty().trigger('change');
+                            setTimeout(() => {
+                                $('#investigations').modal('hide');
+                            }, 100);
+
+                            $('.remove-test-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeInvestigations(id);
+                            });
+                            
+                        }
+                    });
+            }
+            setTimeout(() => {
+                $("#investigations").modal('hide');
+            }, 100);
+        });
+
+
+         //Medicines Section Add Delete Start Here
+        $('#medicines_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('medicines/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+         //Doses Section Add Delete Start Here
+        $('#dose_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('dose/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+      
+         //Dose Duration Section Add Delete Start Here
+        $('#dose_duration_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('doseduration/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+         //Usage Section Add Delete Start Here
+        $('#usage_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('usage/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        function removeMedicines(id){
+            $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    url: "{{ url('prescriptioninvestigation') }}/"+id,
+                    data: {
+                        _token:'{{ csrf_token() }}',
+                        _method:'DELETE'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success){
+                            toastr.success("Diagnosis Remove Successfully");
+                            $("#remove-test-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+                });
+        }
+
+        $('#prescription_medicines_create').on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptionmedicines') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Investigation Added Successfully");
+                            let element = `<li>
+                                <div class="row border">
+                                    <div class="col-sm-10">
+                                        <h5>${data.medicine}</h5>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger btn-xs remove-medicines-btn" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        ${data.dose} - ${data.usage} - ${data.dose_duration}
+                                    </div>
+                                    
+                                </div>
+                            </li>`;
+                            $("#treatment-list").append(element);
+                            // $("#investigations_id").val('').empty().trigger('change');
+                            // setTimeout(() => {
+                            //     $('#investigations').modal('hide');
+                            // }, 100);
+
+                            // $('.remove-test-btn').off('click').on('click',function(e){
+                            //     let id = $(this).attr('data-id');
+                            //     removeInvestigations(id);
+                            // });
+                            
+                        }
+                    });
+            }
+            setTimeout(() => {
+                $("#investigations").modal('hide');
+            }, 100);
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

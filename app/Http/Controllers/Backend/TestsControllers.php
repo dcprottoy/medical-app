@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
+use App\Models\Backend\TestsList;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\Request;
-use App\Models\Backend\DoseDuration;
 
-class DoseDurationController extends Controller
+class TestsControllers extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['doseduration'] = DoseDuration::paginate(5);
-        return view('backend.doseduration.index',$data);
+        $data['tests'] = TestsList::paginate(20);
+        return view('backend.tests.index',$data);
     }
 
     /**
@@ -23,7 +24,7 @@ class DoseDurationController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -31,6 +32,7 @@ class DoseDurationController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = Validator::make($request->all(),[
             'name_eng' => 'required',
         ]);
@@ -39,9 +41,9 @@ class DoseDurationController extends Controller
             // return back()->withErrors($validated)->withInput();
         }else{
             // return $request->input();
-            $advice = new DoseDuration();
-            $advice->fill($request->all())->save();
-            return back()->with('success','New Advice Created Successfully');
+            $department = new TestsList();
+            $department->fill($request->all())->save();
+            return back()->with('success','New Tests Created Successfully');
 
         }
     }
@@ -51,7 +53,7 @@ class DoseDurationController extends Controller
      */
     public function show(string $id)
     {
-        $lastid = DoseDuration::findOrFail($id);
+        $lastid = TestsList::findOrFail($id);
         return $lastid;
     }
 
@@ -74,13 +76,13 @@ class DoseDurationController extends Controller
         if($validated->fails()){
             return back()->with('error','Something went wrong !!')->withInput();
         }else{
-            $advice = DoseDuration::findOrFail($id);
+            $department = TestsList::findOrFail($id);
             $data = $request->only(['name_eng',
                                     'name_bang',
                                     'status']
                                 );
-            $advice->fill($data)->save();
-            return back()->with('success','Advice '.$advice->name_eng.' Updated Successfully');
+            $department->fill($data)->save();
+            return back()->with('success','Tests '.$department->name_eng.' Updated Successfully');
         }
     }
 
@@ -89,18 +91,18 @@ class DoseDurationController extends Controller
      */
     public function destroy(string $id)
     {
-        if(DoseDuration::find($id)){
-            $createObject = DoseDuration::find($id);
+        if(TestsList::find($id)){
+            $createObject = TestsList::find($id);
             $createObject->delete();
-            return back()->with('success','Diagnosis Remove Successfully');
+            return back()->with('success','Tests Remove Successfully');
         }else{
-            return back()->with('danger','Diagnosis Not Found');
+            return back()->with('danger','Tests Not Found');
         }
     }
 
     public function search(Request $request){
         $search = $request->q;
-        $diagnosis = DoseDuration::where('name_eng','LIKE','%'.$search.'%')->get();
-        return $diagnosis;
+        $complaint = TestsList::where('name_eng','LIKE','%'.$search.'%')->orWhere('name_bang','LIKE','%'.$search.'%')->get();
+        return $complaint;
     }
 }

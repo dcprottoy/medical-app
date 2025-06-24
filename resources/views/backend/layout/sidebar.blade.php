@@ -212,6 +212,18 @@
                             <p>Complaint Value</p>
                         </a>
                     </li>
+                    <li class="nav-item " >
+                        <a href="{{route('tests.home')}}" class="nav-link {{ Route::currentRouteName() == 'tests.home'||Route::currentRouteName() == 'tests.create'||Route::currentRouteName() == 'tests.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Investigations Name</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('medicines.home')}}" class="nav-link {{ Route::currentRouteName() == 'medicines.home'||Route::currentRouteName() == 'medicines.create'||Route::currentRouteName() == 'medicines.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Medicines</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endif
