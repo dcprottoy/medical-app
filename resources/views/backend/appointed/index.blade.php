@@ -1551,6 +1551,7 @@ body * { visibility: hidden; }
                                 $("#appon-date").text(response.success.appointed_date);
                                 console.log([id,patient_id]);
                                 $('#allPatient').modal('hide')
+                                $("#prescription-no").text("");
                         }
                     },
                 });
