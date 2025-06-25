@@ -438,38 +438,6 @@ body * { visibility: hidden; }
                     </div>
 
 
-                    <button class="btn btn-sm btn-primary" style="min-width:115px;" data-toggle="modal" id="advicebtn" data-target="#advice">Advice</button>
-                    <div class="modal fade" id="advice" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-xl" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header  bg-primary">
-                                    <h5 class="modal-title" id="adviceModalLabel">Advice List</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="{{route('prescriptiondiagnosis.save')}}" method="post" enctype="multipart/form-data" id="prescription_advice_create">
-                                    @csrf
-                                    <div class="modal-body" style="min-height: 300px;">
-                                        <div class="col-sm-12">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <div class="form-group">
-                                                        <select class="form-control form-control-sm"  name="advice_id" id="advice_id"></select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
-                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
                     <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="investigationsbtn" data-target="#investigations">Investigations</button>
                     <div class="modal fade" id="investigations" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
@@ -502,6 +470,70 @@ body * { visibility: hidden; }
                         </div>
                     </div>
 
+                    <button class="btn btn-sm btn-primary" style="min-width:115px;" data-toggle="modal" id="advicebtn" data-target="#advice">Advice</button>
+                    <div class="modal fade" id="advice" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-primary">
+                                    <h5 class="modal-title" id="adviceModalLabel">Advice List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="{{route('prescriptiondiagnosis.save')}}" method="post" enctype="multipart/form-data" id="prescription_advice_create">
+                                    @csrf
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm"  name="advice_id" id="advice_id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-sm" style="min-width:115px;background-color: #14576d;color: white;" data-toggle="modal" id="referredbtn" data-target="#referred">Reffered</button>
+                    <div class="modal fade" id="referred" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-secondary">
+                                <h5 class="modal-title" id="referredModalLabel">Referred List</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                               <form action="{{route('tests.save')}}" method="post" enctype="multipart/form-data" id="prescription_referred_create">
+                                    @csrf
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <select class="form-control form-control-sm"  name="referred_id" id="referred_id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="card-body" style = "min-height:250px;">
                     <div class="row">
@@ -510,7 +542,7 @@ body * { visibility: hidden; }
                             <ul class="border-top pt-2" id="cheif-complaint-list" style="min-height:200px;">
                             </ul>
                             <h6><b>On Examination</b></h6>
-                            <div class="row mb-2">
+                            <div class="row mb-2 border-top" style="min-height: 200px;">
                                 <div class="col-sm-6 p-1 exam-part" style="display:none;">
                                     Temperature : <span id="temperature_value"></span>&nbsp;<sup>o</sup>F
                                 </div>
@@ -531,24 +563,18 @@ body * { visibility: hidden; }
                             <ul class="border-top pt-2" id="test-list" style="min-height:200px;">
                             </ul>
                         </div>
-                        <div class=" col-sm-6 border-left">
+                        <div class=" col-sm-6 border-left border-right">
                                 <h6><b>Diagnosis</b></h6>
-                                <ul class="border-top pt-2" id="diagnosis-list" style="min-height:200px;">
+                                <ul class="border-top pt-2" id="diagnosis-list" style="min-height:100px;">
                                 </ul>
                                 <h5>Rx</h5>
-                                <ol id="treatment-list">
+                                <ol class="border-top" id="treatment-list">
                                 </ol>
                         </div>
                         <div class="col-sm-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title" style="font-weight:800;">Previous Appointments</h3>
-                                </div>
-                                <div class="card-body" style = "min-height:80vh;">
-
-                                </div>
-                            </div>
-
+                            <h6><b>Advice</b></h6>
+                            <ul class="border-top pt-2" id="advice-list" style="min-height:200px;">
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -742,9 +768,9 @@ body * { visibility: hidden; }
                             $("#complaint_id").val(null).empty().trigger('change');
                             $("#complaint_duration_id").val(null).empty().trigger('change');
                             $("#complaint_value_id").val(null).empty().trigger('change');
-                            // setTimeout(() => {
-                            //     $('#cheifComplaint').modal('hide');
-                            // }, 300);
+                            setTimeout(() => {
+                                $('#cheifComplaint').modal('hide');
+                            }, 300);
 
                             $('.remove-complaint-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
@@ -1015,13 +1041,13 @@ body * { visibility: hidden; }
                                 <div class="row">
                                     <div class="col-sm-10">${data.advice_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
+                                        <button type="button" class="btn  btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>`;
-                            $("#test-list").append(element);
+                            $("#advice-list").append(element);
                             $("#advice_id").val('').empty().trigger('change');
                             setTimeout(() => {
                                 $('#advice').modal('hide');
@@ -1126,7 +1152,7 @@ body * { visibility: hidden; }
                                 <div class="row">
                                     <div class="col-sm-10">${data.investigations_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -1150,6 +1176,118 @@ body * { visibility: hidden; }
                 $("#investigations").modal('hide');
             }, 100);
         });
+
+        //Investigations Section Add Delete Start Here
+        $('#referred_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('referred/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#referred'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        function removeInvestigations(id){
+            $.ajax({
+                    type: 'post',
+                    dataType: "json",
+                    url: "{{ url('prescriptioninvestigation') }}/"+id,
+                    data: {
+                        _token:'{{ csrf_token() }}',
+                        _method:'DELETE'
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success){
+                            toastr.success("Diagnosis Remove Successfully");
+                            $("#remove-test-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+                });
+        }
+
+        $('#prescription_referred_create').on('submit',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                let formData = $(this).serialize();
+                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    $.ajax({
+                        type: 'post',
+                        dataType: "json",
+                        url: "{{ url('prescriptioninvestigation') }}",
+                        data: formData,
+                        success: function (data) {
+                            console.log(data);
+                            toastr.success("Investigation Added Successfully");
+                            let element = `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.investigations_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            $("#test-list").append(element);
+                            $("#investigations_id").val('').empty().trigger('change');
+                            setTimeout(() => {
+                                $('#investigations').modal('hide');
+                            }, 100);
+
+                            $('.remove-test-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeInvestigations(id);
+                            });
+                            
+                        }
+                    });
+            }
+            setTimeout(() => {
+                $("#investigations").modal('hide');
+            }, 100);
+        });
+
 
 
          //Medicines Section Add Delete Start Here
@@ -1337,7 +1475,7 @@ body * { visibility: hidden; }
             $.ajax({
                     type: 'post',
                     dataType: "json",
-                    url: "{{ url('prescriptioninvestigation') }}/"+id,
+                    url: "{{ url('prescriptionmedicines') }}/"+id,
                     data: {
                         _token:'{{ csrf_token() }}',
                         _method:'DELETE'
@@ -1346,7 +1484,7 @@ body * { visibility: hidden; }
                         console.log(data);
                         if(data.success){
                             toastr.success("Diagnosis Remove Successfully");
-                            $("#remove-test-btn"+id).closest("li").remove();
+                            $("#remove-medicines-btn"+id).closest("li").remove();
                         }
                         
                     }
@@ -1371,12 +1509,12 @@ body * { visibility: hidden; }
                             console.log(data);
                             toastr.success("Investigation Added Successfully");
                             let element = `<li>
-                                <div class="row border">
+                                <div class="row border m-2">
                                     <div class="col-sm-10">
                                         <h5>${data.medicine}</h5>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-danger btn-xs remove-medicines-btn" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-medicines-btn float-right" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -1388,20 +1526,17 @@ body * { visibility: hidden; }
                             </li>`;
                             $("#treatment-list").append(element);
                             // $("#investigations_id").val('').empty().trigger('change');
-                            // setTimeout(() => {
-                            //     $('#investigations').modal('hide');
-                            // }, 100);
-
-                            // $('.remove-test-btn').off('click').on('click',function(e){
-                            //     let id = $(this).attr('data-id');
-                            //     removeInvestigations(id);
-                            // });
+                            
+                            $('.remove-medicines-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeMedicines(id);
+                            });
                             
                         }
                     });
             }
             setTimeout(() => {
-                $("#investigations").modal('hide');
+                $("#medecine").modal('hide');
             }, 100);
         });
 

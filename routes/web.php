@@ -38,6 +38,8 @@ use App\Http\Controllers\Backend\PrescriptionDiagnosisController;
 use App\Http\Controllers\Backend\PrescriptionAdviceController;
 use App\Http\Controllers\Backend\PrescriptionInvestigationController;
 use App\Http\Controllers\Backend\PrescriptionMedicineController;
+use App\Http\Controllers\Backend\PrescriptionReferredController;
+
 
 
 
@@ -311,6 +313,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'examination.delete'
         ]);
 
+        Route::put('referred/search',[ReferredController::class,'search']);
+
         Route::resource('/referred',ReferredController::class)->names([
             'index'=>'referred.home',
             'create'=>'referred.create',
@@ -501,6 +505,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'prescriptionmedicines.edit',
             'update'=>'prescriptionmedicines.update',
             'destroy'=>'prescriptionmedicines.delete'
+        ]);
+
+        Route::resource('/prescriptionreferred',PrescriptionReferredController::class)->names([
+            'index'=>'prescriptionreferred.home',
+            'create'=>'prescriptionreferred.create',
+            'store'=>'prescriptionreferred.save',
+            'edit'=>'prescriptionreferred.edit',
+            'update'=>'prescriptionreferred.update',
+            'destroy'=>'prescriptionreferred.delete'
         ]);
 
 
