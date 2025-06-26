@@ -49,6 +49,7 @@ use App\Http\Controllers\Backend\PrescriptionReferredController;
 
 use App\Http\Controllers\Backend\UsageController;
 use App\Http\Controllers\Backend\DoseController;
+use App\Http\Controllers\Backend\DoseFrequencyController;
 use App\Http\Controllers\Backend\DoseDurationController;
 use App\Http\Controllers\Backend\ServiceCategoryController;
 use App\Http\Controllers\Backend\ServiceTypeController;
@@ -187,6 +188,8 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'update'=>'advices.update',
             'destroy'=>'advices.delete'
         ]);
+
+
 
 
         Route::put('diagnosis/search',[DiagnosisController::class,'search']);
@@ -334,6 +337,18 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'update'=>'usage.update',
             'destroy'=>'usage.delete'
         ]);
+
+
+        Route::put('dosefrequency/search',[DoseFrequencyController::class,'search']);
+        Route::resource('/dosefrequency',DoseFrequencyController::class)->names([
+            'index'=>'dosefrequency.home',
+            'create'=>'dosefrequency.create',
+            'store'=>'dosefrequency.save',
+            'edit'=>'dosefrequency.edit',
+            'update'=>'dosefrequency.update',
+            'destroy'=>'dosefrequency.delete'
+        ]);
+
 
         Route::put('dose/search',[DoseController::class,'search']);
         Route::resource('/dose',DoseController::class)->names([

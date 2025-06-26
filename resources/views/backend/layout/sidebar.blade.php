@@ -183,15 +183,23 @@
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Usage</p>
                         </a>
-                    </li><li class="nav-item " >
+                    </li>
+                    <li class="nav-item " >
                         <a href="{{route('dose.home')}}" class="nav-link {{ Route::currentRouteName() == 'dose.home'||Route::currentRouteName() == 'dose.create'||Route::currentRouteName() == 'dose.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Dose</p>
                         </a>
-                    </li><li class="nav-item " >
+                    </li>
+                    <li class="nav-item " >
                         <a href="{{route('doseduration.home')}}" class="nav-link {{ Route::currentRouteName() == 'doseduration.home'||Route::currentRouteName() == 'doseduration.create'||Route::currentRouteName() == 'doseduration.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Dose Duration</p>
+                        </a>
+                    </li>
+                    <li class="nav-item " >
+                        <a href="{{route('dosefrequency.home')}}" class="nav-link {{ Route::currentRouteName() == 'dosefrequency.home'||Route::currentRouteName() == 'dosefrequency.create'||Route::currentRouteName() == 'dosefrequency.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Dose Frequency</p>
                         </a>
                     </li>
                     <li class="nav-item " >

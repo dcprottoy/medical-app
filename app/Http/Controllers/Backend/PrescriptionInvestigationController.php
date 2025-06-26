@@ -38,7 +38,8 @@ class PrescriptionInvestigationController extends Controller
         ]);
         // return $request->all();
         if($validated->fails()){
-            return back()->with('error','Something went wrong !!')->withInput();
+            
+            return response(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
 

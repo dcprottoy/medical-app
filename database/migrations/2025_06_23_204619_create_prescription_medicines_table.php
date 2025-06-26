@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('medicine');
             $table->integer('dose_id')->nullable();
             $table->string('dose');
+            $table->integer('dose_frequency_id')->nullable();
+            $table->string('dose_frequency')->nullable();
             $table->integer('dose_duration_id')->nullable();
             $table->string('dose_duration')->nullable();
             $table->string('usage_id')->nullable();

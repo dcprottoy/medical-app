@@ -404,25 +404,31 @@ body * { visibility: hidden; }
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
                                                         <label for="medicines_id">Medicine Name</label>
-                                                        <select class="form-control form-control-sm"  name="medicines_id" id="medicines_id"></select>
+                                                        <select class="form-control form-control-md"  name="medicines_id" id="medicines_id"></select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label for="dose_id">Dose</label>
-                                                        <select class="form-control form-control-sm"  name="dose_id" id="dose_id"></select>
+                                                        <select class="form-control form-control-md"  name="dose_id" id="dose_id"></select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="usage_id">Dose Frequency</label>
+                                                        <select class="form-control form-control-md"  name="dose_frequency_id" id="dose_frequency_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label for="dose_duration_id">Dose Duration</label>
-                                                        <select class="form-control form-control-sm"  name="dose_duration_id" id="dose_duration_id"></select>
+                                                        <select class="form-control form-control-md"  name="dose_duration_id" id="dose_duration_id"></select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-12">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label for="usage_id">Usage</label>
-                                                        <select class="form-control form-control-sm"  name="usage_id" id="usage_id"></select>
+                                                        <select class="form-control form-control-md"  name="usage_id" id="usage_id"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -577,6 +583,9 @@ body * { visibility: hidden; }
                         <div class="col-sm-3">
                             <h6><b>Advice</b></h6>
                             <ul class="border-top pt-2" id="advice-list" style="min-height:200px;">
+                            </ul>
+                            <h6><b>Referred</b></h6>
+                            <ul class="border-top pt-2" id="referred-list" style="min-height:200px;">
                             </ul>
                         </div>
                     </div>
@@ -769,6 +778,10 @@ body * { visibility: hidden; }
                         data: formData,
                         success: function (data) {
                             console.log(data);
+                            if('error' in data){
+                                toastr.error(data.error);
+                                return;
+                            }
                             toastr.success("Complaint Added Successfully");
                             let element = `<li>
                                 <div class="row">
@@ -940,7 +953,12 @@ body * { visibility: hidden; }
                         url: "{{ url('prescriptiondiagnosis') }}",
                         data: formData,
                         success: function (data) {
-                            console.log(data);
+
+                            console.log("data",data);
+                            if('error' in data){
+                                toastr.error(data.error);
+                                return;
+                            }
                             toastr.success("Diagnosi Added Successfully");
                             let element = `<li>
                                 <div class="row">
@@ -953,7 +971,7 @@ body * { visibility: hidden; }
                                 </div>
                             </li>`;
                             $("#diagnosis-list").append(element);
-                            $("#diagnosis_id").val('').trigger('change');
+                            $("#diagnosis_id").val(null).empty().trigger('change');
                             setTimeout(() => {
                                 $('#diagnosis').modal('hide');
                             }, 100);
@@ -1163,6 +1181,10 @@ body * { visibility: hidden; }
                         data: formData,
                         success: function (data) {
                             console.log(data);
+                            if('error' in data){
+                                toastr.error(data.error);
+                                return;
+                            }
                             toastr.success("Investigation Added Successfully");
                             let element = `<li>
                                 <div class="row">
@@ -1238,7 +1260,7 @@ body * { visibility: hidden; }
             }
         });
 
-        function removeInvestigations(id){
+        function removeReferred(id){
             $.ajax({
                     type: 'post',
                     dataType: "json",
@@ -1274,33 +1296,37 @@ body * { visibility: hidden; }
                         data: formData,
                         success: function (data) {
                             console.log(data);
-                            toastr.success("Investigation Added Successfully");
+                            if('error' in data){
+                                toastr.error(data.error);
+                                return;
+                            }
+                            toastr.success("Referred Added Successfully");
                             let element = `<li>
                                 <div class="row">
                                     <div class="col-sm-10">${data.investigations_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-danger btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-referred-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>`;
-                            $("#test-list").append(element);
-                            $("#investigations_id").val('').empty().trigger('change');
+                            $("#referred-list").append(element);
+                            $("#referred_id").val(null).empty().trigger('change');
                             setTimeout(() => {
                                 $('#investigations').modal('hide');
                             }, 100);
 
-                            $('.remove-test-btn').off('click').on('click',function(e){
+                            $('.remove-referred-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
-                                removeInvestigations(id);
+                                removeReferred(id);
                             });
                             
                         }
                     });
             }
             setTimeout(() => {
-                $("#investigations").modal('hide');
+                $("#referred").modal('hide');
             }, 100);
         });
 
@@ -1487,6 +1513,50 @@ body * { visibility: hidden; }
             }
         });
 
+        $('#dose_frequency_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('dosefrequency/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
         function removeMedicines(id){
             $.ajax({
                     type: 'post',
@@ -1523,7 +1593,7 @@ body * { visibility: hidden; }
                         data: formData,
                         success: function (data) {
                             console.log(data);
-                            toastr.success("Investigation Added Successfully");
+                            toastr.success("Medicine Added Successfully");
                             let element = `<li>
                                 <div class="row border m-2">
                                     <div class="col-sm-10">
@@ -1535,7 +1605,7 @@ body * { visibility: hidden; }
                                         </button>
                                     </div>
                                     <div class="col-sm-12">
-                                        ${data.dose} - ${data.usage} - ${data.dose_duration}
+                                        ${data.dose} ${data.dose_frequency == undefined ? '' :'---'+data.dose_frequency} ---  [${data.dose_duration_value}] -- ${data.usage} 
                                     </div>
                                     
                                 </div>

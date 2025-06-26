@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\TestsList;
+use App\Models\Backend\Referred;
 use App\Models\Backend\PrescriptionReferred;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
@@ -48,10 +48,10 @@ class PrescriptionReferredController extends Controller
         if($request->has('referred_id')){
             $referred = $request->referred_id;
             if(is_numeric($referred)){
-                $referred_text = TestsList::find($referred)->name_eng;
+                $referred_text = Referred::find($referred)->name_eng;
                 $referred_id = $referred;
             }else{
-                $new_referred = new TestsList();
+                $new_referred = new Referred();
                 $new_referred->name_eng = $referred;
                 $new_referred->save();
                 $referred_id = $new_referred->id;
@@ -96,7 +96,7 @@ class PrescriptionReferredController extends Controller
      */
     public function destroy(string $id)
     {
-        $isExisted = PrescriptionInvestigation::find($id);
+        $isExisted = PrescriptionReferred::find($id);
         if($isExisted){
             $isExisted->delete();
         }

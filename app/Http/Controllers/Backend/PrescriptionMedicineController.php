@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Backend\PrescriptionMedicines;
 use App\Models\Backend\Dose;
 use App\Models\Backend\DoseDuration;
+use App\Models\Backend\DoseFrequency;
 use App\Models\Backend\Medicines;
 use App\Models\Backend\Usage;
 use Illuminate\Support\Carbon;
@@ -94,20 +95,20 @@ class PrescriptionMedicineController extends Controller
             $prescription_medicines->dose_duration = $dose_duration_text;
         }
 
-        if($request->has('dose_duration_id')){
-            $dose_duration = $request->dose_duration_id;
-            if(is_numeric($dose_duration)){
-                $dose_duration_text = DoseDuration::find($dose_duration)->name_eng;
-                $dose_duration_id = $dose_duration;
+        if($request->has('dose_frequency_id')){
+            $dose_frequency = $request->dose_frequency_id;
+            if(is_numeric($dose_frequency)){
+                $dose_frequency_text = DoseFrequency::find($dose_frequency)->name_eng;
+                $dose_frequency_id = $dose_frequency;
             }else{
-                $new_dose_duration = new DoseDuration();
-                $new_dose_duration->name_eng = $dose_duration;
-                $new_dose_duration->save();
-                $dose_duration_id = $new_dose_duration->id;
-                $dose_duration_text = $dose_duration;
+                $new_dose_frequency = new DoseFrequency();
+                $new_dose_frequency->name_eng = $dose_frequency;
+                $new_dose_frequency->save();
+                $dose_frequency_id = $new_dose_frequency->id;
+                $dose_frequency_text = $dose_frequency;
             }
-            $prescription_medicines->dose_duration_id = $dose_duration_id;
-            $prescription_medicines->dose_duration = $dose_duration_text;
+            $prescription_medicines->dose_frequency_id = $dose_frequency_id;
+            $prescription_medicines->dose_frequency = $dose_frequency_text;
         }
 
         if($request->has('usage_id')){

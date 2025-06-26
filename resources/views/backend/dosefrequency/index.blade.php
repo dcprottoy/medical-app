@@ -6,15 +6,15 @@
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                    <h3 class="card-title">Dose Entry</h3>
+                    <h3 class="card-title">Dose Frequency Entry</h3>
                 </div>
-                <form action="{{route('dose.save')}}" method="post" enctype="multipart/form-data">
+                <form action="{{route('dosefrequency.save')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    <label> Dose Name</label>
+                                    <label> Dose Frequency Name</label>
                                     <input type="text" class="form-control form-control-sm" name='name_eng' placeholder="Dose Name">
                                 </div>
                             </div>
@@ -45,7 +45,7 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Dose</h3>
+                    <h3 class="card-title">Dose Frequency</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                             <i class="fas fa-minus"></i>
@@ -63,7 +63,7 @@
                                 SL
                             </th>
                             <th style="width: 30%" class="text-center">
-                                Dose Name
+                                Dose Frequency Name
                             </th>
                             <th style="width: 15%" class="text-center">
                                 ওষুধের মাত্রা
@@ -155,7 +155,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="form-group">
-                                                <label>Dose Name</label>
+                                                <label>Dose Frequency Name</label>
                                                 <input type="text" class="form-control form-control-sm" id='u-name_eng' name='name_eng' placeholder="Dose Name" required>
                                             </div>
                                         </div>
@@ -196,14 +196,14 @@
     $(document).ready(function(){
         $(".delete").on('click',function(e){
             let id = $(this).attr("data-id");
-            let link = "{{url('dose/')}}/"+id;
+            let link = "{{url('dosefrequency/')}}/"+id;
             $('#modal-default-delete').modal('show');
             $('#delete-modal').attr('action',link);
         });
         $(".update").on('click',function(e){
             let id = $(this).attr("data-id");
                 $.ajax({
-                    url: "{{url('dose/')}}/"+id,
+                    url: "{{url('dosefrequency/')}}/"+id,
                     success: function (result) {
                         console.log(result);
                         $('#u-name_eng').val(result.name_eng);
@@ -216,7 +216,7 @@
 
                     }
                 });
-            let link = "{{url('dose/')}}/"+id;
+            let link = "{{url('dosefrequency/')}}/"+id;
             $('#update-modal').attr('action',link);
             $('#modal-default-update').modal('show');
 

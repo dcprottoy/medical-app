@@ -41,7 +41,7 @@ class PrescriptionComplaintController extends Controller
         ]);
         
         if($validated->fails()){
-            return back()->with('error','Something went wrong !!')->withInput();
+            return response()->json(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
 
