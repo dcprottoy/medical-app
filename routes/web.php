@@ -135,6 +135,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'appoinments.delete'
         ]);
 
+        Route::get('appointed/print/{id}',[AppointedPatientController::class,'print']);
         Route::resource('/appointed',AppointedPatientController::class)->names([
             'index'=>'appointed.home',
             'create'=>'appointed.create',

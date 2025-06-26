@@ -35,8 +35,8 @@
             <td style="padding:0px;width:50%;text-align:right;">
                 <span style="font-size:20px;text-transform:uppercase;font-weight:bold;line-height: 2em;">DR. MD Golam Hossain</span></br>
                 <span style="font-size:14px;text-transform:uppercase;">MBBS (du),mcps(bcps),fcgp(bd), FIAGP(INDIA)</span></br>
-                <span style="font-size:14px;text-transform:uppercase;">ccu(sub), C.paed(bich),c.diab(birdem)</span></br>
-                <span style="font-size:13px;text-transform:capitalize;">specialist in family medecine sonologist, diabetologist</span></br>
+                <span style="font-size:14px;text-transform:uppercase;">ccu(sub), C.paed(bich), c.diab(birdem)</span></br>
+                <span style="font-size:13px;text-transform:capitalize;">specialist in family medecine, sonologist, diabetologist &</span></br>
                 <span style="font-size:13px;text-transform:capitalize;">children's physician</span>
             </td>
     </table>
@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <td style="width: 50%;font-size:12px;">
-                Prescription No. {!! $main->bill_id !!}
+                Prescription No. {!! $main->prescription_id !!}
             </td>
             <td  style="width: 50%;text-align:right;font-size:12px;">
                 Patient ID. {!! $main->patient->patient_id !!}
@@ -80,22 +80,28 @@
     <td style="width: 35%; vertical-align: top;height:78%;border-right:1px solid black;font-size:12px;">
     <strong>Chief Complaint : </strong>
       <ul>
-        <li>Fever</li>
-        <li>Oain In Chest</li>
-        <li>Cough</li>
-        <li>Fast breathing</li>
+       @foreach ($complain as $x )
+        <li>{{@$x->complaint}}&nbsp;{{@$x->complaint_duration}}&nbsp;{{@$x->complaint_duration_value}}&nbsp;</li>
+       @endforeach
       </ul>
       <strong>On Examination:</strong><br>
       <table style="width: 100%;">
         <tr>
-            <td style="width:60%;text-align:left;">Temperature : <b>100&nbsp;<sup>o</sup>&nbsp;F</b></td>
-            <td style="width:60%;text-align:left;">Pressure : <b>110/160</b></td>
+            <td style="width:60%;text-align:left;">Temperature : <b>{{@$onexam->temperature}}&nbsp;<sup>o</sup>&nbsp;F</b></td>
+            <td style="width:60%;text-align:left;">Pressure : <b>{{@$onexam->pressure}}</b></td>
         </tr>
         <tr>
-            <td style="width:40%;text-align:left;">Weight : <b>52 Kg</b></td>
-            <td style="width:40%;text-align:left;">Height : <b>5"4'</b></td>
+            <td style="width:40%;text-align:left;">Weight : <b>{{@$onexam->weight}}&nbsp;Kg</b></td>
+            <td style="width:40%;text-align:left;">Height : <b>{{@$onexam->height}}&nbsp;</b></td>
         </tr>
       </table>
+      <br>
+      <strong>Investigations : </strong>
+      <ul>
+        @foreach($investigations as $x)
+        <li>{{@$x->investigations_value}}</li>
+        @endforeach
+      </ul>
     </td>
     <td style="width: 68%; vertical-align: top;font-size:12px;">
       <strong>Diagnosis :</strong><br>

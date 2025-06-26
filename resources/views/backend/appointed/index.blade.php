@@ -534,6 +534,9 @@ body * { visibility: hidden; }
                         </div>
                     </div>
 
+                    <button class="btn btn-sm float-right" style="min-width:115px;background-color: #551adf;color: white;" id="printbtn" >Print</button>
+                    
+
                 </div>
                 <div class="card-body" style = "min-height:250px;">
                     <div class="row">
@@ -547,7 +550,7 @@ body * { visibility: hidden; }
                                     Temperature : <span id="temperature_value"></span>&nbsp;<sup>o</sup>F
                                 </div>
                                 <div class="col-sm-6 p-1 exam-part" style="display:none;">
-                                    Pressure : <span id="pressure_value"></span>&nbsp;
+                                    BP : <span id="pressure_value"></span>&nbsp;
                                 </div>
                                 <div class="col-sm-6 p-1 exam-part" style="display:none;">
                                     Height : <span id="height_value"></span>
@@ -586,6 +589,19 @@ body * { visibility: hidden; }
 @push('scripts')
 <script>
     $(document).ready(function(){
+
+        $("#printbtn").on('click',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                event.preventDefault();
+                // Open the link's URL in a new tab
+                window.open("{{url('appointed/print')}}"+'/'+prescription_no, '_blank');
+            }
+        });
 
         //Complaint Section Add Delete Start Here
         $('#complaint_id').select2({
