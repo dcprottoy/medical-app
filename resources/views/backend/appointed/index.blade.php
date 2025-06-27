@@ -1264,7 +1264,7 @@ body * { visibility: hidden; }
             $.ajax({
                     type: 'post',
                     dataType: "json",
-                    url: "{{ url('prescriptioninvestigation') }}/"+id,
+                    url: "{{ url('prescriptionreferred') }}/"+id,
                     data: {
                         _token:'{{ csrf_token() }}',
                         _method:'DELETE'
@@ -1272,7 +1272,7 @@ body * { visibility: hidden; }
                     success: function (data) {
                         console.log(data);
                         if(data.success){
-                            toastr.success("Diagnosis Remove Successfully");
+                            toastr.success("Referred Remove Successfully");
                             $("#remove-test-btn"+id).closest("li").remove();
                         }
                         
@@ -1292,7 +1292,7 @@ body * { visibility: hidden; }
                     $.ajax({
                         type: 'post',
                         dataType: "json",
-                        url: "{{ url('prescriptioninvestigation') }}",
+                        url: "{{ url('prescriptionreferred') }}",
                         data: formData,
                         success: function (data) {
                             console.log(data);
@@ -1303,7 +1303,7 @@ body * { visibility: hidden; }
                             toastr.success("Referred Added Successfully");
                             let element = `<li>
                                 <div class="row">
-                                    <div class="col-sm-10">${data.investigations_value}</div>
+                                    <div class="col-sm-10">${data.referred}</div>
                                     <div class="col-sm-2">
                                         <button type="button" class="btn btn-danger btn-xs remove-referred-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
                                             <i class="fas fa-times"></i>
@@ -1569,7 +1569,7 @@ body * { visibility: hidden; }
                     success: function (data) {
                         console.log(data);
                         if(data.success){
-                            toastr.success("Diagnosis Remove Successfully");
+                            toastr.success("Medicine Remove Successfully");
                             $("#remove-medicines-btn"+id).closest("li").remove();
                         }
                         
@@ -1598,26 +1598,27 @@ body * { visibility: hidden; }
                                 <div class="row border m-2">
                                     <div class="col-sm-10">
                                         <h5>${data.medicine}</h5>
+                                        ${data.dose} ${data.dose_frequency == undefined ? '' :'--'+data.dose_frequency}    ${data.dose_duration == undefined ? '' :'-- [ '+data.dose_duration+' ]'}  -- ${data.usage == undefined ? '' :'-- '+data.usage} 
+
                                     </div>
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-2 align-center">
                                         <button type="button" class="btn btn-danger btn-xs remove-medicines-btn float-right" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        ${data.dose} ${data.dose_frequency == undefined ? '' :'---'+data.dose_frequency} ---  [${data.dose_duration_value}] -- ${data.usage} 
                                     </div>
                                     
                                 </div>
                             </li>`;
                             $("#treatment-list").append(element);
-                            // $("#investigations_id").val('').empty().trigger('change');
-                            
+                            $("#medicines_id").val('').empty().trigger('change');
+                            $("#dose_id").val('').empty().trigger('change');
+                            $("#dose_duration_id").val('').empty().trigger('change');
+                            $("#usage_id").val('').empty().trigger('change');
+                            $("#dose_frequency_id").val('').empty().trigger('change');
                             $('.remove-medicines-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
                                 removeMedicines(id);
                             });
-                            
                         }
                     });
             }
@@ -1625,26 +1626,6 @@ body * { visibility: hidden; }
                 $("#medecine").modal('hide');
             }, 100);
         });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         $(document).on('select2:open', function (e) {
             const searchField = document.querySelector('.select2-container--open .select2-search__field');
@@ -1743,6 +1724,7 @@ body * { visibility: hidden; }
         
             patientSet(id);
         });
+
         function patientSet(id){
             let doctor_id = "{{Auth::user()->user_id}}";
             let patient_id = $("#reg-patient-id"+id).text();
@@ -1773,6 +1755,17 @@ body * { visibility: hidden; }
                                 console.log([id,patient_id]);
                                 $('#allPatient').modal('hide')
                                 $("#prescription-no").text("");
+                                $('#cheif-complaint-list').empty();
+                                $('#temperature_value').val('');
+                                $('#pressure_value').val('');
+                                $('#height_value').val('');
+                                $('#weight_value').val('');
+                                $('#bmi_value').val('');
+                                $('#test-list').empty();
+                                $('#treatment-list').empty();
+                                $('#diagnosis-list').empty();
+                                $('#advice-list').empty();
+                                $('#referred-list').empty();
                         }
                     },
                 });
@@ -1842,6 +1835,19 @@ body * { visibility: hidden; }
                             $("#serial-no").text(response.success.serial);
                             $("#appoint_no").val(response.success.appoint_id);
                             $('#new_patient_create').trigger("reset");
+                            $('#allPatient').modal('hide')
+                            $("#prescription-no").text("");
+                            $('#cheif-complaint-list').empty();
+                            $('#temperature_value').val('');
+                            $('#pressure_value').val('');
+                            $('#height_value').val('');
+                            $('#weight_value').val('');
+                            $('#bmi_value').val('');
+                            $('#test-list').empty();
+                            $('#diagnosis-list').empty();
+                            $('#treatment-list').empty();
+                            $('#advice-list').empty();
+                            $('#referred-list').empty();
                             toastr.success('New Patient & Appointment Created');
                         }
                     $('#newPatient').modal("hide");
@@ -1881,12 +1887,6 @@ body * { visibility: hidden; }
                     },
                 });
         });
-
-
-
-       
-
-        
 
 
     });

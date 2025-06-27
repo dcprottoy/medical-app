@@ -532,6 +532,5 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'prescriptionreferred.delete'
         ]);
 
-
     });
 

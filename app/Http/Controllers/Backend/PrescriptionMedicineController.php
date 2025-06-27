@@ -162,6 +162,10 @@ class PrescriptionMedicineController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $isExisted = PrescriptionMedicines::find($id);
+        if($isExisted){
+            $isExisted->delete();
+        }
+        return response()->json(['success' => true]);
     }
 }

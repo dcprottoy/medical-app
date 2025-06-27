@@ -34,7 +34,7 @@ class PrescriptionReferredController extends Controller
     {
         $validated = Validator::make($request->all(),[
             'prescription_id'=> 'required',
-            'investigations_id'=> 'required',
+            'referred_id'=> 'required',
         ]);
         // return $request->all();
         if($validated->fails()){
@@ -58,7 +58,7 @@ class PrescriptionReferredController extends Controller
                 $referred_text = $referred;
             }
             $prescription_referred->referred_id = $referred_id;
-            $prescription_referred->referred_value = $referred_text;
+            $prescription_referred->referred = $referred_text;
         }
         
         $prescription_referred->save();

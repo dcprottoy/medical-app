@@ -20,6 +20,14 @@ use App\Models\Backend\PrescriptionMain;
 use App\Models\Backend\PrescriptionOnExamination;
 use App\Models\Backend\PrescriptionInvestigation;
 use App\Models\Backend\PrescriptionComplaint;
+use App\Models\Backend\PrescriptionDiagnosis;
+use App\Models\Backend\PrescriptionMedicines;
+use App\Models\Backend\PrescriptionReferred;
+use App\Models\Backend\PrescriptionAdvice;
+
+
+
+
 
 
 
@@ -107,13 +115,17 @@ class AppointedPatientController extends Controller
         $investigations = PrescriptionInvestigation::where('prescription_id','=',$id)->get();
         $onexam = PrescriptionOnExamination::where('prescription_id','=',$id)->first();
         $complain = PrescriptionComplaint::where('prescription_id','=',$id)->get();
+        $diagnosis = PrescriptionDiagnosis::where('prescription_id','=',$id)->get();
+        $medicins = PrescriptionMedicines::where('prescription_id','=',$id)->get();
+        $advices = PrescriptionAdvice::where('prescription_id','=',$id)->get();
+        $referred = PrescriptionReferred::where('prescription_id','=',$id)->get();
 
         
         // return $prescription;
         $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
         $billImg = $generator->getBarcode($main->prescription_id, $generator::TYPE_CODE_128);
         $patientImg = $generator->getBarcode($main->patient_id, $generator::TYPE_CODE_128);
-        $data = ["main"=>$main,'billImg'=>$billImg,'patientImg'=>$patientImg,'investigations'=>$investigations,'onexam'=>$onexam,'complain'=>$complain];
+        $data = ["main"=>$main,'billImg'=>$billImg,'patientImg'=>$patientImg,'investigations'=>$investigations,'onexam'=>$onexam,'complain'=>$complain,'diagnosis'=>$diagnosis,'medicins'=>$medicins,'advices'=>$advices,'referred'=>$referred];
        
         $data["printed_by"] = $user = Auth::user()->name;
         // return $taka;
@@ -125,7 +137,7 @@ class AppointedPatientController extends Controller
         // $customPaper = array(0,0,650,1100);
         // $pdf = PDF::setPaper($customPaper,'potrait')->loadView('pdf.document', $data);
         // return view('pdf.document', $data);
-        $pdf = PDF::setPaper('A4','potrait')->loadView('pdf.document', $data);
+        $pdf = PDF::setPaper('A4','potrait')->loadView('prescription.document', $data);
 
         return $pdf->stream('document.pdf');
 
