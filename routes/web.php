@@ -15,8 +15,6 @@ use App\Http\Controllers\Backend\ComplaintDurationController;
 use App\Http\Controllers\Backend\ComplaintValueController;
 use App\Http\Controllers\Backend\TestsControllers;
 use App\Http\Controllers\Backend\MedicinesController;
-
-
 use App\Http\Controllers\Backend\AppointmentTypeController;
 use App\Http\Controllers\Backend\AppointmentFeeController;
 use App\Http\Controllers\Backend\InvestigationEquipmentControllers;
@@ -30,7 +28,6 @@ use App\Http\Controllers\Backend\ExaminationController;
 use App\Http\Controllers\Backend\ReferredController;
 use App\Http\Controllers\Backend\DueController;
 use App\Http\Controllers\Backend\BillReferenceControllers;
-
 use App\Http\Controllers\Backend\PrescribeController;
 use App\Http\Controllers\Backend\PrescriptionComplaintController;
 use App\Http\Controllers\Backend\PrescriptionOnExaminationController;
@@ -39,14 +36,6 @@ use App\Http\Controllers\Backend\PrescriptionAdviceController;
 use App\Http\Controllers\Backend\PrescriptionInvestigationController;
 use App\Http\Controllers\Backend\PrescriptionMedicineController;
 use App\Http\Controllers\Backend\PrescriptionReferredController;
-
-
-
-
-
-
-
-
 use App\Http\Controllers\Backend\UsageController;
 use App\Http\Controllers\Backend\DoseController;
 use App\Http\Controllers\Backend\DoseFrequencyController;
@@ -531,6 +520,7 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'update'=>'prescriptionreferred.update',
             'destroy'=>'prescriptionreferred.delete'
         ]);
+
 
     });
 

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Backend\Doctors;
 use App\Models\Backend\Patients;
+use App\Models\Backend\Appoinments;
+
 use App\Models\Backend\PrescriptionMain;
 use Illuminate\Support\Carbon;
 
@@ -33,6 +35,7 @@ class PrescribeController extends Controller
      */
   public function store(Request $request)
     {
+        // return $request->all();
 
         $date = Carbon::now();
         $checkingID = (int)strval($date->year).'000000';
@@ -62,12 +65,24 @@ class PrescribeController extends Controller
             $doctor_id = $request->doctor_id;
             $date = $request->appointed_date;
            
-            $prescription = new PrescriptionMain();
-            $prescription->prescription_id = (int)$prescription_id;
-            $prescription->fill($request->all())->save();
-            return response()->json([
+            
+            $appointment =  Appoinments::where('appoint_id',$request->appoint_id)->first();
+            $appointment->visited = 1;
+            $appointment->save();
+
+            if($request->visite_btn == false){
+                $prescription = new PrescriptionMain();
+                $prescription->prescription_id = (int)$prescription_id;
+                $prescription->fill($request->all())->save();
+                 return response()->json([
                 "success"=>$prescription
+                    ]);
+           }
+
+            return response()->json([
+                "success"=>true
             ]);
+           
 
         }
     }

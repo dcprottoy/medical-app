@@ -23,6 +23,7 @@ class Appoinments extends Model
         'transferred_appointment',
         'transferred_to',
         'note',
+        'visited',
         'serial',
         'created_by',
         'updated_by'

@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('transferred_appointment')->default(false);
             $table->integer('transferred_to')->nullable();
             $table->text('note')->nullable();
+            $table->boolean('visited')->default(0);
             $table->integer('serial')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();

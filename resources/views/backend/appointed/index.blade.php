@@ -73,6 +73,28 @@ body * { visibility: hidden; }
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
+                    <button class="btn btn-sm btn-success" data-toggle="modal" id="aptpantbtn" data-target="#appointedPatient">Appointed Patients</button>
+                    <div class="modal fade" id="appointedPatient" tabindex="-1" role="dialog" aria-labelledby="appointedPatientLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="appointedPatientModalLabel">Appointed Patient List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Appointment Information</h4>
+                                        <ul class="list-group search-list" id="appoin-patient-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-sm btn-info " data-toggle="modal" id="allptnbtn" data-target="#allPatient">Registered Patient</button>
                     <div class="modal fade" id="allPatient" tabindex="-1" role="dialog" aria-labelledby="allPatientLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -228,6 +250,8 @@ body * { visibility: hidden; }
                         </div>
                     </div>
                     <button class="btn btn-sm btn-danger float-right" data-toggle="modal" id="prescribe-btn" style="text-transform: uppercase;">Prescribe</button>
+                    <button class="btn btn-sm btn-secondary mr-2 float-right" data-toggle="modal" id="visited-btn" style="text-transform: uppercase;">Visited</button>
+
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -809,6 +833,16 @@ body * { visibility: hidden; }
                     });
             }
         });
+
+         $("#prescription_complaint_create").on('reset',function(e){
+            e.preventDefault();
+            $("#complaint_id").val(null).empty().trigger('change');
+            $("#complaint_duration_id").val(null).empty().trigger('change');
+            $("#complaint_value_id").val(null).empty().trigger('change');
+            setTimeout(() => {
+                $('#cheifComplaint').modal('hide');
+            }, 300);
+        });
         //Complaint Section Add Delete End Here
 
         //Prescription On Examination 
@@ -870,6 +904,12 @@ body * { visibility: hidden; }
                         }
                     });
             }
+            setTimeout(() => {
+                $("#onExamination").modal('hide');
+            }, 100);
+        });
+        $("#prescription_onexam_create").on('reset',function(e){
+            e.preventDefault();
             setTimeout(() => {
                 $("#onExamination").modal('hide');
             }, 100);
@@ -989,6 +1029,14 @@ body * { visibility: hidden; }
             }, 100);
         });
 
+        $('#prescription_diagnosis_create').on('reset',function(e){
+            e.preventDefault();
+            $("#diagnosis_id").val(null).empty().trigger('change');
+            setTimeout(() => {
+                $('#diagnosis').modal('hide');
+            }, 100);
+        });
+
          //Advice Section Add Delete Start Here
         $('#advice_id').select2({
             placeholder: 'Search or add an item',
@@ -1097,6 +1145,14 @@ body * { visibility: hidden; }
             }
             setTimeout(() => {
                 $("#onExamination").modal('hide');
+            }, 100);
+        });
+
+         $('#prescription_advice_create').on('reset',function(e){
+            e.preventDefault();
+            $("#advice_id").val('').empty().trigger('change');
+            setTimeout(() => {
+                $('#advice').modal('hide');
             }, 100);
         });
 
@@ -1215,7 +1271,15 @@ body * { visibility: hidden; }
             }, 100);
         });
 
-        //Investigations Section Add Delete Start Here
+        $('#prescription_investigations_create').on('reset',function(e){
+            e.preventDefault();
+             $("#investigations_id").val('').empty().trigger('change');
+            setTimeout(() => {
+                $('#investigations').modal('hide');
+            }, 100);
+        });
+
+        //Referred Section Add Delete Start Here
         $('#referred_id').select2({
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
@@ -1330,7 +1394,13 @@ body * { visibility: hidden; }
             }, 100);
         });
 
-
+        $('#prescription_referred_create').on('reset',function(e){
+            e.preventDefault();
+            $("#referred_id").val(null).empty().trigger('change');
+            setTimeout(() => {
+                $("#referred").modal('hide');
+            }, 100);
+        });
 
          //Medicines Section Add Delete Start Here
         $('#medicines_id').select2({
@@ -1627,6 +1697,18 @@ body * { visibility: hidden; }
             }, 100);
         });
 
+        $('#prescription_medicines_create').on('reset',function(e){
+            e.preventDefault();
+            $("#medicines_id").val('').empty().trigger('change');
+            $("#dose_id").val('').empty().trigger('change');
+            $("#dose_duration_id").val('').empty().trigger('change');
+            $("#usage_id").val('').empty().trigger('change');
+            $("#dose_frequency_id").val('').empty().trigger('change');
+            setTimeout(() => {
+                $("#medecine").modal('hide');
+            }, 100);
+        });
+
         $(document).on('select2:open', function (e) {
             const searchField = document.querySelector('.select2-container--open .select2-search__field');
             if (searchField) {
@@ -1663,12 +1745,16 @@ body * { visibility: hidden; }
             let patient_age = $("#patient-age"+id).text();
             let appon_date = $("#appon-date"+id).text();
             let serial_no = $("#serial-no"+id).text();
+            let appoint_id = $("#appointment_id"+id).val();
+            
             $("#patient-id").text(patient_id);
             $("#patient-name").text(patient_name);
             $("#patient-gender").text(patient_gender);
             $("#patient-age").text(patient_age);
             $("#appon-date").text(appon_date);
             $("#serial-no").text(serial_no);
+            $("#appoint_no").val(appoint_id);
+            
             console.log([id,patient_id]);
             $('#appointedPatient').modal('hide')
         }
@@ -1685,6 +1771,7 @@ body * { visibility: hidden; }
                             element += `<li class="list-group-item">
                                             <div class="row">
                                                 <div class="col-sm-8">
+                                                    <input type="hidden" name="appointment_id[]" id="appointment_id${x.id}" value="${x.appoint_id}">
                                                     <b>Patient ID :</b><em id="patient-id${x.id}">${x.patient_id}</em>
                                                     <br>
                                                     <b>Name :</b> <span id="patient-name${x.id}">${x.patient.name}</span>
@@ -1703,7 +1790,7 @@ body * { visibility: hidden; }
                                                     <b>Note :</b><em id="note${x.id}">${x.note}</em>
                                                     <br>
                                                      <button class="btn btn-sm btn-info prescribe" data-id=${x.id} style="float: right">
-                                                        Prescribe
+                                                        Select
                                                     </button>
                                                 </div>
 
@@ -1876,13 +1963,53 @@ body * { visibility: hidden; }
                             'patient_gender':patient_gender,
                             'patient_age':patient_age,
                             'prescribed_date':prescribed_date,
-                            'appoint_id':appoint_id
+                            'appoint_id':appoint_id,
+                            'visited_btn':false
+
                         },
                     success: function(response) {
                         if("success" in response){
                             toastr.success('New Prescription Generated');
                             $("#prescription-no").text(response.success.prescription_id);
                             
+                        }
+                    },
+                });
+        });
+
+        $("#visited-btn").on('click',function(){
+            let doctor_id = "{{Auth::user()->user_id}}";
+            let patient_id = $("#patient-id").text();
+            let patient_name = $("#patient-name").text();
+            let patient_gender = $("#patient-gender").text();
+            let patient_age = $("#patient-age").text();
+            let appoint_id = $("#appoint_no").val();
+           let prescribed_date = getTodayDate();
+           console.log([prescribed_date,patient_id,doctor_id]);
+           $.ajax({
+                    type: "POST",
+                    url: "{{url('prescribe')}}",
+                    data: {
+                            '_token':'{{ csrf_token() }}',
+                            'patient_id':patient_id,
+                            'doctor_id':doctor_id,
+                            'patient_name':patient_name,
+                            'patient_gender':patient_gender,
+                            'patient_age':patient_age,
+                            'prescribed_date':prescribed_date,
+                            'appoint_id':appoint_id,
+                            'visited_btn':true
+                        },
+                    success: function(response) {
+                        if("success" in response){
+                            toastr.success('New Prescription Generated');
+                            $("#patient-id").text("");
+                            $("#patient-name").text("");
+                            $("#patient-gender").text("");
+                            $("#patient-age").text("");
+                            $("#appon-date").text("");
+                            $("#serial-no").text("");
+                            $("#appoint_no").val("");
                         }
                     },
                 });

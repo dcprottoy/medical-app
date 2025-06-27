@@ -98,13 +98,14 @@ class AppointedPatientController extends Controller
 
     public function patientList(string $id){
 
-
         $date = Carbon::now()->format('Y-m-d');
         $appoinmentInfo = Appoinments::with('patient')
                         ->where('appoinments.appointed_date',$date)
                         ->where('appoinments.doctor_id',$id)
+                        ->where('appoinments.visited',false)
                         ->orderBy('appoinments.serial','ASC')
                         ->get();
+
         return $appoinmentInfo;
     }
 
