@@ -309,12 +309,6 @@ body * { visibility: hidden; }
                                                         <select class="form-control form-control-sm"  name="complaint_duration_id" id="complaint_duration_id"></select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
-                                                    <div class="form-group">
-                                                        <label>Complaint Value</label>
-                                                        <select class="form-control form-control-sm"  name="complaint_value_id" id="complaint_value_id"></select>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -723,48 +717,6 @@ body * { visibility: hidden; }
                 };
             }
         });
-         $('#complaint_value_id').select2({
-            placeholder: 'Search or add an item',
-            minimumInputLength: 1,
-            tags: true,
-            autoClear: true,
-            allowClear: true,
-            ajax: {
-                type: 'PUT',
-                url: "{{ url('complaintvalue/search') }}",
-                dataType: 'json',
-                delay: 250,
-                cache: true,
-                dropdownParent: $('#cheifComplaint'),
-                data: function (params) {
-                    return {
-                        q: params.term, // search term
-                        _token: "{{ csrf_token() }}"
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(item => ({
-                            id: item.id,
-                            text: item.name_eng
-                        }))
-                    };
-                },
-                cache: true
-            },
-            createTag: function (params) {
-                const term = $.trim(params.term);
-                if (term === '') {
-                    return null;
-                }
-
-                return {
-                    id: term,
-                    text: term,
-                    newTag: true // flag to identify new item
-                };
-            }
-        });
         function removeComplaint(id){
             $.ajax({
                     type: 'post',
@@ -793,8 +745,33 @@ body * { visibility: hidden; }
                 $('#cheifComplaint').modal('hide');
             }
             else{
-                let formData = $(this).serialize();
+
+                    let formData = $(this).serialize();
+                    let new_complaint_id = false;
+                    let new_complaint_duration_id = false;
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                   
+
+                    let complaint_id_Value = $('#complaint_id').val(); // gets the selected value
+                    if(complaint_id_Value) {
+                        let complaint_id_Text = $('#complaint_id').select2('data')[0].text;
+                        if(complaint_id_Value == complaint_id_Text){
+                            new_complaint_id = true;
+                        }
+                    }
+                    let complaint_duration_id_Value = $('#complaint_duration_id').val(); // gets the selected value
+                    if(complaint_duration_id_Value){
+                        let complaint_duration_id_Text = $('#complaint_duration_id').select2('data')[0].text;
+                        if(complaint_duration_id_Value == complaint_duration_id_Text){
+                            new_complaint_duration_id = true;
+                        }
+
+                    }
+                    
+                    formData += '&new_complaint_id=' + encodeURIComponent(new_complaint_id);
+                    formData += '&new_complaint_duration_id=' + encodeURIComponent(new_complaint_duration_id);
+
+                   
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -809,7 +786,7 @@ body * { visibility: hidden; }
                             toastr.success("Complaint Added Successfully");
                             let element = `<li>
                                 <div class="row">
-                                    <div class="col-sm-10">${data.complaint}    ${data.complaint_duration == undefined ? '' : data.complaint_duration}      ${data.complaint_duration_value == undefined ? '' : data.complaint_duration_value}</div>
+                                    <div class="col-sm-10">${data.complaint}    ${data.complaint_duration == undefined ? '' : data.complaint_duration} </div>
                                     <div class="col-sm-2">
                                         <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
                                             <i class="fas fa-times"></i>
@@ -820,7 +797,6 @@ body * { visibility: hidden; }
                             $("#cheif-complaint-list").append(element);
                             $("#complaint_id").val(null).empty().trigger('change');
                             $("#complaint_duration_id").val(null).empty().trigger('change');
-                            $("#complaint_value_id").val(null).empty().trigger('change');
                             setTimeout(() => {
                                 $('#cheifComplaint').modal('hide');
                             }, 300);
@@ -838,7 +814,6 @@ body * { visibility: hidden; }
             e.preventDefault();
             $("#complaint_id").val(null).empty().trigger('change');
             $("#complaint_duration_id").val(null).empty().trigger('change');
-            $("#complaint_value_id").val(null).empty().trigger('change');
             setTimeout(() => {
                 $('#cheifComplaint').modal('hide');
             }, 300);

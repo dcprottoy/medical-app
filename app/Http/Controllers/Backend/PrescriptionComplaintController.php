@@ -44,7 +44,7 @@ class PrescriptionComplaintController extends Controller
             return response()->json(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
-
+        return $request->all();
         $prescription_complaint = new PrescriptionComplaint();
         $prescription_complaint->prescription_id = $request->prescription_id;
 
@@ -62,21 +62,6 @@ class PrescriptionComplaintController extends Controller
             }
             $prescription_complaint->complaint_id = $complaint_id;
             $prescription_complaint->complaint = $complaint_text;
-        }
-        if($request->has('complaint_value_id')){
-            $complaint_value = $request->complaint_value_id;
-            if(is_numeric($complaint_value)){
-                $complaint_value_text = ComplaintValue::find($complaint_value)->name_eng;
-                $complaint_value_id = $complaint_value;
-            }else{
-                $new_complaint_value = new ComplaintValue();
-                $new_complaint_value->name_eng = $complaint_value;
-                $new_complaint_value->save();
-                $complaint_value_id = $new_complaint_value->id;
-                $complaint_value_text = $complaint_value;
-            }
-            $prescription_complaint->complaint_duration_value_id = $complaint_value_id;
-            $prescription_complaint->complaint_duration_value = $complaint_value_text;
         }
         if($request->has('complaint_duration_id')){
             $complaint_duration = $request->complaint_duration_id;

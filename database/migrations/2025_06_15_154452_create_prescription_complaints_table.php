@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('complaint');
             $table->string('complaint_duration')->nullable();
             $table->integer('complaint_duration_id')->nullable();
-            $table->string('complaint_duration_value')->nullable();
-            $table->string('complaint_duration_value_id')->nullable();
             $table->integer('created_by')->nullable();
             $table->integer('updated_by')->nullable();
             $table->timestamps();
