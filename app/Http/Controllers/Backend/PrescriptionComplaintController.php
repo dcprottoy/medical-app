@@ -44,36 +44,36 @@ class PrescriptionComplaintController extends Controller
             return response()->json(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
-        return $request->all();
+        // return $request->all();
         $prescription_complaint = new PrescriptionComplaint();
         $prescription_complaint->prescription_id = $request->prescription_id;
 
         if($request->has('complaint_id')){
-            $complaint = $request->complaint_id;
-            if(is_numeric($complaint)){
-                $complaint_text = Complaint::find($complaint)->name_eng;
-                $complaint_id = $complaint;
-            }else{
+            $complaint = $request->new_complaint;
+            if((boolean)$complaint){
                 $new_complaint = new Complaint();
-                $new_complaint->name_eng = $complaint;
+                $new_complaint->name_eng = $request->complaint_id;
                 $new_complaint->save();
                 $complaint_id = $new_complaint->id;
-                $complaint_text = $complaint;
+                $complaint_text = $new_complaint->name_eng;
+            }else{
+                $complaint_text = Complaint::find($request->complaint_id)->name_eng;
+                $complaint_id = $request->complaint_id;
             }
             $prescription_complaint->complaint_id = $complaint_id;
             $prescription_complaint->complaint = $complaint_text;
         }
         if($request->has('complaint_duration_id')){
-            $complaint_duration = $request->complaint_duration_id;
-            if(is_numeric($complaint_duration)){
-                $complaint_duration_text = ComplaintDuration::find($complaint_duration)->name_eng;
-                $complaint_duration_id = $complaint_duration;
-            }else{
+            $complaint_duration = $request->new_complaint_duration;
+            if((boolean)$complaint_duration){
                 $new_complaint_duration = new ComplaintDuration();
-                $new_complaint_duration->name_eng = $complaint_duration;
+                $new_complaint_duration->name_eng = $request->complaint_duration_id;
                 $new_complaint_duration->save();
                 $complaint_duration_id = $new_complaint_duration->id;
-                $complaint_duration_text = $complaint_duration;
+                $complaint_duration_text = $request->complaint_duration_id;
+            }else{
+                $complaint_duration_text = ComplaintDuration::find($request->complaint_duration_id)->name_eng;
+                $complaint_duration_id = $request->complaint_duration_id;
             }
             $prescription_complaint->complaint_duration_id = $complaint_duration_id;
             $prescription_complaint->complaint_duration = $complaint_duration_text;

@@ -616,7 +616,6 @@ body * { visibility: hidden; }
 @push('scripts')
 <script>
     $(document).ready(function(){
-
         $("#printbtn").on('click',function(e){
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
@@ -629,6 +628,20 @@ body * { visibility: hidden; }
                 window.open("{{url('appointed/print')}}"+'/'+prescription_no, '_blank');
             }
         });
+
+
+        function checkNew(name){
+            let value = $('#'+name).val(); // gets the selected value
+            if(value) {
+                let text = $('#'+name).select2('data')[0].text;
+                if(value == text){
+                    return 1;
+                }else
+                    return 0;
+                }
+            else return 0;
+        }
+    
 
         //Complaint Section Add Delete Start Here
         $('#complaint_id').select2({
@@ -705,11 +718,9 @@ body * { visibility: hidden; }
             },
             createTag: function (params) {
                 const term = $.trim(params.term);
-
                 if (term === '') {
                     return null;
                 }
-
                 return {
                     id: term,
                     text: term,
@@ -732,7 +743,6 @@ body * { visibility: hidden; }
                             toastr.success("Complaint Remove Successfully");
                             $("#remove-complaint-btn"+id).closest("li").remove();
                         }
-                        
                     }
                 });
         }
@@ -745,33 +755,12 @@ body * { visibility: hidden; }
                 $('#cheifComplaint').modal('hide');
             }
             else{
-
                     let formData = $(this).serialize();
-                    let new_complaint_id = false;
-                    let new_complaint_duration_id = false;
+                    let new_complaint = checkNew('complaint_id');
+                    let new_complaint_duration = checkNew('complaint_duration_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
-                   
-
-                    let complaint_id_Value = $('#complaint_id').val(); // gets the selected value
-                    if(complaint_id_Value) {
-                        let complaint_id_Text = $('#complaint_id').select2('data')[0].text;
-                        if(complaint_id_Value == complaint_id_Text){
-                            new_complaint_id = true;
-                        }
-                    }
-                    let complaint_duration_id_Value = $('#complaint_duration_id').val(); // gets the selected value
-                    if(complaint_duration_id_Value){
-                        let complaint_duration_id_Text = $('#complaint_duration_id').select2('data')[0].text;
-                        if(complaint_duration_id_Value == complaint_duration_id_Text){
-                            new_complaint_duration_id = true;
-                        }
-
-                    }
-                    
-                    formData += '&new_complaint_id=' + encodeURIComponent(new_complaint_id);
-                    formData += '&new_complaint_duration_id=' + encodeURIComponent(new_complaint_duration_id);
-
-                   
+                    formData += '&new_complaint=' + encodeURIComponent(new_complaint);
+                    formData += '&new_complaint_duration=' + encodeURIComponent(new_complaint_duration);
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -948,7 +937,6 @@ body * { visibility: hidden; }
                             toastr.success("Diagnosis Remove Successfully");
                             $("#remove-diagnosis-btn"+id).closest("li").remove();
                         }
-                        
                     }
                 });
         }
@@ -1989,7 +1977,6 @@ body * { visibility: hidden; }
                     },
                 });
         });
-
 
     });
 
