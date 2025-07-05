@@ -235,7 +235,7 @@ class PrescribeController extends Controller
 
 
             $new_diagnosis = [];
-            if($diagnosis->isNotEmpty()){`
+            if($diagnosis->isNotEmpty()){
                 foreach($diagnosis as $diagnoses){
                     $new_diagnosis[] = [
                         'prescription_id'=>$to_id,
@@ -303,8 +303,7 @@ class PrescribeController extends Controller
             
             } catch (Exception $e) {
                 DB::rollBack(); 
-
-                return response()->json(['error' => 'Transaction failed.', 'message' => $e->getMessage()], 500);
+                return response()->json(['error' => 'Transaction failed.', 'message' => $e->getMessage()]);
         }
 
             

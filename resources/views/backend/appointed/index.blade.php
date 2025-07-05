@@ -752,6 +752,25 @@ body * { visibility: hidden; }
             
         }
 
+        function clearPrescribedSpace(){
+            $("#cheif-complaint-list").empty();
+            $("#test-list").empty();
+            $("#diagnosis-list").empty();
+            $("#treatment-list").empty();
+            $("#advice-list").empty();
+            $("#referred-list").empty();
+            $('#pressure_value').text("");
+            $('#pressure_value').closest('.exam-part').hide();
+            $('#temperature_value').text("");
+            $('#temperature_value').closest('.exam-part').hide();
+            $('#height_value').text("");
+            $('#height_value').closest('.exam-part').hide();
+            $('#weight_value').text("");
+            $('#weight_value').closest('.exam-part').hide();
+            $('#bmi_value').text("");
+            $('#bmi_value').closest('.exam-part').hide();
+        }
+
 
         function checkNew(name){
             let value = $('#'+name).val(); // gets the selected value
@@ -2175,7 +2194,8 @@ body * { visibility: hidden; }
             $("#prescription-no").text("");
             
             console.log([id,patient_id]);
-            $('#appointedPatient').modal('hide')
+            $('#appointedPatient').modal('hide');
+            clearPrescribedSpace();
         }
 
         $("#aptpantbtn").on('click',function(){
@@ -2261,17 +2281,7 @@ body * { visibility: hidden; }
                                 console.log([id,patient_id]);
                                 $('#allPatient').modal('hide')
                                 $("#prescription-no").text("");
-                                $('#cheif-complaint-list').empty();
-                                $('#temperature_value').val('');
-                                $('#pressure_value').val('');
-                                $('#height_value').val('');
-                                $('#weight_value').val('');
-                                $('#bmi_value').val('');
-                                $('#test-list').empty();
-                                $('#treatment-list').empty();
-                                $('#diagnosis-list').empty();
-                                $('#advice-list').empty();
-                                $('#referred-list').empty();
+                                clearPrescribedSpace();
                         }
                     },
                 });
@@ -2323,10 +2333,6 @@ body * { visibility: hidden; }
         });
 
         
-
-
-
-
         $('#new_patient_create').submit(function(e) {
                 e.preventDefault();
                 let formdata = $('#new_patient_create').serialize();
@@ -2348,17 +2354,7 @@ body * { visibility: hidden; }
                             $('#new_patient_create').trigger("reset");
                             $('#allPatient').modal('hide')
                             $("#prescription-no").text("");
-                            $('#cheif-complaint-list').empty();
-                            $('#temperature_value').val('');
-                            $('#pressure_value').val('');
-                            $('#height_value').val('');
-                            $('#weight_value').val('');
-                            $('#bmi_value').val('');
-                            $('#test-list').empty();
-                            $('#diagnosis-list').empty();
-                            $('#treatment-list').empty();
-                            $('#advice-list').empty();
-                            $('#referred-list').empty();
+                            clearPrescribedSpace();
                             toastr.success('New Patient & Appointment Created');
                         }
                     $('#newPatient').modal("hide");
@@ -2462,6 +2458,7 @@ body * { visibility: hidden; }
                         $("#serial-no").text(appointment.serial);
                         $("#appoint_no").val(appointment.appoint_id);
                         $("#prescription-no").text("");
+                        clearPrescribedSpace();
                         if(result.main){
                             $("#prescription-no").text(result.main.prescription_id);
                         }
@@ -2513,7 +2510,6 @@ body * { visibility: hidden; }
 
                         if(result.onexam){
                             let x = result.onexam;
-                           
                             if(x.pressure == null){
                                 $('#pressure_value').text("");
                                 $('#pressure_value').closest('.exam-part').hide();
@@ -2702,7 +2698,10 @@ body * { visibility: hidden; }
                          $(".prescribe").on('click',function(e){
                             let appoint_id = $(this).attr('data-id');
                             loadPrescription(appoint_id);
+                            $("#prescribedPatient").modal('hide');
                          });
+
+                         
                     }
                 });
         });
@@ -2798,11 +2797,13 @@ body * { visibility: hidden; }
                         $(".prev-prescribe").off('click').on('click',function(e){
                             let id = $(this).attr('data-id');
                             printPrescription(id);
+                            // $("#searchPres").modal('hide');
                         });
 
                         $(".import-prescribe").off('click').on('click',function(e){
                             let id = $(this).attr('data-id');
                             importPrescription(id);
+                            $("#searchPres").modal('hide');
                         });
                     }
                 });

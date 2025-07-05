@@ -151,7 +151,6 @@ class PatientsController extends Controller
     {
         $validated = Validator::make($request->all(),[
             'name' => 'required',
-            'address' => 'required',
             'contact_no' => 'required'
         ]);
         if($validated->fails()){
