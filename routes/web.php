@@ -136,6 +136,11 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
         ]);
         Route::post('appointment/checkserial',[AppoinmentController::class,'getSerial']);
         Route::get('appointed/patientlist/{id}',[AppointedPatientController::class,'patientList']);
+        Route::get('appointed/prescribedlist/{id}',[AppointedPatientController::class,'prescribedList']);
+
+        Route::put('/prescribe',[PrescribeController::class,'search']);
+        Route::put('/prescription/detail',[PrescribeController::class,'prescriptionDetails']);
+        Route::put('/prescription/importprescription',[PrescribeController::class,'importPrescription']);
 
         Route::resource('/prescribe',PrescribeController::class)->names([
             'index'=>'prescribe.home',

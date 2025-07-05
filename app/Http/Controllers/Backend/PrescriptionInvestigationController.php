@@ -48,7 +48,7 @@ class PrescriptionInvestigationController extends Controller
 
         if($request->has('investigations_id')){
             $investigations = $request->investigations_id;
-            if(is_numeric($investigations)){
+            if($request->new_investigations == 0){
                 $investigations_text = TestsList::find($investigations)->name_eng;
                 $investigations_id = $investigations;
             }else{

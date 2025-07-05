@@ -47,7 +47,7 @@ class PrescriptionAdviceController extends Controller
 
         if($request->has('advice_id')){
             $advice = $request->advice_id;
-            if(is_numeric($advice)){
+            if($request->new_advice == 0){
                 $advice_text = advice::find($advice)->name_eng;
                 $advice_id = $advice;
             }else{

@@ -95,6 +95,33 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
+                    <button class="btn btn-sm btn-warning" data-toggle="modal" id="prescribedbtn" data-target="#prescribedPatient">Prescribed Patients</button>
+                    <div class="modal fade" id="prescribedPatient" tabindex="-1" role="dialog" aria-labelledby="prescribedPatientLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="prescribedPatientModalLabel">Prescribed Patient List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    {{-- <div class="col-sm-12">
+                                        <div class="form-group text-center">
+                                            <input type="text" class="form-control form-control-sm" id="pres_patient" name="pres_patient" placeholder="Patient ID,Name,Contact No">
+                                        </div>
+                                    </div> --}}
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Prescribed Information</h4>
+                                        <ul class="list-group search-list" id="prescribed-patient-list">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-sm btn-info " data-toggle="modal" id="allptnbtn" data-target="#allPatient">Registered Patient</button>
                     <div class="modal fade" id="allPatient" tabindex="-1" role="dialog" aria-labelledby="allPatientLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -251,7 +278,38 @@ body * { visibility: hidden; }
                     </div>
                     <button class="btn btn-sm btn-danger float-right" data-toggle="modal" id="prescribe-btn" style="text-transform: uppercase;">Prescribe</button>
                     <button class="btn btn-sm btn-secondary mr-2 float-right" data-toggle="modal" id="visited-btn" style="text-transform: uppercase;">Visited</button>
-
+                    <button class="btn btn-sm btn-primary float-right mr-2" data-toggle="modal" id="searchpresbtn" data-target="#searchPres"><i class="fas fa-search"></i> Search Prescription</button>
+                    <div class="modal fade" id="searchPres" tabindex="-1" role="dialog" aria-labelledby="searchPresLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h5 class="modal-title" id="searchPresModalLabel">Prescription List</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Prescription Information</h4>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="form-group text-center">
+                                                    <input type="text" class="form-control form-control-sm" id="prescription-search" name="prescription-search" placeholder="Prescription No">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <ul class="list-group search-list" id="prescription_search_list">
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -409,7 +467,7 @@ body * { visibility: hidden; }
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-danger">
-                                    <h5 class="modal-title" id="medecineModalLabel">Medecine List</h5>
+                                    <h5 class="modal-title" id="medecineModalLabel">Medecine Entry</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -460,8 +518,62 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
-
-
+                    <div class="modal fade" id="medecine-edit" >
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header  bg-primary">
+                                    <h5 class="modal-title">Medecine Update</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="" method="put" enctype="multipart/form-data" id="medecine-edit-form">
+                                    @csrf
+                                    <input type="hidden" name="id" id="u-id">
+                                    <div class="modal-body" style="min-height: 300px;">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="medicines_id">Medicine Name</label>
+                                                        <select class="form-control form-control-md"  name="medicines_id" id="u-medicines_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="dose_id">Dose</label>
+                                                        <select class="form-control form-control-md"  name="dose_id" id="u-dose_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="usage_id">Dose Frequency</label>
+                                                        <select class="form-control form-control-md"  name="dose_frequency_id" id="u-dose_frequency_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="dose_duration_id">Dose Duration</label>
+                                                        <select class="form-control form-control-md"  name="dose_duration_id" id="u-dose_duration_id"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="usage_id">Usage</label>
+                                                        <select class="form-control form-control-md"  name="usage_id" id="u-usage_id"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-sm btn-danger" type="reset">&nbsp;Cancel&nbsp;</button>
+                                        <button class="btn btn-sm btn-success" type="submit" >&nbsp;Save&nbsp;</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="investigationsbtn" data-target="#investigations">Investigations</button>
                     <div class="modal fade" id="investigations" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
@@ -557,10 +669,7 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
-
                     <button class="btn btn-sm float-right" style="min-width:115px;background-color: #551adf;color: white;" id="printbtn" >Print</button>
-                    
-
                 </div>
                 <div class="card-body" style = "min-height:250px;">
                     <div class="row">
@@ -628,6 +737,20 @@ body * { visibility: hidden; }
                 window.open("{{url('appointed/print')}}"+'/'+prescription_no, '_blank');
             }
         });
+
+        function setSelectedValue(select, id, value) {
+
+             // Step 1: Set default value from response
+                let defaultData = {
+                    'id': id,       // e.g., 5
+                    'text': value        // e.g., "Main Store"
+                };
+                console.log(defaultData);
+                // Step 2: Create and add the option dynamically
+                let newOption = new Option(defaultData.text, defaultData.id, true, true);
+                $('#'+select).append(newOption).trigger('change');
+            
+        }
 
 
         function checkNew(name){
@@ -799,7 +922,7 @@ body * { visibility: hidden; }
             }
         });
 
-         $("#prescription_complaint_create").on('reset',function(e){
+        $("#prescription_complaint_create").on('reset',function(e){
             e.preventDefault();
             $("#complaint_id").val(null).empty().trigger('change');
             $("#complaint_duration_id").val(null).empty().trigger('change');
@@ -949,7 +1072,9 @@ body * { visibility: hidden; }
                 toastr.error('Prescription No Not Found');
             }else{
                 let formData = $(this).serialize();
+                let new_diagnosis = checkNew('diagnosis_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    formData += '&new_diagnosis=' + encodeURIComponent(new_diagnosis);
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -1073,7 +1198,9 @@ body * { visibility: hidden; }
                 toastr.error('Prescription No Not Found');
             }else{
                 let formData = $(this).serialize();
+                let new_advice = checkNew('advice_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    formData += '&new_advice=' + encodeURIComponent(new_advice);
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -1111,7 +1238,7 @@ body * { visibility: hidden; }
             }, 100);
         });
 
-         $('#prescription_advice_create').on('reset',function(e){
+        $('#prescription_advice_create').on('reset',function(e){
             e.preventDefault();
             $("#advice_id").val('').empty().trigger('change');
             setTimeout(() => {
@@ -1192,7 +1319,9 @@ body * { visibility: hidden; }
                 toastr.error('Prescription No Not Found');
             }else{
                 let formData = $(this).serialize();
+                let new_investigations = checkNew('investigations_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    formData += '&new_investigations=' + encodeURIComponent(new_investigations);
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -1315,6 +1444,8 @@ body * { visibility: hidden; }
                 toastr.error('Prescription No Not Found');
             }else{
                 let formData = $(this).serialize();
+                let new_referred = checkNew('referred_id');
+                    formData += '&new_referred=' + encodeURIComponent(new_referred);
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
                     $.ajax({
                         type: 'post',
@@ -1365,7 +1496,7 @@ body * { visibility: hidden; }
             }, 100);
         });
 
-         //Medicines Section Add Delete Start Here
+        //Medicines Section Add Delete Start Here
         $('#medicines_id').select2({
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
@@ -1454,8 +1585,6 @@ body * { visibility: hidden; }
                 };
             }
         });
-
-      
          //Dose Duration Section Add Delete Start Here
         $('#dose_duration_id').select2({
             placeholder: 'Search or add an item',
@@ -1610,6 +1739,29 @@ body * { visibility: hidden; }
                 });
         }
 
+        function updateMedicines(id){
+            $("#medecine-edit").modal('show');
+            $.ajax({
+                    type: 'get',
+                    dataType: "json",
+                    url: "{{ url('prescriptionmedicines') }}/"+id,
+                    success: function (data) {
+                        console.log(data);
+                        if(data){
+                            // toastr.success("Medicine Remove Successfully");
+                            setSelectedValue('u-medicines_id',data.medicine_id,data.medicine);
+                            setSelectedValue('u-dose_id',data.dose_id,data.dose);
+                            setSelectedValue('u-dose_duration_id',data.dose_duration_id,data.dose_duration);
+                            setSelectedValue('u-usage_id',data.usage_id,data.usage);
+                            setSelectedValue('u-dose_frequency_id',data.dose_frequency_id,data.dose_frequency);
+                            $("#u-id").val(data.id);
+                            // $("#remove-medicines-btn"+id).closest("li").remove();
+                        }
+                        
+                    }
+            });
+        }
+
         $('#prescription_medicines_create').on('submit',function(e){
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
@@ -1618,7 +1770,17 @@ body * { visibility: hidden; }
                 toastr.error('Prescription No Not Found');
             }else{
                 let formData = $(this).serialize();
+                let new_medicines = checkNew('medicines_id');
+                let new_dose = checkNew('dose_id');
+                let new_dose_duration = checkNew('dose_duration_id');
+                let new_usage = checkNew('usage_id');
+                let new_dose_frequency = checkNew('dose_frequency_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                    formData += '&new_medicines=' + encodeURIComponent(new_medicines);
+                    formData += '&new_dose=' + encodeURIComponent(new_dose);
+                    formData += '&new_dose_duration=' + encodeURIComponent(new_dose_duration);
+                    formData += '&new_usage=' + encodeURIComponent(new_usage);
+                    formData += '&new_dose_frequency=' + encodeURIComponent(new_dose_frequency);
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -1635,8 +1797,11 @@ body * { visibility: hidden; }
 
                                     </div>
                                     <div class="col-sm-2 align-center">
+                                        <button type="button" class="btn btn-primary btn-xs update-medicines-btn float-left" data-id=${data.id} title="Update" id="update-medicines-btn${data.id}">
+                                            <i class="fas fa-edit p-1"></i>Edit
+                                        </button>
                                         <button type="button" class="btn btn-danger btn-xs remove-medicines-btn float-right" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
-                                            <i class="fas fa-times"></i>
+                                            <i class="fas fa-times p-1"></i>Remove
                                         </button>
                                     </div>
                                     
@@ -1651,6 +1816,10 @@ body * { visibility: hidden; }
                             $('.remove-medicines-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
                                 removeMedicines(id);
+                            });
+                            $('.update-medicines-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                updateMedicines(id);
                             });
                         }
                     });
@@ -1670,6 +1839,292 @@ body * { visibility: hidden; }
             setTimeout(() => {
                 $("#medecine").modal('hide');
             }, 100);
+        });
+
+        //medicine update and remove
+
+        //Medicines Section Add Delete Start Here
+        $('#u-medicines_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('medicines/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+         //Doses Section Add Delete Start Here
+        $('#u-dose_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('dose/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+        //Dose Duration Section Add Delete Start Here
+        $('#u-dose_duration_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('doseduration/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        //Usage Section Add Delete Start Here
+        $('#u-usage_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('usage/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        $('#u-dose_frequency_id').select2({
+            placeholder: 'Search or add an item',
+            minimumInputLength: 1,
+            tags: true,
+            autoClear: true,
+            allowClear: true,
+            ajax: {
+                type: 'PUT',
+                url: "{{ url('dosefrequency/search') }}",
+                dataType: 'json',
+                delay: 250,
+                cache: true,
+                dropdownParent: $('#investigations'),
+                data: function (params) {
+                    return {
+                        q: params.term, // search term
+                        _token: "{{ csrf_token() }}"
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data.map(item => ({
+                            id: item.id,
+                            text: item.name_eng
+                        }))
+                    };
+                },
+                cache: true
+            },
+            createTag: function (params) {
+                const term = $.trim(params.term);
+
+                if (term === '') {
+                    return null;
+                }
+
+                return {
+                    id: term,
+                    text: term,
+                    newTag: true // flag to identify new item
+                };
+            }
+        });
+
+        $("#medecine-edit-form").on('submit',function(e){
+            e.preventDefault();
+            let id = $("#u-id").val();
+            let formData = $(this).serialize();
+            let new_medicines = checkNew('u-medicines_id');
+            let new_dose = checkNew('u-dose_id');
+            let new_dose_duration = checkNew('u-dose_duration_id');
+            let new_usage = checkNew('u-usage_id');
+            let new_dose_frequency = checkNew('u-dose_frequency_id');
+                formData += '&new_medicines=' + encodeURIComponent(new_medicines);
+                formData += '&new_dose=' + encodeURIComponent(new_dose);
+                formData += '&new_dose_duration=' + encodeURIComponent(new_dose_duration);
+                formData += '&new_usage=' + encodeURIComponent(new_usage);
+                formData += '&new_dose_frequency=' + encodeURIComponent(new_dose_frequency);
+                console.log(formData);
+            $.ajax({
+                type: 'put',
+                dataType: "json",
+                url: "{{ url('prescriptionmedicines') }}/"+id,
+                data: formData,
+                success: function (data) {
+                    console.log(data);
+                    toastr.success("Medicine Updated Successfully");
+                    let element = `<li>
+                        <div class="row border m-2">
+                            <div class="col-sm-10">
+                                <h5>${data.medicine}</h5>
+                                ${data.dose} ${data.dose_frequency == undefined ? '' :'--'+data.dose_frequency}    ${data.dose_duration == undefined ? '' :'-- [ '+data.dose_duration+' ]'}  -- ${data.usage == undefined ? '' :'-- '+data.usage} 
+
+                            </div>
+                            <div class="col-sm-2 align-center">
+                                <button type="button" class="btn btn-primary btn-xs update-medicines-btn float-left" data-id=${data.id} title="Update" id="update-medicines-btn${data.id}">
+                                    <i class="fas fa-edit p-1"></i>Edit
+                                </button>
+                                <button type="button" class="btn btn-danger btn-xs remove-medicines-btn float-right" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
+                                    <i class="fas fa-times p-1"></i>Remove
+                                </button>
+                            </div>
+                            
+                        </div>
+                        </li>`;
+                    $("#update-medicines-btn"+id).closest('li').replaceWith(element);
+                    $("#u-medicines_id").val('').empty().trigger('change');
+                    $("#u-dose_id").val('').empty().trigger('change');
+                    $("#u-dose_duration_id").val('').empty().trigger('change');
+                    $("#u-usage_id").val('').empty().trigger('change');
+                    $("#u-dose_frequency_id").val('').empty().trigger('change');
+                    $("#u-id").val('');
+                    $('.remove-medicines-btn').off('click').on('click',function(e){
+                        let id = $(this).attr('data-id');
+                        removeMedicines(id);
+                    });
+                    $('.update-medicines-btn').off('click').on('click',function(e){
+                        let id = $(this).attr('data-id');
+                        updateMedicines(id);
+                    });
+                }
+            });
+           
         });
 
         $(document).on('select2:open', function (e) {
@@ -1717,10 +2172,12 @@ body * { visibility: hidden; }
             $("#appon-date").text(appon_date);
             $("#serial-no").text(serial_no);
             $("#appoint_no").val(appoint_id);
+            $("#prescription-no").text("");
             
             console.log([id,patient_id]);
             $('#appointedPatient').modal('hide')
         }
+
         $("#aptpantbtn").on('click',function(){
             let doctor_id = "{{Auth::user()->user_id}}";
                 $.ajax({
@@ -1771,7 +2228,6 @@ body * { visibility: hidden; }
 
         $(".reg-prescribe").on('click',function(e){
             let id = $(this).attr('data-id');
-        
             patientSet(id);
         });
 
@@ -1866,6 +2322,11 @@ body * { visibility: hidden; }
                 });
         });
 
+        
+
+
+
+
         $('#new_patient_create').submit(function(e) {
                 e.preventDefault();
                 let formdata = $('#new_patient_create').serialize();
@@ -1927,10 +2388,13 @@ body * { visibility: hidden; }
                             'patient_age':patient_age,
                             'prescribed_date':prescribed_date,
                             'appoint_id':appoint_id,
-                            'visited_btn':false
+                            'visited_btn':2
 
                         },
                     success: function(response) {
+                        if('error' in response){
+                            toastr.error(response.error);
+                        }
                         if("success" in response){
                             toastr.success('New Prescription Generated');
                             $("#prescription-no").text(response.success.prescription_id);
@@ -1961,7 +2425,7 @@ body * { visibility: hidden; }
                             'patient_age':patient_age,
                             'prescribed_date':prescribed_date,
                             'appoint_id':appoint_id,
-                            'visited_btn':true
+                            'visited_btn':1
                         },
                     success: function(response) {
                         if("success" in response){
@@ -1975,6 +2439,372 @@ body * { visibility: hidden; }
                             $("#appoint_no").val("");
                         }
                     },
+                });
+        });
+
+        function loadPrescription(id){
+            $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('prescription/detail')}}/",
+                    data:{
+                        'search':id,
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        let appointment = result.appointment;
+                        $("#patient-id").text(appointment.patient_id);
+                        $("#patient-name").text(appointment.patient.name);
+                        $("#patient-gender").text(appointment.patient.sex == 'M' ? 'Male' : (appointment.patient.sex == 'F' ? 'Female' : 'Other'));
+                        $("#patient-age").text(appointment.patient.age);
+                        $("#appon-date").text(appointment.appointed_date);
+                        $("#serial-no").text(appointment.serial);
+                        $("#appoint_no").val(appointment.appoint_id);
+                        $("#prescription-no").text("");
+                        if(result.main){
+                            $("#prescription-no").text(result.main.prescription_id);
+                        }
+                        if(result.complain){
+                            let element = ""
+                            result.complain.forEach(data => {
+                                console.log(data);
+                                element += `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.complaint}    ${data.complaint_duration == undefined ? '' : data.complaint_duration} </div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            });
+                            $("#cheif-complaint-list").empty();
+                            $("#cheif-complaint-list").append(element);
+                            $('.remove-complaint-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeComplaint(id);
+                            });
+                        }
+
+                        if(result.diagnosis){
+                            let element = ""
+                            result.diagnosis.forEach(data => {
+                                console.log(data);
+                                element += `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.diagnosis_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-xs remove-diagnosis-btn" data-id=${data.id} title="Remove" id="remove-diagnosis-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            });
+                            $("#diagnosis-list").empty();
+                            $("#diagnosis-list").append(element);
+                            $('.remove-diagnosis-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeDiagnosis(id);
+                            });
+                        }
+
+                        if(result.onexam){
+                            let x = result.onexam;
+                           
+                            if(x.pressure == null){
+                                $('#pressure_value').text("");
+                                $('#pressure_value').closest('.exam-part').hide();
+                            }else{
+                                $('#pressure_value').text(x.pressure);
+                                $('#pressure_value').closest('.exam-part').show();
+                            }
+                            if(x.temperature == null){
+                                $('#temperature_value').text("");
+                                $('#temperature_value').closest('.exam-part').hide();
+                            }else{
+                                $('#temperature_value').text(x.temperature);
+                                $('#temperature_value').closest('.exam-part').show();
+                            }
+                            if(x.height == null){
+                                $('#height_value').text("");
+                                $('#height_value').closest('.exam-part').hide();
+                            }else{
+                                $('#height_value').text(x.height);
+                                $('#height_value').closest('.exam-part').show();
+                            }
+                            if(x.weight == null){
+                                $('#weight_value').text("");
+                                $('#weight_value').closest('.exam-part').hide();
+                            }else{
+                                $('#weight_value').text(x.weight);
+                                $('#weight_value').closest('.exam-part').show();
+                            }
+                            if(x.bmi == null){
+                                $('#bmi_value').text("");
+                                $('#bmi_value').closest('.exam-part').hide();
+                            }else{
+                                $('#bmi_value').text(x.bmi);
+                                $('#bmi_value').closest('.exam-part').show();
+                            }
+                        }
+
+                        if(result.investigations){
+                            let element = "";
+                            result.investigations.forEach(data => {
+                                 element += `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.investigations_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            });
+                            $("#test-list").empty();
+                            $("#test-list").append(element);
+                            $('.remove-test-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeInvestigations(id);
+                            });
+                            
+                        }
+
+                        if(result.advices){
+                            let element = "";
+                            result.advices.forEach(data => {
+                                console.log(data);
+                                 element += `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.advice_value}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn  btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            });
+                            $("#advice-list").empty();
+                            $("#advice-list").append(element);
+                            $('.remove-advice-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeAdvice(id);
+                            });
+                        }
+
+                        if(result.referred){
+                            let element = "";
+                            result.referred.forEach(data => {
+                                console.log(data);
+                                 element += `<li>
+                                <div class="row">
+                                    <div class="col-sm-10">${data.referred}</div>
+                                    <div class="col-sm-2">
+                                        <button type="button" class="btn btn-danger btn-xs remove-referred-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </li>`;
+                            });
+                            $("#referred-list").empty();
+                            $("#referred-list").append(element);
+                            $('.remove-referred-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeReferred(id);
+                            });
+                        }
+
+                        if(result.medicins){
+                            let element = "";
+                            result.medicins.forEach(data => {
+                                element += `<li>
+                                <div class="row border m-2">
+                                    <div class="col-sm-10">
+                                        <h5>${data.medicine}</h5>
+                                        ${data.dose} ${data.dose_frequency == undefined ? '' :'--'+data.dose_frequency}    ${data.dose_duration == undefined ? '' :'-- [ '+data.dose_duration+' ]'}  -- ${data.usage == undefined ? '' :'-- '+data.usage} 
+
+                                    </div>
+                                    <div class="col-sm-2 align-center">
+                                        <button type="button" class="btn btn-primary btn-xs update-medicines-btn float-left" data-id=${data.id} title="Update" id="update-medicines-btn${data.id}">
+                                            <i class="fas fa-edit p-1"></i>Edit
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs remove-medicines-btn float-right" data-id=${data.id} title="Remove" id="remove-medicines-btn${data.id}">
+                                            <i class="fas fa-times p-1"></i>Remove
+                                        </button>
+                                    </div>
+                                    
+                                </div>
+                            </li>`;
+                            
+                            });
+                            $("#treatment-list").empty();
+                            $("#treatment-list").append(element);
+                            $('.remove-medicines-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                removeMedicines(id);
+                            });
+
+                            $('.update-medicines-btn').off('click').on('click',function(e){
+                                let id = $(this).attr('data-id');
+                                updateMedicines(id);
+                            });
+                        }
+
+                    }
+                });
+        
+        }
+
+        $("#prescribedbtn").on('click',function(){
+            let doctor_id = "{{Auth::user()->user_id}}";
+                $.ajax({
+                    type:"GET",
+                    url: "{{url('appointed/prescribedlist/')}}/"+doctor_id,
+                    success: function (result) {
+                        $("#prescribed-patient-list").empty();
+                            console.log(result);
+                         let element = "";
+                         result.forEach(x =>{
+                            element += `<li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <input type="hidden" name="appointment_id[]" id="appointment_id${x.id}" value="${x.appoint_id}">
+                                                    <b>Patient ID :</b><em id="patient-id${x.id}">${x.patient_id}</em>
+                                                    <br>
+                                                    <b>Name :</b> <span id="patient-name${x.id}">${x.patient.name}</span>
+                                                    <br>
+                                                    <b>Age :</b> <span id="patient-age${x.id}">${x.patient.age}</span>
+                                                    <br>
+                                                    <b>Gender :</b> <span id="patient-gender${x.id}">${x.patient.sex == 'M'?'Male':(x.patient.sex == 'F'?'Female':'Other')}</span>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <span id="visited${x.id}" style="text-align: center;display: block;width: 100%;padding: 5px;background-color: ${x.visited == 2 ? "#7dcea0":"#aed6f1"}"><b>${x.visited == 1 ? "Visit":"Prescribed"}</b></span>
+                                                    <b>Date :</b> <em id="appon-date${x.id}">${x.appointed_date}</em>
+                                                    <br>
+                                                    <b>Serial No :</b><span id="serial-no${x.id}">${x.serial}</span>
+                                                    <br>
+                                                    <br>
+                                                     <button class="btn btn-sm btn-info prescribe" data-id=${x.appoint_id} style="float: right">
+                                                        Select
+                                                    </button>
+                                                </div>
+
+                                            </div>
+                                        </li>`;
+                         });
+                         $("#prescribed-patient-list").append(element);
+                         $(".prescribe").on('click',function(e){
+                            let appoint_id = $(this).attr('data-id');
+                            loadPrescription(appoint_id);
+                         });
+                    }
+                });
+        });
+
+        function printPrescription(prescription_no){
+        //    $("#searchPres").modal('hide');
+            window.open("{{url('appointed/print')}}"+'/'+prescription_no, '_blank');
+        }
+
+        function importPrescription(fromPrescription_no){
+            let prescription_no = $("#prescription-no").text();
+            let from_prescription_no = fromPrescription_no;
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+            }else{
+                $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('prescription/importprescription')}}",
+                    data:{
+                        'fromPrescription_no':from_prescription_no,
+                        'toPrescription_no':prescription_no,
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        if(result == 1){
+                            toastr.success('Prescription Imported Successfully');
+                        }else{
+                            toastr.error('Prescription Not Imported');
+                        }
+                    }
+                });
+            }
+        }
+
+        $("#prescription-search").on('keyup',function(e){
+            let ch_data = $("#prescription-search").val();
+            console.log(ch_data);
+            $.ajax({
+                    type: 'PUT',
+                    dataType: "json",
+                    url: "{{url('prescribe')}}/",
+                    data:{
+                        'search':ch_data,
+                        '_token': '{{ csrf_token() }}',
+                    },
+                    success: function (result) {
+                        console.log(result);
+                        let element = "";
+                        result.forEach(x =>{
+                        element += `<li class="list-group-item">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                            <b>Patient ID :</b> <em>${x.patient_id}</em>
+                                            <br>
+                                            <b>Name :</b> <span >${x.patient_name}</span>
+                                            <br>
+                                            <b>Gender :</b> <span>${x.patient_gender}</span>
+                                            <br>
+                                            <b>Age :</b> <span >${x.patient_age}</span>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <b>Prescription No :</b> <em>${x.prescription_id}</em>
+                                                <br>
+                                                <b>Prescribed Date :</b> <em>${x.prescribed_date}</em>
+                                                <br>
+                                                <b>Appointment No :</b> <em>${x.appoint_id}</em>
+                                                <br>
+                                                <br>
+                                                <button class="btn btn-sm btn-primary prev-prescribe mr-2" data-id=${x.prescription_id} style="float: right">
+                                                    PREVIEW
+                                                </button>
+                                                <button class="btn btn-sm btn-secondary import-prescribe mr-2" data-id=${x.prescription_id} style="float: right">
+                                                    IMPORT
+                                                </button>
+                                                <button class="btn btn-sm btn-info select-prescribe mr-2" data-id=${x.appoint_id} style="float: right">
+                                                    SELECT
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>`
+                        });
+                        $("#prescription_search_list").empty();
+                        $("#prescription_search_list").append(element);
+                        $(".select-prescribe").off('click').on('click',function(e){
+                            let id = $(this).attr('data-id');
+                            loadPrescription(id);
+                            $("#searchPres").modal('hide');
+                        });
+
+                        $(".prev-prescribe").off('click').on('click',function(e){
+                            let id = $(this).attr('data-id');
+                            printPrescription(id);
+                        });
+
+                        $(".import-prescribe").off('click').on('click',function(e){
+                            let id = $(this).attr('data-id');
+                            importPrescription(id);
+                        });
+                    }
                 });
         });
 

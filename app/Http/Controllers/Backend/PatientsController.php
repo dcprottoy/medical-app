@@ -180,8 +180,14 @@ class PatientsController extends Controller
 
     public function search(Request $request)
     {
-        $lastid = Patients::where('patient_id', 'like', '%'.$request->search.'%')->get();
-        return $lastid;
+        if($request->search == null || $request->search == ''){
+            $lastid = Patients::orderBy('prescription_id', 'desc')->limit(20)->get();
+            return $lastid;
+        }else{
+            $lastid = Patients::where('patient_id', 'like', '%'.$request->search.'%')->limit(20)->get();
+            return $lastid;
+        }
+        
     }
     /**
      * Remove the specified resource from storage.

@@ -47,7 +47,7 @@ class PrescriptionReferredController extends Controller
 
         if($request->has('referred_id')){
             $referred = $request->referred_id;
-            if(is_numeric($referred)){
+            if($request->new_referred == 0){
                 $referred_text = Referred::find($referred)->name_eng;
                 $referred_id = $referred;
             }else{

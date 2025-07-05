@@ -47,15 +47,15 @@ class PrescriptionDiagnosisController extends Controller
 
         if($request->has('diagnosis_id')){
             $diagnosis = $request->diagnosis_id;
-            if(is_numeric($diagnosis)){
-                $diagnosis_text = Diagnosis::find($diagnosis)->name_eng;
-                $diagnosis_id = $diagnosis;
-            }else{
+            if($request->new_diagnosis){
                 $new_diagnosis = new Diagnosis();
                 $new_diagnosis->name_eng = $diagnosis;
                 $new_diagnosis->save();
                 $diagnosis_id = $new_diagnosis->id;
                 $diagnosis_text = $diagnosis;
+            }else{
+                $diagnosis_text = Diagnosis::find($diagnosis)->name_eng;
+                $diagnosis_id = $diagnosis;
             }
             $prescription_diagnosis->diagnosis_id = $diagnosis_id;
             $prescription_diagnosis->diagnosis_value = $diagnosis_text;

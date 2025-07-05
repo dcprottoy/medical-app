@@ -102,7 +102,21 @@ class AppointedPatientController extends Controller
         $appoinmentInfo = Appoinments::with('patient')
                         ->where('appoinments.appointed_date',$date)
                         ->where('appoinments.doctor_id',$id)
-                        ->where('appoinments.visited',false)
+                        ->where('appoinments.visited',0)
+                        ->orderBy('appoinments.serial','ASC')
+                        ->get();
+
+        return $appoinmentInfo;
+    }
+
+
+    public function prescribedList(string $id){
+
+        $date = Carbon::now()->format('Y-m-d');
+        $appoinmentInfo = Appoinments::with('patient')
+                        ->where('appoinments.appointed_date',$date)
+                        ->where('appoinments.doctor_id',$id)
+                        ->where('appoinments.visited',"!=",0)
                         ->orderBy('appoinments.serial','ASC')
                         ->get();
 
