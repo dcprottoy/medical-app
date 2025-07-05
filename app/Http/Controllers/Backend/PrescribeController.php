@@ -235,7 +235,7 @@ class PrescribeController extends Controller
 
 
             $new_diagnosis = [];
-            if($diagnosis->isNotEmpty()){`
+            if($diagnosis->isNotEmpty()){
                 foreach($diagnosis as $diagnoses){
                     $new_diagnosis[] = [
                         'prescription_id'=>$to_id,
