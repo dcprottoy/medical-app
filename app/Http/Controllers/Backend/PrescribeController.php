@@ -211,9 +211,17 @@ class PrescribeController extends Controller
                     'weight'=>$onexam->weight,
                     'bmi'=>$onexam->bmi,
                 ];
-                $onexamina = new PrescriptionOnExamination();
-                $onexamina->fill($new_onexam);
-                $onexamina->save();
+                $check = PrescriptionOnExamination::where('prescription_id','=',$to_id)->exists();
+                if($check){
+                    $onexamina = PrescriptionOnExamination::where('prescription_id','=',$to_id)->first();
+                    $onexamina->fill($new_onexam);
+                    $onexamina->save();
+                }else{
+                    $onexamina = new PrescriptionOnExamination();
+                    $onexamina->fill($new_onexam);
+                    $onexamina->save();
+                }
+                
             }
 
 
@@ -299,7 +307,7 @@ class PrescribeController extends Controller
             
             DB::commit(); 
 
-            return response()->json(['success'=>"Successfully Imported"]);
+            return response()->json(['success'=>"Successfully Imported","appoint_id"=>$to_id]);
             
             } catch (Exception $e) {
                 DB::rollBack(); 

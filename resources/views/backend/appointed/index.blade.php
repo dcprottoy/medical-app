@@ -2713,6 +2713,7 @@ body * { visibility: hidden; }
 
         function importPrescription(fromPrescription_no){
             let prescription_no = $("#prescription-no").text();
+            let appoint_no = $("#appoint_no").val();
             let from_prescription_no = fromPrescription_no;
             console.log(prescription_no);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
@@ -2729,8 +2730,9 @@ body * { visibility: hidden; }
                     },
                     success: function (result) {
                         console.log(result);
-                        if(result == 1){
+                        if('success' in result){
                             toastr.success('Prescription Imported Successfully');
+                            loadPrescription(appoint_no);
                         }else{
                             toastr.error('Prescription Not Imported');
                         }
