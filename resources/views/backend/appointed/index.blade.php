@@ -340,8 +340,8 @@ body * { visibility: hidden; }
             </div>
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-sm btn-info" style="min-width:115px;" data-toggle="modal" id="chiefcomplaintbtn" data-target="#cheifComplaint">Cheif Complaint</button>
-                    <div class="modal fade" id="cheifComplaint" tabindex="-1" role="dialog" aria-labelledby="cheifComplaintLabel" aria-hidden="true">
+                    <button class="btn btn-sm btn-info" style="min-width:115px;"  id="chiefcomplaintbtn" >Cheif Complaint</button>
+                    <div class="modal fade" id="cheifComplaint" tabindex="-1">
                         <div class="modal-dialog modal-xl" role="document">
                             <form action="{{route('prescriptioncomplaint.save')}}" method="post" enctype="multipart/form-data" id="prescription_complaint_create">
                             @csrf
@@ -354,19 +354,19 @@ body * { visibility: hidden; }
                                     </div>
                                     <div class="modal-body">
                                         <div class="container">
-                                            <div class="row" style="min-height: 300px;">
-                                                <div class="col-sm-3">
+                                            <div class="row justify-content-center" style="min-height: 300px;">
+                                                <div class="col-sm-6">
                                                     <div class="form-group">
                                                         <label>Complaint Type</label>
-                                                        <select class="form-control form-control-sm"  name="complaint_id" id="complaint_id"></select>
+                                                        <select class="form-control form-control-lg"  name="complaint_id[]" id="complaint_id" multiple></select>
                                                     </div>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                {{-- <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label>Complaint Duration</label>
                                                         <select class="form-control form-control-sm"  name="complaint_duration_id" id="complaint_duration_id"></select>
                                                     </div>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -790,6 +790,7 @@ body * { visibility: hidden; }
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
             tags: true,
+            multiple: true,
             autoClear: true,
             allowClear: true,
             ajax: {
@@ -892,17 +893,15 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
+            let selectedData = $('#complaint_id').select2('data');
+            console.log(selectedData);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
                 $('#cheifComplaint').modal('hide');
             }
             else{
                     let formData = $(this).serialize();
-                    let new_complaint = checkNew('complaint_id');
-                    let new_complaint_duration = checkNew('complaint_duration_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
-                    formData += '&new_complaint=' + encodeURIComponent(new_complaint);
-                    formData += '&new_complaint_duration=' + encodeURIComponent(new_complaint_duration);
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -944,11 +943,44 @@ body * { visibility: hidden; }
         $("#prescription_complaint_create").on('reset',function(e){
             e.preventDefault();
             $("#complaint_id").val(null).empty().trigger('change');
-            $("#complaint_duration_id").val(null).empty().trigger('change');
             setTimeout(() => {
                 $('#cheifComplaint').modal('hide');
             }, 300);
         });
+
+        $("#chiefcomplaintbtn").on('click',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+                $('#cheifComplaint').modal('hide');
+            }else{
+                $.ajax({
+                        type: 'get',
+                        dataType: "json",
+                        url: "{{ url('prescriptioncomplaint') }}/"+prescription_no,
+                        success: function (data) {
+                            if(data.success){
+                                $("#complaint_id").val(null).empty().trigger('change');
+                                data.complain.forEach(x => {
+                                    console.log([x.complaint,x.complaint_id])
+                                    let newOption = new Option(x.complaint,x.complaint_id, true, true);
+                                    $('#complaint_id').append(newOption).trigger('change');
+                                });
+                            }else{
+                                $("#complaint_id").val(null).empty().trigger('change');
+                            }
+                            
+                        }
+                    });
+
+            $('#cheifComplaint').modal('show');
+
+            }
+        })
+
+
         //Complaint Section Add Delete End Here
 
         //Prescription On Examination 

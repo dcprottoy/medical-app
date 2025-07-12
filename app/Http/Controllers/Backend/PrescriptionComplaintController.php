@@ -44,7 +44,7 @@ class PrescriptionComplaintController extends Controller
             return response()->json(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
-        // return $request->all();
+        return $request->all();
         $prescription_complaint = new PrescriptionComplaint();
         $prescription_complaint->prescription_id = $request->prescription_id;
 
@@ -63,22 +63,6 @@ class PrescriptionComplaintController extends Controller
             $prescription_complaint->complaint_id = $complaint_id;
             $prescription_complaint->complaint = $complaint_text;
         }
-        if($request->has('complaint_duration_id')){
-            $complaint_duration = $request->new_complaint_duration;
-            if((boolean)$complaint_duration){
-                $new_complaint_duration = new ComplaintDuration();
-                $new_complaint_duration->name_eng = $request->complaint_duration_id;
-                $new_complaint_duration->save();
-                $complaint_duration_id = $new_complaint_duration->id;
-                $complaint_duration_text = $request->complaint_duration_id;
-            }else{
-                $complaint_duration_text = ComplaintDuration::find($request->complaint_duration_id)->name_eng;
-                $complaint_duration_id = $request->complaint_duration_id;
-            }
-            $prescription_complaint->complaint_duration_id = $complaint_duration_id;
-            $prescription_complaint->complaint_duration = $complaint_duration_text;
-        }
-        
         $prescription_complaint->save();
 
 
@@ -90,7 +74,12 @@ class PrescriptionComplaintController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $complain = PrescriptionComplaint::where('prescription_id','=',$id)->get();
+        if($complain->isNotEmpty()){
+            return response()->json(['complain'=>$complain,"success"=>true]);
+        }else{
+            return response()->json(['complain'=>$complain,"success"=>false]);
+        }
     }
 
     /**
