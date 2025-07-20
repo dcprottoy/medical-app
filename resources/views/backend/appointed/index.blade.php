@@ -773,14 +773,19 @@ body * { visibility: hidden; }
 
 
         function checkNew(name){
-            let value = $('#'+name).val(); // gets the selected value
+            let value = $('#'+name).val();
             if(value) {
-                let text = $('#'+name).select2('data')[0].text;
-                if(value == text){
-                    return 1;
-                }else
-                    return 0;
-                }
+                let text = $('#'+name).select2('data');
+                let data = text.map(item => {
+                    if(item.id == item.text){
+                        return {'id':item.id,'text':item.text,'newItem':true};
+                    }else{
+                        return {'id':item.id,'text':item.text,'newItem':false};
+                    }
+                })
+
+                return data;
+            }
             else return 0;
         }
     
@@ -893,20 +898,23 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
-            let selectedData = $('#complaint_id').select2('data');
+            let selectedData = checkNew('complaint_id');
             console.log(selectedData);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
                 $('#cheifComplaint').modal('hide');
             }
             else{
-                    let formData = $(this).serialize();
-                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                if(selectedData){
                     $.ajax({
                         type: 'post',
                         dataType: "json",
                         url: "{{ url('prescriptioncomplaint') }}",
-                        data: formData,
+                        data: {
+                            _token:'{{ csrf_token() }}',
+                            formData:selectedData,
+                            prescription_id:prescription_no
+                        },
                         success: function (data) {
                             console.log(data);
                             if('error' in data){
@@ -937,6 +945,7 @@ body * { visibility: hidden; }
                             });
                         }
                     });
+                }
             }
         });
 

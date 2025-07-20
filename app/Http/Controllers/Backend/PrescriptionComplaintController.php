@@ -37,14 +37,13 @@ class PrescriptionComplaintController extends Controller
     {
         $validated = Validator::make($request->all(),[
             'prescription_id'=> 'required',
-            'complaint_id'=> 'required',
         ]);
         
         if($validated->fails()){
             return response()->json(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
-        return $request->all();
+        return response()->json($request->all());
         $prescription_complaint = new PrescriptionComplaint();
         $prescription_complaint->prescription_id = $request->prescription_id;
 
