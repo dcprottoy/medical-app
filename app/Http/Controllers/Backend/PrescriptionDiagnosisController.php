@@ -34,37 +34,50 @@ class PrescriptionDiagnosisController extends Controller
     {
         $validated = Validator::make($request->all(),[
             'prescription_id'=> 'required',
-            'diagnosis_id'=> 'required',
         ]);
         // return $request->all();
         if($validated->fails()){
             return response(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
+        if($request->has('formData')){
+            PrescriptionDiagnosis::where('prescription_id',$request->prescription_id)->delete();
+            $responseData = [];
+            $diagnosisData = $request->formData;
+            // return $diagnosisData;
+            foreach ($diagnosisData as $key => $value) {
+                $presDiagnosis = new PrescriptionDiagnosis();
+                if($value['newItem'] == 'true'){
+                    $new_diagnosis = new Diagnosis();
+                    $new_diagnosis->name_eng = $value['text'];
+                    $new_diagnosis->save();
+                    $presDiagnosis->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'diagnosis_id' => $new_diagnosis->id,
+                        'diagnosis_value' => $new_diagnosis->name_eng,
+                    ])->save();
+                        $responseData[] = $presDiagnosis;
+                }else{
 
-        $prescription_diagnosis = new PrescriptionDiagnosis();
-        $prescription_diagnosis->prescription_id = $request->prescription_id;
+                    $presDiagnosis->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'diagnosis_id' => $value['id'],
+                        'diagnosis_value' => $value['text'],
+                    ])->save();
+                    $responseData[] = $presDiagnosis;
 
-        if($request->has('diagnosis_id')){
-            $diagnosis = $request->diagnosis_id;
-            if($request->new_diagnosis){
-                $new_diagnosis = new Diagnosis();
-                $new_diagnosis->name_eng = $diagnosis;
-                $new_diagnosis->save();
-                $diagnosis_id = $new_diagnosis->id;
-                $diagnosis_text = $diagnosis;
-            }else{
-                $diagnosis_text = Diagnosis::find($diagnosis)->name_eng;
-                $diagnosis_id = $diagnosis;
+                }
+
             }
-            $prescription_diagnosis->diagnosis_id = $diagnosis_id;
-            $prescription_diagnosis->diagnosis_value = $diagnosis_text;
+
+                return response()->json($responseData);
+
         }
+        return response()->json(['error'=>'No Diagnosis Selected !!']);
+
         
-        $prescription_diagnosis->save();
 
 
-        return response()->json($prescription_diagnosis);
     }
 
     /**
@@ -72,7 +85,12 @@ class PrescriptionDiagnosisController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $diagnosis = PrescriptionDiagnosis::where('prescription_id','=',$id)->get();
+        if($diagnosis->isNotEmpty()){
+            return response()->json(['diagnosis'=>$diagnosis,"success"=>true]);
+        }else{
+            return response()->json(['diagnosis'=>$diagnosis,"success"=>false]);
+        }
     }
 
     /**

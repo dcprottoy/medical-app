@@ -15,7 +15,7 @@ class DiagnosisController extends Controller
      */
     public function index()
     {
-        $data['symptomps'] = Diagnosis::paginate(5);
+        $data['symptomps'] = Diagnosis::paginate(20);
         return view('backend.diagnosis.index',$data);
     }
 

@@ -41,31 +41,44 @@ class PrescriptionComplaintController extends Controller
         
         if($validated->fails()){
             return response()->json(['error'=>'Something went wrong !!']);
-            // return back()->withErrors($validated)->withInput();
         }
-        return response()->json($request->all());
-        $prescription_complaint = new PrescriptionComplaint();
-        $prescription_complaint->prescription_id = $request->prescription_id;
+        if($request->has('formData')){
+            PrescriptionComplaint::where('prescription_id',$request->prescription_id)->delete();
+            $responseData = [];
+            $complaintData = $request->formData;
+            // return $complaintData;
+            foreach ($complaintData as $key => $value) {
+                $presComplaint = new PrescriptionComplaint();
+                if($value['newItem'] == 'true'){
+                    $new_complaint = new Complaint();
+                    $new_complaint->name_eng = $value['text'];
+                    $new_complaint->save();
+                    $presComplaint->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'complaint_id' => $new_complaint->id,
+                        'complaint' => $new_complaint->name_eng,
+                    ])->save();
+                        $responseData[] = $presComplaint;
+                }else{
 
-        if($request->has('complaint_id')){
-            $complaint = $request->new_complaint;
-            if((boolean)$complaint){
-                $new_complaint = new Complaint();
-                $new_complaint->name_eng = $request->complaint_id;
-                $new_complaint->save();
-                $complaint_id = $new_complaint->id;
-                $complaint_text = $new_complaint->name_eng;
-            }else{
-                $complaint_text = Complaint::find($request->complaint_id)->name_eng;
-                $complaint_id = $request->complaint_id;
+                    $presComplaint->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'complaint_id' => $value['id'],
+                        'complaint' => $value['text'],
+                    ])->save();
+                    $responseData[] = $presComplaint;
+
+                }
+
             }
-            $prescription_complaint->complaint_id = $complaint_id;
-            $prescription_complaint->complaint = $complaint_text;
+
+                return response()->json($responseData);
+
         }
-        $prescription_complaint->save();
+        return response()->json(['error'=>'No Complain Selected !!']);
 
-
-        return response()->json($prescription_complaint);
+        
+           
     }
 
     /**

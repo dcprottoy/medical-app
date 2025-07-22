@@ -432,7 +432,7 @@ body * { visibility: hidden; }
 
                     <button class="btn btn-sm btn-success" style="min-width:115px;" data-toggle="modal" id="diagnosisbtn" data-target="#diagnosis">Diagnosis</button>
                     <div class="modal fade" id="diagnosis" tabindex="-1" role="dialog" aria-labelledby="diagnosisLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-md" role="document">
+                        <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-success">
                                 <h5 class="modal-title" id="diagnosisModalLabel">Diagnosis List</h5>
@@ -447,7 +447,7 @@ body * { visibility: hidden; }
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <select class="form-control form-control-sm"  name="diagnosis_id" id="diagnosis_id"></select>
+                                                        <select class="form-control form-control-lg"  name="diagnosis_id[]" id="diagnosis_id"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -835,47 +835,6 @@ body * { visibility: hidden; }
                 };
             }
         });
-        $('#complaint_duration_id').select2({
-            placeholder: 'Search or add an item',
-            minimumInputLength: 1,
-            autoClear: true,
-            allowClear: true,
-            tags: true,
-            ajax: {
-                type: 'PUT',
-                url: "{{ url('complaintduration/search') }}",
-                dataType: 'json',
-                delay: 250,
-                cache: true,
-                dropdownParent: $('#cheifComplaint'),
-                data: function (params) {
-                    return {
-                        q: params.term, // search term
-                        _token: "{{ csrf_token() }}"
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.map(item => ({
-                            id: item.id,
-                            text: item.name_eng
-                        }))
-                    };
-                },
-                cache: true
-            },
-            createTag: function (params) {
-                const term = $.trim(params.term);
-                if (term === '') {
-                    return null;
-                }
-                return {
-                    id: term,
-                    text: term,
-                    newTag: true // flag to identify new item
-                };
-            }
-        });
         function removeComplaint(id){
             $.ajax({
                     type: 'post',
@@ -905,7 +864,7 @@ body * { visibility: hidden; }
                 $('#cheifComplaint').modal('hide');
             }
             else{
-                if(selectedData){
+                if(selectedData.length){
                     $.ajax({
                         type: 'post',
                         dataType: "json",
@@ -915,23 +874,27 @@ body * { visibility: hidden; }
                             formData:selectedData,
                             prescription_id:prescription_no
                         },
-                        success: function (data) {
-                            console.log(data);
-                            if('error' in data){
-                                toastr.error(data.error);
+                        success: function (datas) {
+                            console.log(datas);
+                            if('error' in datas){
+                                toastr.error(datas.error);
                                 return;
                             }
                             toastr.success("Complaint Added Successfully");
-                            let element = `<li>
+                            let element = '';
+                            datas.forEach((data) => {
+                                element +=`<li>
                                 <div class="row">
                                     <div class="col-sm-10">${data.complaint}    ${data.complaint_duration == undefined ? '' : data.complaint_duration} </div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>`;
+                            })
+                            $("#cheif-complaint-list").empty();
                             $("#cheif-complaint-list").append(element);
                             $("#complaint_id").val(null).empty().trigger('change');
                             $("#complaint_duration_id").val(null).empty().trigger('change');
@@ -988,8 +951,6 @@ body * { visibility: hidden; }
 
             }
         })
-
-
         //Complaint Section Add Delete End Here
 
         //Prescription On Examination 
@@ -1066,6 +1027,7 @@ body * { visibility: hidden; }
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
             tags: true,
+            multiple: true,
             autoClear: true,
             ajax: {
                 type: 'PUT',
@@ -1128,36 +1090,42 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
+             let selectedData = checkNew('diagnosis_id');
+            console.log(selectedData);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
             }else{
-                let formData = $(this).serialize();
-                let new_diagnosis = checkNew('diagnosis_id');
-                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
-                    formData += '&new_diagnosis=' + encodeURIComponent(new_diagnosis);
+               if(selectedData.length){
                     $.ajax({
                         type: 'post',
                         dataType: "json",
                         url: "{{ url('prescriptiondiagnosis') }}",
-                        data: formData,
+                        data: {
+                            _token:'{{ csrf_token() }}',
+                            formData:selectedData,
+                            prescription_id:prescription_no
+                        },
                         success: function (data) {
-
                             console.log("data",data);
                             if('error' in data){
                                 toastr.error(data.error);
                                 return;
                             }
                             toastr.success("Diagnosi Added Successfully");
-                            let element = `<li>
-                                <div class="row">
-                                    <div class="col-sm-10">${data.diagnosis_value}</div>
-                                    <div class="col-sm-2">
-                                        <button type="button" class="btn btn-xs remove-diagnosis-btn" data-id=${data.id} title="Remove" id="remove-diagnosis-btn${data.id}">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                            let element =``;
+                            data.forEach((data) => {
+                                element += `<li>
+                                    <div class="row">
+                                        <div class="col-sm-10">${data.diagnosis_value}</div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-danger btn-xs remove-diagnosis-btn" data-id=${data.id} title="Remove" id="remove-diagnosis-btn${data.id}">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>`;
+                                </li>`;
+                            });
+                            $("#diagnosis-list").empty();
                             $("#diagnosis-list").append(element);
                             $("#diagnosis_id").val(null).empty().trigger('change');
                             setTimeout(() => {
@@ -1171,6 +1139,10 @@ body * { visibility: hidden; }
                             
                         }
                     });
+               }else{
+                toastr.error('No Diagnosis Selected');
+               }
+                   
             }
             setTimeout(() => {
                 $("#onExamination").modal('hide');
@@ -1184,6 +1156,38 @@ body * { visibility: hidden; }
                 $('#diagnosis').modal('hide');
             }, 100);
         });
+
+        $("#diagnosisbtn").on('click',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+                $('#diagnosis').modal('hide');
+            }else{
+                $.ajax({
+                        type: 'get',
+                        dataType: "json",
+                        url: "{{ url('prescriptiondiagnosis') }}/"+prescription_no,
+                        success: function (data) {
+                            if(data.success){
+                                $("#diagnosis_id").val(null).empty().trigger('change');
+                                data.diagnosis.forEach(x => {
+                                    console.log([x.diagnosis_value,x.diagnosis_id])
+                                    let newOption = new Option(x.diagnosis_value,x.diagnosis_id, true, true);
+                                    $('#diagnosis_id').append(newOption).trigger('change');
+                                });
+                            }else{
+                                $("#diagnosis_id").val(null).empty().trigger('change');
+                            }
+                            
+                        }
+                    });
+
+            $('#diagnosis').modal('show');
+
+            }
+        })
 
          //Advice Section Add Delete Start Here
         $('#advice_id').select2({
@@ -2509,9 +2513,9 @@ body * { visibility: hidden; }
                                 console.log(data);
                                 element += `<li>
                                 <div class="row">
-                                    <div class="col-sm-10">${data.complaint}    ${data.complaint_duration == undefined ? '' : data.complaint_duration} </div>
+                                    <div class="col-sm-10">${data.complaint} </div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-complaint-btn" data-id=${data.id} title="Remove" id="remove-complaint-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -2534,7 +2538,7 @@ body * { visibility: hidden; }
                                 <div class="row">
                                     <div class="col-sm-10">${data.diagnosis_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-xs remove-diagnosis-btn" data-id=${data.id} title="Remove" id="remove-diagnosis-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-diagnosis-btn" data-id=${data.id} title="Remove" id="remove-diagnosis-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
