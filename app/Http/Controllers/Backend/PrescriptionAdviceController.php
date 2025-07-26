@@ -34,7 +34,6 @@ class PrescriptionAdviceController extends Controller
     {
         $validated = Validator::make($request->all(),[
             'prescription_id'=> 'required',
-            'advice_id'=> 'required',
         ]);
         // return $request->all();
         if($validated->fails()){
@@ -42,29 +41,38 @@ class PrescriptionAdviceController extends Controller
             // return back()->withErrors($validated)->withInput();
         }
 
-        $prescription_advice = new PrescriptionAdvice();
-        $prescription_advice->prescription_id = $request->prescription_id;
+        if($request->has('formData')){
+            PrescriptionAdvice::where('prescription_id',$request->prescription_id)->delete();
+            $responseData = [];
+            $adviceData = $request->formData;
+            // return $diagnosisData;
+            foreach ($adviceData as $key => $value) {
+                $presAdvice = new PrescriptionAdvice();
+                if($value['newItem'] == 'true'){
+                    $new_advice = new advice();
+                    $new_advice->name_eng = $value['text'];
+                    $new_advice->save();
+                    $presAdvice->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'advice_id' => $new_advice->id,
+                        'advice_value' => $new_advice->name_eng,
+                    ])->save();
+                        $responseData[] = $presAdvice;
+                }else{
 
-        if($request->has('advice_id')){
-            $advice = $request->advice_id;
-            if($request->new_advice == 0){
-                $advice_text = advice::find($advice)->name_eng;
-                $advice_id = $advice;
-            }else{
-                $new_advice = new advice();
-                $new_advice->name_eng = $advice;
-                $new_advice->save();
-                $advice_id = $new_advice->id;
-                $advice_text = $advice;
+                    $presAdvice->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'advice_id' => $value['id'],
+                        'advice_value' => $value['text'],
+                    ])->save();
+                    $responseData[] = $presAdvice;
+
+                }
+
             }
-            $prescription_advice->advice_id = $advice_id;
-            $prescription_advice->advice_value = $advice_text;
+            return response()->json($responseData);
         }
-        
-        $prescription_advice->save();
-
-
-        return response()->json($prescription_advice);
+        return response()->json(['error'=>'No Advice Selected !!']);
     }
 
     /**
@@ -72,7 +80,12 @@ class PrescriptionAdviceController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $advices = PrescriptionAdvice::where('prescription_id','=',$id)->get();
+        if($advices->isNotEmpty()){
+            return response()->json(['advices'=>$advices,"success"=>true]);
+        }else{
+            return response()->json(['advices'=>$advices,"success"=>false]);
+        }
     }
 
     /**

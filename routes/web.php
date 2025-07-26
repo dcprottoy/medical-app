@@ -322,6 +322,19 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'referred.delete'
         ]);
 
+        // Route::put('referred/search',[ReferredController::class,'search']);
+
+        // Route::resource('/referred',ReferredController::class)->names([
+        //     'index'=>'referred.home',
+        //     'create'=>'referred.create',
+        //     'store'=>'referred.save',
+        //     'edit'=>'referred.edit',
+        //     'update'=>'referred.update',
+        //     'destroy'=>'referred.delete'
+        // ]);
+
+
+
         Route::put('usage/search',[UsageController::class,'search']);
         Route::resource('/usage',UsageController::class)->names([
             'index'=>'usage.home',

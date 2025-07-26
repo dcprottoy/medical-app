@@ -34,7 +34,6 @@ class PrescriptionInvestigationController extends Controller
     {
         $validated = Validator::make($request->all(),[
             'prescription_id'=> 'required',
-            'investigations_id'=> 'required',
         ]);
         // return $request->all();
         if($validated->fails()){
@@ -42,30 +41,39 @@ class PrescriptionInvestigationController extends Controller
             return response(['error'=>'Something went wrong !!']);
             // return back()->withErrors($validated)->withInput();
         }
+        if($request->has('formData')){
+            PrescriptionInvestigation::where('prescription_id',$request->prescription_id)->delete();
+            $responseData = [];
+            $investigationsData = $request->formData;
+            // return $diagnosisData;
+            foreach ($investigationsData as $key => $value) {
+                $presInvestigation = new PrescriptionInvestigation();
+                if($value['newItem'] == 'true'){
+                    $new_investigation = new TestsList();
+                    $new_investigation->name_eng = $value['text'];
+                    $new_investigation->save();
+                    $presInvestigation->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'investigations_id' => $new_investigation->id,
+                        'investigations_value' => $new_investigation->name_eng,
+                    ])->save();
+                        $responseData[] = $presInvestigation;
+                }else{
 
-        $prescription_investigations = new PrescriptionInvestigation();
-        $prescription_investigations->prescription_id = $request->prescription_id;
+                    $presInvestigation->fill([
+                        'prescription_id' => $request->prescription_id,
+                        'investigations_id' => $value['id'],
+                        'investigations_value' => $value['text'],
+                    ])->save();
+                    $responseData[] = $presInvestigation;
 
-        if($request->has('investigations_id')){
-            $investigations = $request->investigations_id;
-            if($request->new_investigations == 0){
-                $investigations_text = TestsList::find($investigations)->name_eng;
-                $investigations_id = $investigations;
-            }else{
-                $new_investigations = new TestsList();
-                $new_investigations->name_eng = $investigations;
-                $new_investigations->save();
-                $investigations_id = $new_investigations->id;
-                $investigations_text = $investigations;
+                }
+
             }
-            $prescription_investigations->investigations_id = $investigations_id;
-            $prescription_investigations->investigations_value = $investigations_text;
+            return response()->json($responseData);
         }
+        return response()->json(['error'=>'No Investigation Selected !!']);
         
-        $prescription_investigations->save();
-
-
-        return response()->json($prescription_investigations);
     }
 
     /**
@@ -73,7 +81,12 @@ class PrescriptionInvestigationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $investigations = PrescriptionInvestigation::where('prescription_id','=',$id)->get();
+        if($investigations->isNotEmpty()){
+            return response()->json(['investigations'=>$investigations,"success"=>true]);
+        }else{
+            return response()->json(['investigations'=>$investigations,"success"=>false]);
+        }
     }
 
     /**

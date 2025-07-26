@@ -430,7 +430,7 @@ body * { visibility: hidden; }
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-success" style="min-width:115px;" data-toggle="modal" id="diagnosisbtn" data-target="#diagnosis">Diagnosis</button>
+                    <button class="btn btn-sm btn-success" style="min-width:115px;" id="diagnosisbtn" >Diagnosis</button>
                     <div class="modal fade" id="diagnosis" tabindex="-1" role="dialog" aria-labelledby="diagnosisLabel" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
                             <div class="modal-content">
@@ -623,7 +623,7 @@ body * { visibility: hidden; }
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <select class="form-control form-control-sm"  name="advice_id" id="advice_id"></select>
+                                                        <select class="form-control form-control-sm"  name="advice_id[]" id="advice_id"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -787,6 +787,20 @@ body * { visibility: hidden; }
                 return data;
             }
             else return 0;
+        }
+
+
+
+        function checkNewSingle(name){
+            let value = $('#'+name).val();
+            if(value) {
+                let text = $('#'+name).select2('data')[0];
+                if(value == text){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            }
         }
     
 
@@ -1090,7 +1104,7 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
-             let selectedData = checkNew('diagnosis_id');
+            let selectedData = checkNew('diagnosis_id');
             console.log(selectedData);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
@@ -1196,6 +1210,7 @@ body * { visibility: hidden; }
             tags: true,
             autoClear: true,
             allowClear: true,
+            multiple: true,
             ajax: {
                 type: 'PUT',
                 url: "{{ url('advices/search') }}",
@@ -1258,22 +1273,27 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
+            let selectedData = checkNew('advice_id');
+            console.log(selectedData);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
             }else{
-                let formData = $(this).serialize();
-                let new_advice = checkNew('advice_id');
-                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
-                    formData += '&new_advice=' + encodeURIComponent(new_advice);
+                if(selectedData.length > 0){
                     $.ajax({
                         type: 'post',
                         dataType: "json",
                         url: "{{ url('prescriptionadvice') }}",
-                        data: formData,
-                        success: function (data) {
-                            console.log(data);
-                            toastr.success("Advice Added Successfully");
-                            let element = `<li>
+                        data: {
+                            _token:'{{ csrf_token() }}',
+                            formData:selectedData,
+                            prescription_id:prescription_no
+                        },
+                        success: function (x) {
+                            console.log(x);
+                            toastr.success("Advice Added Successfully");3
+                            let element =``;
+                            x.forEach(data => {
+                                element += `<li>
                                 <div class="row">
                                     <div class="col-sm-10">${data.advice_value}</div>
                                     <div class="col-sm-2">
@@ -1283,6 +1303,9 @@ body * { visibility: hidden; }
                                     </div>
                                 </div>
                             </li>`;
+                                
+                            });
+                            $("#advice-list").empty();
                             $("#advice-list").append(element);
                             $("#advice_id").val('').empty().trigger('change');
                             setTimeout(() => {
@@ -1296,6 +1319,8 @@ body * { visibility: hidden; }
                             
                         }
                     });
+                   
+                }
             }
             setTimeout(() => {
                 $("#onExamination").modal('hide');
@@ -1310,6 +1335,37 @@ body * { visibility: hidden; }
             }, 100);
         });
 
+        $("#advicebtn").on('click',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+                $('#advice').modal('hide');
+            }else{
+                $.ajax({
+                        type: 'get',
+                        dataType: "json",
+                        url: "{{ url('prescriptionadvice') }}/"+prescription_no,
+                        success: function (data) {
+                            if(data.success){
+                                $("#advice_id").val(null).empty().trigger('change');
+                                data.advices.forEach(x => {
+                                    console.log([x.advice_value,x.advice_id])
+                                    let newOption = new Option(x.advice_value,x.advice_id, true, true);
+                                    $('#advice_id').append(newOption).trigger('change');
+                                });
+                            }else{
+                                $("#advice_id").val(null).empty().trigger('change');
+                            }
+                            
+                        }
+                    });
+                $('#advice').modal('show');
+
+            }
+        })
+
         //Investigations Section Add Delete Start Here
         $('#investigations_id').select2({
             placeholder: 'Search or add an item',
@@ -1317,6 +1373,7 @@ body * { visibility: hidden; }
             tags: true,
             autoClear: true,
             allowClear: true,
+            multiple: true,
             ajax: {
                 type: 'PUT',
                 url: "{{ url('tests/search') }}",
@@ -1379,35 +1436,42 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
+            let selectedData = checkNew('investigations_id');
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
             }else{
-                let formData = $(this).serialize();
-                let new_investigations = checkNew('investigations_id');
-                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
-                    formData += '&new_investigations=' + encodeURIComponent(new_investigations);
+                if(selectedData.length > 0){
+
                     $.ajax({
                         type: 'post',
                         dataType: "json",
                         url: "{{ url('prescriptioninvestigation') }}",
-                        data: formData,
-                        success: function (data) {
-                            console.log(data);
-                            if('error' in data){
-                                toastr.error(data.error);
+                        data: {
+                            _token:'{{ csrf_token() }}',
+                            formData:selectedData,
+                            prescription_id:prescription_no
+                        },
+                        success: function (datas) {
+                            console.log(datas);
+                            if('error' in datas){
+                                toastr.error(datas.error);
                                 return;
                             }
                             toastr.success("Investigation Added Successfully");
-                            let element = `<li>
-                                <div class="row">
-                                    <div class="col-sm-10">${data.investigations_value}</div>
-                                    <div class="col-sm-2">
-                                        <button type="button" class="btn btn-danger btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                            let element =``;
+                            datas.forEach(data=>{
+                                element += `<li>
+                                    <div class="row">
+                                        <div class="col-sm-10">${data.investigations_value}</div>
+                                        <div class="col-sm-2">
+                                            <button type="button" class="btn btn-danger btn-xs remove-test-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>`;
+                                </li>`;
+                            });
+                            $("#test-list").empty();
                             $("#test-list").append(element);
                             $("#investigations_id").val('').empty().trigger('change');
                             setTimeout(() => {
@@ -1421,6 +1485,9 @@ body * { visibility: hidden; }
                             
                         }
                     });
+                    
+                }
+                    
             }
             setTimeout(() => {
                 $("#investigations").modal('hide');
@@ -1434,6 +1501,37 @@ body * { visibility: hidden; }
                 $('#investigations').modal('hide');
             }, 100);
         });
+
+        $("#investigationsbtn").on('click',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+                $('#investigations').modal('hide');
+            }else{
+                $.ajax({
+                        type: 'get',
+                        dataType: "json",
+                        url: "{{ url('prescriptioninvestigation') }}/"+prescription_no,
+                        success: function (data) {
+                            if(data.success){
+                                $("#investigations_id").val(null).empty().trigger('change');
+                                data.diagnosis.forEach(x => {
+                                    console.log([x.investigations_value,x.investigations_id])
+                                    let newOption = new Option(x.investigations_value,x.investigations_id, true, true);
+                                    $('#investigations_id').append(newOption).trigger('change');
+                                });
+                            }else{
+                                $("#investigations_id").val(null).empty().trigger('change');
+                            }
+                            
+                        }
+                    });
+
+            $('#investigations').modal('show');
+            }
+        })
 
         //Referred Section Add Delete Start Here
         $('#referred_id').select2({
@@ -1834,11 +1932,11 @@ body * { visibility: hidden; }
                 toastr.error('Prescription No Not Found');
             }else{
                 let formData = $(this).serialize();
-                let new_medicines = checkNew('medicines_id');
-                let new_dose = checkNew('dose_id');
-                let new_dose_duration = checkNew('dose_duration_id');
-                let new_usage = checkNew('usage_id');
-                let new_dose_frequency = checkNew('dose_frequency_id');
+                let new_medicines = checkNewSingle('medicines_id');
+                let new_dose = checkNewSingle('dose_id');
+                let new_dose_duration = checkNewSingle('dose_duration_id');
+                let new_usage = checkNewSingle('usage_id');
+                let new_dose_frequency = checkNewSingle('dose_frequency_id');
                     formData += '&prescription_id=' + encodeURIComponent(prescription_no);
                     formData += '&new_medicines=' + encodeURIComponent(new_medicines);
                     formData += '&new_dose=' + encodeURIComponent(new_dose);
@@ -2134,11 +2232,11 @@ body * { visibility: hidden; }
             e.preventDefault();
             let id = $("#u-id").val();
             let formData = $(this).serialize();
-            let new_medicines = checkNew('u-medicines_id');
-            let new_dose = checkNew('u-dose_id');
-            let new_dose_duration = checkNew('u-dose_duration_id');
-            let new_usage = checkNew('u-usage_id');
-            let new_dose_frequency = checkNew('u-dose_frequency_id');
+            let new_medicines = checkNewSingle('u-medicines_id');
+            let new_dose = checkNewSingle('u-dose_id');
+            let new_dose_duration = checkNewSingle('u-dose_duration_id');
+            let new_usage = checkNewSingle('u-usage_id');
+            let new_dose_frequency = checkNewSingle('u-dose_frequency_id');
                 formData += '&new_medicines=' + encodeURIComponent(new_medicines);
                 formData += '&new_dose=' + encodeURIComponent(new_dose);
                 formData += '&new_dose_duration=' + encodeURIComponent(new_dose_duration);
@@ -2186,6 +2284,8 @@ body * { visibility: hidden; }
                         let id = $(this).attr('data-id');
                         updateMedicines(id);
                     });
+                $("#medecine-edit").modal('hide');
+
                 }
             });
            
