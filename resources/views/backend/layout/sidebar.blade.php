@@ -172,10 +172,16 @@
                             <p>Examination</p>
                         </a>
                     </li>
-                    <li class="nav-item " >
+                    {{-- <li class="nav-item " >
                         <a href="{{route('referred.home')}}" class="nav-link {{ Route::currentRouteName() == 'referred.home'||Route::currentRouteName() == 'referred.create'||Route::currentRouteName() == 'referred.edit' ? 'active' : ''}}" >
                             <i class="nav-icon fas fa-angle-double-right"></i>
                             <p>Referred</p>
+                        </a>
+                    </li> --}}
+                    <li class="nav-item " >
+                        <a href="{{route('prevhistory.home')}}" class="nav-link {{ Route::currentRouteName() == 'prevhistory.home'||Route::currentRouteName() == 'prevhistory.create'||Route::currentRouteName() == 'prevhistory.edit' ? 'active' : ''}}" >
+                            <i class="nav-icon fas fa-angle-double-right"></i>
+                            <p>Previous History</p>
                         </a>
                     </li>
                     <li class="nav-item " >

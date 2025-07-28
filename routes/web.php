@@ -26,6 +26,7 @@ use App\Http\Controllers\Backend\InvestigstionDetailsController;
 use App\Http\Controllers\Backend\InvestigationEquiSetController;
 use App\Http\Controllers\Backend\ExaminationController;
 use App\Http\Controllers\Backend\ReferredController;
+use App\Http\Controllers\Backend\PrevHostoryController;
 use App\Http\Controllers\Backend\DueController;
 use App\Http\Controllers\Backend\BillReferenceControllers;
 use App\Http\Controllers\Backend\PrescribeController;
@@ -322,16 +323,16 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'destroy'=>'referred.delete'
         ]);
 
-        // Route::put('referred/search',[ReferredController::class,'search']);
+        Route::put('prevhistory/search',[PrevHostoryController::class,'search']);
 
-        // Route::resource('/referred',ReferredController::class)->names([
-        //     'index'=>'referred.home',
-        //     'create'=>'referred.create',
-        //     'store'=>'referred.save',
-        //     'edit'=>'referred.edit',
-        //     'update'=>'referred.update',
-        //     'destroy'=>'referred.delete'
-        // ]);
+        Route::resource('/prevhistory',PrevHostoryController::class)->names([
+            'index'=>'prevhistory.home',
+            'create'=>'prevhistory.create',
+            'store'=>'prevhistory.save',
+            'edit'=>'prevhistory.edit',
+            'update'=>'prevhistory.update',
+            'destroy'=>'prevhistory.delete'
+        ]);
 
 
 

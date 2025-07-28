@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class PrevHistory extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name_eng',
+        'status'
+    ];
 }

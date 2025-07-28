@@ -574,7 +574,7 @@ body * { visibility: hidden; }
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="investigationsbtn" data-target="#investigations">Investigations</button>
+                    <button class="btn btn-sm btn-secondary" style="min-width:115px;" data-toggle="modal" id="investigationsbtn" >Investigations</button>
                     <div class="modal fade" id="investigations" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
@@ -606,7 +606,7 @@ body * { visibility: hidden; }
                         </div>
                     </div>
 
-                    <button class="btn btn-sm btn-primary" style="min-width:115px;" data-toggle="modal" id="advicebtn" data-target="#advice">Advice</button>
+                    <button class="btn btn-sm btn-primary" style="min-width:115px;" data-toggle="modal" id="advicebtn" >Advice</button>
                     <div class="modal fade" id="advice" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
@@ -638,24 +638,24 @@ body * { visibility: hidden; }
                         </div>
                     </div>
 
-                    <button class="btn btn-sm" style="min-width:115px;background-color: #14576d;color: white;" data-toggle="modal" id="referredbtn" data-target="#referred">Reffered</button>
-                    <div class="modal fade" id="referred" tabindex="-1" role="dialog" aria-labelledby="adviceLabel" aria-hidden="true">
+                    <button class="btn btn-sm" style="min-width:115px;background-color: #14576d;color: white;" data-toggle="modal" id="prevhistorybtn">Prev. History</button>
+                    <div class="modal fade" id="prevhistory" tabindex="-1" role="dialog" aria-labelledby="prevhistoryLabel" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-content">
                                 <div class="modal-header  bg-secondary">
-                                <h5 class="modal-title" id="referredModalLabel">Referred List</h5>
+                                <h5 class="modal-title" id="prevhistoryModalLabel">Previous History List</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                               <form action="{{route('tests.save')}}" method="post" enctype="multipart/form-data" id="prescription_referred_create">
+                               <form action="" method="post" enctype="multipart/form-data" id="prescription_history_create">
                                     @csrf
                                     <div class="modal-body" style="min-height: 300px;">
                                         <div class="col-sm-12">
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <div class="form-group">
-                                                        <select class="form-control form-control-sm"  name="referred_id" id="referred_id"></select>
+                                                        <select class="form-control form-control-sm"  name="history_id" id="history_id"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1533,20 +1533,21 @@ body * { visibility: hidden; }
             }
         })
 
-        //Referred Section Add Delete Start Here
-        $('#referred_id').select2({
+        //Previous History Section Add Delete Start Here
+        $('#history_id').select2({
             placeholder: 'Search or add an item',
             minimumInputLength: 1,
             tags: true,
             autoClear: true,
             allowClear: true,
+            multiple:true,
             ajax: {
                 type: 'PUT',
-                url: "{{ url('referred/search') }}",
+                url: "{{ url('prevhistory/search') }}",
                 dataType: 'json',
                 delay: 250,
                 cache: true,
-                dropdownParent: $('#referred'),
+                dropdownParent: $('#prevhistory'),
                 data: function (params) {
                     return {
                         q: params.term, // search term
@@ -1578,7 +1579,7 @@ body * { visibility: hidden; }
             }
         });
 
-        function removeReferred(id){
+        function removeHistory(id){
             $.ajax({
                     type: 'post',
                     dataType: "json",
@@ -1598,7 +1599,7 @@ body * { visibility: hidden; }
                 });
         }
 
-        $('#prescription_referred_create').on('submit',function(e){
+        $('#prescription_history_create').on('submit',function(e){
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
@@ -1639,7 +1640,7 @@ body * { visibility: hidden; }
 
                             $('.remove-referred-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
-                                removeReferred(id);
+                                removeHistory(id);
                             });
                             
                         }
@@ -1650,7 +1651,7 @@ body * { visibility: hidden; }
             }, 100);
         });
 
-        $('#prescription_referred_create').on('reset',function(e){
+        $('#prescription_history_create').on('reset',function(e){
             e.preventDefault();
             $("#referred_id").val(null).empty().trigger('change');
             setTimeout(() => {

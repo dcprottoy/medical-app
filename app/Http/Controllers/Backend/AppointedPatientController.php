@@ -42,9 +42,6 @@ class AppointedPatientController extends Controller
         $data['doctors'] = Doctors::all();
         $data['patients'] = Patients::orderBy('id','DESC')->limit(20)->get();
         $data['appointmenttypes'] = AppointmentType::where('status',TRUE)->get();
-        $data['complaints'] = Complaint::where('status',TRUE)->get();
-        $data['complaintdurations'] = ComplaintDuration::where('status',TRUE)->get();
-        $data['diagnosis'] = Diagnosis::where('status',TRUE)->get();
         return view('backend.appointed.index',$data);
     }
 
