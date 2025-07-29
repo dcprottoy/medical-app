@@ -71,47 +71,68 @@
                 Gender : {!! $main->patient->sex == 'M'?'Male':($main->patient->sex == 'F'?'Female':'Other') !!}
             </td>
             <td  style="width: 25%;font-size:12px;padding-bottom:5px;" align="center">
-                Date : {{$main->prescribed_date}}
+                Date : {{date("d-m-Y",strtotime($main->prescribed_date))}}
             </td>
         </tr>
     </table>
    <table cellpadding="10" cellspacing="0" width="100%">
   <tr>
     <td style="width: 35%; vertical-align: top;height:78%;border-right:1px solid black;font-size:12px;">
-    <strong>Chief Complaint : </strong>
-      <ul>
-       @foreach ($complain as $x )
-        <li>{{@$x->complaint}}&nbsp;{{@$x->complaint_duration}}&nbsp;{{@$x->complaint_duration_value}}&nbsp;</li>
+    <strong>Chief Complaint</strong><br><br>
+    <table style="width: 100%;">
+        @foreach ($complain as $x )
+        <tr>
+            <td style="width:60%;text-align:left;">{{@$x->complaint}}&nbsp;</td>
+        </tr>
        @endforeach
-      </ul>
-      <strong>On Examination:</strong><br><br>
+    </table>
+    <br>
+      <strong>On Examination</strong><br><br>
       <table style="width: 100%;">
         <tr>
             <td style="width:60%;text-align:left;">Temperature : <b>{{@$onexam->temperature}}&nbsp;<sup>o</sup>&nbsp;F</b></td>
+        </tr>
+        <tr>
             <td style="width:60%;text-align:left;">Pressure : <b>{{@$onexam->pressure}}</b></td>
         </tr>
         <tr>
             <td style="width:40%;text-align:left;">Weight : <b>{{@$onexam->weight}}&nbsp;Kg</b></td>
+        </tr>
+        <tr>
             <td style="width:40%;text-align:left;">Height : <b>{{@$onexam->height}}&nbsp;</b></td>
         </tr>
       </table>
       <br>
-      <strong>Investigations : </strong>
-      <ul>
-        @foreach($investigations as $x)
-        <li>{{@$x->investigations_value}}</li>
+    <strong>Previous History</strong>
+        <table style="width: 100%;">
+        @foreach($history as $x)
+            <tr>
+                <td style="width:60%;text-align:left;">{{@$x->history_value}}&nbsp;</td>
+            </tr>
         @endforeach
-      </ul>
+        </table>
+      <br>
+      <strong>Investigations</strong>
+      <table style="width: 100%;">
+        @foreach($investigations as $x)
+            <tr>
+                <td style="width:60%;text-align:left;">{{@$x->investigations_value}}&nbsp;</td>
+            </tr>
+        @endforeach
+        </table>
+        
     </td>
     <td style="width: 68%; vertical-align: top;font-size:12px;">
-      <strong>Diagnosis :</strong><br>
-        <ul >
-            @foreach($diagnosis as $x)
-                <li>{{@$x->diagnosis_value}}</li>
-            @endforeach
-        </ul>
+      <strong>Diagnosis</strong><br>
+      <table style="width: 100%;">
+        @foreach($diagnosis as $x)
+            <tr>
+                <td style="width:60%;text-align:left;">{{@$x->diagnosis_value}}&nbsp;</td>
+            </tr>
+        @endforeach
+        </table>
         <br>
-      <h2>Rx</h2>
+      <h2>T<span style="font-size:12px;">R</span></h2>
       <ol>
         @foreach($medicins as $data)
                 <li style="padding:5px;">
@@ -120,18 +141,15 @@
                 </li>
         @endforeach
       </ol>
-      <strong>Advice : </strong>
-      <ul>
+      <strong>Advice</strong>
+      <table style="width: 100%;">
         @foreach($advices as $x)
-        <li>{{@$x->advice_value}}</li>
+            <tr>
+                <td style="width:60%;text-align:left;">{{@$x->advice_value}}&nbsp;</td>
+            </tr>
         @endforeach
-      </ul>
-      <strong>Referred : </strong>
-      <ul>
-        @foreach($referred as $x)
-        <li>{{@$x->referred}}</li>
-        @endforeach
-      </ul>
+        </table>
+      
     </td>
   </tr>
 </table>

@@ -22,6 +22,7 @@ use App\Models\Backend\PrescriptionInvestigation;
 use App\Models\Backend\PrescriptionComplaint;
 use App\Models\Backend\PrescriptionDiagnosis;
 use App\Models\Backend\PrescriptionMedicines;
+use App\Models\Backend\PrescriptionPrevHistory;
 use App\Models\Backend\PrescriptionReferred;
 use App\Models\Backend\PrescriptionAdvice;
 
@@ -130,14 +131,14 @@ class AppointedPatientController extends Controller
         $diagnosis = PrescriptionDiagnosis::where('prescription_id','=',$id)->get();
         $medicins = PrescriptionMedicines::where('prescription_id','=',$id)->get();
         $advices = PrescriptionAdvice::where('prescription_id','=',$id)->get();
-        $referred = PrescriptionReferred::where('prescription_id','=',$id)->get();
+        $history = PrescriptionPrevHistory::where('prescription_id','=',$id)->get();
 
         
         // return $prescription;
         $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
         $billImg = $generator->getBarcode($main->prescription_id, $generator::TYPE_CODE_128);
         $patientImg = $generator->getBarcode($main->patient_id, $generator::TYPE_CODE_128);
-        $data = ["main"=>$main,'billImg'=>$billImg,'patientImg'=>$patientImg,'investigations'=>$investigations,'onexam'=>$onexam,'complain'=>$complain,'diagnosis'=>$diagnosis,'medicins'=>$medicins,'advices'=>$advices,'referred'=>$referred];
+        $data = ["main"=>$main,'billImg'=>$billImg,'patientImg'=>$patientImg,'investigations'=>$investigations,'onexam'=>$onexam,'complain'=>$complain,'diagnosis'=>$diagnosis,'medicins'=>$medicins,'advices'=>$advices,'history'=>$history];
        
         $data["printed_by"] = $user = Auth::user()->name;
         // return $taka;

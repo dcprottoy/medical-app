@@ -5,6 +5,8 @@
 <style>
     @page {
         margin:20px;
+        margin-top:30px;
+        margin-bottom:0px;
     }
     .footer-div {
         position: fixed;
@@ -19,442 +21,123 @@
     page-break-before: always;
 
     }
+
 </style>
 <body>
-    <table style="line-height: 1em;padding:0px;">
-        <tr>
-            <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
-            <td >
-                <span style="font-size:30px;">Alif Medical Centre</span></br>
-                <span style="font-size:15px;">Polashbari Bus Stand</span></br>
-                <span style="font-size:15px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
+    <table style="line-height: 1em;padding:0px;width:100%;">
+        <tr style="">
+            <td style="padding:0px;width:25%;" align="center">
+                <img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:110px;width:110px;">
             </td>
-            <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
-
+            <td style="padding:0px;width:25%;">
+                &nbsp;
+            </td>
+            <td style="padding:0px;width:50%;text-align:right;">
+                <span style="font-size:20px;text-transform:uppercase;font-weight:bold;line-height: 2em;">DR. MD Golam Hossain</span></br>
+                <span style="font-size:14px;text-transform:uppercase;">MBBS (du),mcps(bcps),fcgp(bd), FIAGP(INDIA)</span></br>
+                <span style="font-size:14px;text-transform:uppercase;">ccu(sub), C.paed(bich), c.diab(birdem)</span></br>
+                <span style="font-size:13px;text-transform:capitalize;">specialist in family medecine, sonologist, diabetologist &</span></br>
+                <span style="font-size:13px;text-transform:capitalize;">children's physician</span>
+            </td>
     </table>
-    <table style="width:100%;">
+    <table style="width:100%;margin-top:5px;">
         <tr>
-            <td style="width: 40%;">
-                <img src="data:image/png;base64,{{ base64_encode($billImg) }}" style="opacity: .8;height:20px;width:100px;">
+            <td style="width: 50%;">
+                <img src="data:image/png;base64,{{ base64_encode($billImg) }}" style="opacity: .8;height:25px;width:200px;">
             </td>
-            <td  style="width: 20%;"><span style="border:1px solid black;padding:10px;font-weight:bold;">{!! "Patient Copy" !!}</span></td>
-            <td  style="width: 40%;text-align:right;">
-                <img src="data:image/png;base64,{{ base64_encode($patientImg) }}" style="opacity: .8;height:20px;width:100px;">
+            <td  style="width: 50%;text-align:right;">
+                <img src="data:image/png;base64,{{ base64_encode($patientImg) }}" style="opacity: .8;height:25px;width:200px;">
             </td>
         </tr>
         <tr>
-            <td style="width: 35%;font-size:16px;">
-                Invoice No. {!! $main->bill_id !!}
+            <td style="width: 50%;font-size:12px;">
+                Prescription No. {!! $main->prescription_id !!}
             </td>
-            <td  style="width: 30%;"></td>
-            <td  style="width: 35%;text-align:right;font-size:16px;">
+            <td  style="width: 50%;text-align:right;font-size:12px;">
                 Patient ID. {!! $main->patient->patient_id !!}
             </td>
         </tr>
     </table>
-    <table style="font-size:16px;width:100%;border:1px solid black;margin-top:5px;">
+    <table style="line-height: 1em;width:100%;border-bottom:1px solid black;border-top:1px solid black;border-collapse: collapse;margin-top:15px;">
         <tr>
-            <td style="width: 20%;">Name</td>
-            <td style="width: 30%;">: {!! $main->patient->name !!}</td>
-            <td style="width: 20%;text-align:right;">Age</td>
-            <td style="width: 30%;">: {!! $main->patient->age !!}</td>
-        </tr>
-        <tr>
-            <td style="width: 20%;">Phone No.</td>
-            <td style="width: 30%;">: {!! $main->patient->contact_no !!}</td>
-            <td style="width: 20%;text-align:right;">Gender</td>
-            <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!} </td>
-        </tr>
-        <tr>
-            <td style="width: 25%;vertical-align: top;">Referrenced By</td>
-            <td colspan="3">: {!! @$main->reference->name_eng !!}</td>
+            <td style="width: 25%;font-size:12px;padding-bottom:5px;" align="center">
+                Name : {!! $main->patient->name !!}
+            </td>
+            <td  style="width: 25%;font-size:12px;padding-bottom:5px;" align="right">
+                Age : {!! $main->patient->age !!}
+            </td>
 
+            <td style="width: 25%;font-size:12px;padding-bottom:5px;" align="right">
+                Gender : {!! $main->patient->sex == 'M'?'Male':($main->patient->sex == 'F'?'Female':'Other') !!}
+            </td>
+            <td  style="width: 25%;font-size:12px;padding-bottom:5px;" align="center">
+                Date : {{$main->prescribed_date}}
+            </td>
         </tr>
     </table>
-    @php
-        $i=0;
-    @endphp
-    <table width="100%" style="font-size:14px;width:100%;margin-top:5px;border:1px solid black;border-collapse: collapse;">
-        <tbody>
-            <tr  style="text-align:left;font-weight:600;">
-                <td style="width: 5%;text-align:left;padding:2px;">SL</td>
-                <td style="width: 30%;padding:2px;text-align:left;border-left:1px solid black;">Item Name</td>
-                {{-- <td style="width: 15%;text-align:center;border-left:1px solid black;">Room No</td> --}}
-                <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Rate</td>
-                <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Qty</td>
-                <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
-            </tr>
-            @foreach ($details as $item)
-                <tr style="{{count($details)>12?'font-size:12px;':''}}">
-                    <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
-                    <td style="border-top:1px solid black;border-left:1px solid black;">{!! $item->item_name !!}</td>
-                    {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                    <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->item_rate !!}</td>
-                    <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->quantity !!}</td>
-                    <td style="text-align:right;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->price !!}</td>
-
-                </tr>
+   <table cellpadding="10" cellspacing="0" width="100%">
+  <tr>
+    <td style="width: 35%; vertical-align: top;height:78%;border-right:1px solid black;font-size:12px;">
+    <strong>Chief Complaint : </strong>
+      <ul>
+       @foreach ($complain as $x )
+        <li>{{@$x->complaint}}&nbsp;{{@$x->complaint_duration}}&nbsp;{{@$x->complaint_duration_value}}&nbsp;</li>
+       @endforeach
+      </ul>
+      <strong>On Examination:</strong><br><br>
+      <table style="width: 100%;">
+        <tr>
+            <td style="width:60%;text-align:left;">Temperature : <b>{{@$onexam->temperature}}&nbsp;<sup>o</sup>&nbsp;F</b></td>
+            <td style="width:60%;text-align:left;">Pressure : <b>{{@$onexam->pressure}}</b></td>
+        </tr>
+        <tr>
+            <td style="width:40%;text-align:left;">Weight : <b>{{@$onexam->weight}}&nbsp;Kg</b></td>
+            <td style="width:40%;text-align:left;">Height : <b>{{@$onexam->height}}&nbsp;</b></td>
+        </tr>
+      </table>
+      <br>
+      <strong>Investigations : </strong>
+      <ul>
+        @foreach($investigations as $x)
+        <li>{{@$x->investigations_value}}</li>
+        @endforeach
+      </ul>
+    </td>
+    <td style="width: 68%; vertical-align: top;font-size:12px;">
+      <strong>Diagnosis :</strong><br>
+        <ul >
+            @foreach($diagnosis as $x)
+                <li>{{@$x->diagnosis_value}}</li>
             @endforeach
-        </tbody>
-    </table>
-    <table width="100%" style="font-size:14px;border:1px solid black;border-top:none;border-collapse: collapse;">
-        <tbody>
-            <tr>
-                <td rowspan="3" style="text-align:right;">
-                    <span style="text-align:left;font-size:12px;display:block;">Bill Date: {!! $main->created_at !!}</span>
-                    <span style="text-align:left;font-size:12px;display:block;">Printed by: {!! $printed_by !!}</span>
-                    <span style="text-align:left;font-size:12px;display:block;">Printed date: {!! $print_date !!}</span>
-                </td>
-                <td rowspan="3" style="text-align:right;">
-                    <span style="border:3px solid black;padding:10px;border-radius:10px;font-weight:bolder;">{!! (int)$main->paid_status == 0 ?"DUE":"PAID" !!}</span>
-                </td>
-                <td colspan="2" style="text-align:right;">Total Amount :</td>
-                <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->total_amount !!}</td>
-            </tr>
-            <tr>
-
-                <td colspan="2"  style="text-align:right;">Discount Amount :</td>
-                <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->discount_amount !!}</td>
-            </tr>
-            <tr>
-
-                <td colspan="2" style="text-align:right;">Payable Amount :</td>
-                <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->payable_amount !!}</td>
-            </tr>
-            <tr>
-                <td rowspan="2" colspan="2" style="text-align:left;font-size:12px;font-weight:bold;">In words :{!! $paidinwords !!} tk only.</td>
-                <td colspan="2" style="text-align:right;">Paid Amount :</td>
-                <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->paid_amount !!}</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="text-align:right;">Due Amount :</td>
-                <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->due_amount !!}</td>
-            </tr>
+        </ul>
+        <br>
+      <h2>Rx</h2>
+      <ol>
+        @foreach($medicins as $data)
+                <li style="padding:5px;">
+                    <span style="font-size:15px;font-weight:500;">{{$data->medicine}}</span><br>
+                    <span style="font-size:13px;"> {{$data->dose}} {{$data->dose_frequency ? " -- ".$data->dose_frequency:""}} {{$data->dose_duration ? " -- [ ".$data->dose_duration." ]":""}} {{$data->usage ? " -- ".$data->usage:""}}</span>
+                </li>
+        @endforeach
+      </ol>
+      <strong>Advice : </strong>
+      <ul>
+        @foreach($advices as $x)
+        <li>{{@$x->advice_value}}</li>
+        @endforeach
+      </ul>
+      <strong>Referred : </strong>
+      <ul>
+        @foreach($referred as $x)
+        <li>{{@$x->referred}}</li>
+        @endforeach
+      </ul>
+    </td>
+  </tr>
+</table>
 
 
-        </tbody>
-    </table>
-    <div class="footer-div">
-            @php
-                $roomList = collect($details)->unique('room_no')->where('service_category_id',2)->pluck('room_no')->toArray();
-            @endphp
-            <table>
-                <tr>
-                    <td><img src="backend/adminlte/dist/img/room.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:17px;"></td>
-                    <td>
-                        @foreach ($roomList as $item)
-                            {!!$item!!},
-                        @endforeach
-                    </td>
-                </tr>
-            </table>
-
-        <span style="border:1px dashed black;border-radius:5px;margin-bottom:10px;display:block;padding:5px;">
-        @php
-            $dateList = collect($details)->unique('delivery_date')->where('service_category_id',2)->pluck('delivery_date')->toArray();
-            $roomList = collect($details)->unique('room_no')->where('service_category_id',2)->pluck('room_no')->toArray();
-        @endphp
-
-           @foreach ($dateList as $date)
-                @php
-                    $itemList = collect($details)->where('delivery_date',$date)->where('service_category_id',2)->pluck('item_name')->toArray();
-                @endphp
-                <span style="text-align:left;font-size:12px;display:block;">(
-                    @foreach ($itemList as $item)
-                        <span>{!! $item !!},</span>
-                    @endforeach
-                    Delivery Date -
-                    <span style="font-weight:bold;">{!! $date !!}</span> )
-                </span>
-           @endforeach
-        </span>
-        <span  style="text-align:center;padding:10px;border:1px solid black;display:block;font-size:14px;"><img src="backend/adminlte/dist/img/note.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:30px;"></span>
-    </div>
-    @if($menu == "billing")
-        @php
-            $roomList = collect($details)->unique('room_no')->where('service_category_id',2)->pluck('room_no')->toArray();
-        @endphp
-        @if(count($roomList) > 1 )
-            @foreach ($roomList as $room)
-            <table style="line-height: 1em;padding:0px;"  class="page-break">
-                <tr>
-                    <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
-                    <td >
-                        <span style="font-size:30px;">Alif Medical Centre</span></br>
-                        <span style="font-size:16px;">Polashbari Bus Stand</span></br>
-                        <span style="font-size:16px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
-                    </td>
-                    <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
-            </table>
-            <table style="width:100%;">
-                <tr>
-                    <td style="width: 40%;">
-                        <img src="data:image/png;base64,{{ base64_encode($billImg) }}" style="opacity: .8;height:20px;width:100px;">
-                    </td>
-                    <td  style="width: 20%;"><span style="border:1px solid black;padding:10px;font-weight:bold;">{!! "Medical Copy" !!}</span></td>
-                    <td  style="width: 40%;text-align:right;">
-                        <img src="data:image/png;base64,{{ base64_encode($patientImg) }}" style="opacity: .8;height:20px;width:100px;">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 35%;font-size:16px;">
-                        Invoice No. {!! $main->bill_id !!}
-                    </td>
-                    <td  style="width: 30%;"></td>
-                    <td  style="width: 35%;text-align:right;font-size:16px;">
-                        Patient ID. {!! $main->patient->patient_id !!}
-                    </td>
-                </tr>
-            </table>
-            <table style="font-size:16px;width:100%;border:1px solid black;margin-top:5px;">
-                <tr>
-                    <td style="width: 20%;">Name</td>
-                    <td style="width: 30%;">: {!! $main->patient->name !!}</td>
-                    <td style="width: 20%;text-align:right;">Age</td>
-                    <td style="width: 30%;">: {!! $main->patient->age !!}</td>
-                </tr>
-                <tr>
-                    <td style="width: 20%;">Phone No.</td>
-                    <td style="width: 30%;">: {!! $main->patient->contact_no !!}</td>
-                    <td style="width: 20%;text-align:right;">Gender</td>
-                    <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!} </td>
-                </tr>
-                <tr>
-                    <td style="width: 25%;vertical-align: top;">Referrenced By</td>
-                    <td colspan="3">: {!! @$main->reference->name_eng !!}</td>
-
-                </tr>
-            </table>
-            @php
-                $i=0;
-            @endphp
-            <table width="100%" style="font-size:14px;width:100%;margin-top:5px;border:1px solid black;border-collapse: collapse;">
-                <tbody>
-                    <tr  style="text-align:left;font-weight:600;">
-                        <td style="width: 5%;text-align:left;padding:2px;">SL</td>
-                        <td style="width: 30%;padding:2px;text-align:left;border-left:1px solid black;">Item Name</td>
-                        {{-- <td style="width: 15%;text-align:center;border-left:1px solid black;">Room No</td> --}}
-                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Rate</td>
-                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Qty</td>
-                        <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
-                    </tr>
-                    @foreach ($details as $item)
-                        <tr style="{{count($details)>12?'font-size:12px;':''}}">
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
-                            <td style="border-top:1px solid black;border-left:1px solid black;">{!! $item->item_name !!}</td>
-                            {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->item_rate !!}</td>
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->quantity !!}</td>
-                            <td style="text-align:right;padding:2px;border-top:1px solid black;border-left:1px solid black;">{!! $item->price !!}</td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <table width="100%" style="font-size:14px;border:1px solid black;border-top:none;border-collapse: collapse;">
-                <tbody>
-                    <tr>
-                        <td rowspan="3" style="text-align:right;">
-                            <span style="text-align:left;font-size:12px;display:block;">Bill Date: {!! $main->created_at !!}</span>
-                            <span style="text-align:left;font-size:12px;display:block;">Printed by: {!! $printed_by !!}</span>
-                            <span style="text-align:left;font-size:12px;display:block;">Printed date: {!! $print_date !!}</span>
-                        </td>
-                        <td rowspan="3" style="text-align:right;">
-                            <span style="border:3px solid black;padding:10px;border-radius:10px;font-weight:bolder;">{!! (int)$main->paid_status == 0 ?"DUE":"PAID" !!}</span>
-                        </td>
-                        <td colspan="2" style="text-align:right;">Total Amount :</td>
-                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->total_amount !!}</td>
-                    </tr>
-                    <tr>
-
-                        <td colspan="2"  style="text-align:right;">Discount Amount :</td>
-                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->discount_amount !!}</td>
-                    </tr>
-                    <tr>
-
-                        <td colspan="2" style="text-align:right;">Payable Amount :</td>
-                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->payable_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2" colspan="2" style="text-align:left;font-size:12px;font-weight:bold;">In words :{!! $paidinwords !!} tk only.</td>
-                        <td colspan="2" style="text-align:right;">Paid Amount :</td>
-                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->paid_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align:right;">Due Amount :</td>
-                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->due_amount !!}</td>
-                    </tr>
-
-
-                </tbody>
-            </table>
-            <div class="footer-div">
-                <table>
-                    <tr>
-                        <td><img src="backend/adminlte/dist/img/room.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:17px;"></td>
-                        <td>
-                            @foreach ($roomList as $item)
-                                {!!$item!!},
-                            @endforeach
-                        </td>
-                    </tr>
-                </table>
-                <span style="border:1px dashed black;border-radius:5px;margin-bottom:10px;display:block;padding:5px;">
-                @php
-                    $dateList = collect($details)->unique('delivery_date')->where('service_category_id',2)->pluck('delivery_date')->toArray();
-                @endphp
-
-                @foreach ($dateList as $date)
-                        @php
-                            $itemList = collect($details)->where('delivery_date',$date)->where('service_category_id',2)->pluck('item_name')->toArray();
-                        @endphp
-                        <span style="text-align:left;font-size:12px;display:block;">(
-                            @foreach ($itemList as $item)
-                                <span>{!! $item !!},</span>
-                            @endforeach
-                            Delivery Date -
-                            <span style="font-weight:bold;">{!! $date !!}</span> )
-                        </span>
-                @endforeach
-                </span>
-                 <span  style="text-align:center;padding:10px;border:1px solid black;display:block;font-size:14px;"><img src="backend/adminlte/dist/img/note.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:20px;"></span>
-            </div>
-            @endforeach
-        @else
-            <table style="line-height: 1em;padding:0px;" class="page-break">
-                <tr>
-                    <td style="padding:0px;width:20%;"><img src="backend/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:100px;width:100px;"></td>
-                    <td >
-                        <span style="font-size:30px;">Alif Medical Centre</span></br>
-                        <span style="font-size:15px;">Polashbari Bus Stand</span></br>
-                        <span style="font-size:15px;">Ashulia,Savar,Dhaka-1344,Mob:01616444566</span>
-                    </td>
-                    <td style="font-size:14px;vertical-align: top;text-align:right;font-weight:800;width:25%;">Diagonostic Invoice</td>
-            </table>
-            <table style="width:100%;">
-                <tr>
-                    <td style="width: 40%;">
-                        <img src="data:image/png;base64,{{ base64_encode($billImg) }}" style="opacity: .8;height:20px;width:100px;">
-                    </td>
-                    <td  style="width: 20%;"><span style="border:1px solid black;padding:10px;font-weight:bold;">{!! "Medical Copy" !!}</span></td>
-                    <td  style="width: 40%;text-align:right;">
-                        <img src="data:image/png;base64,{{ base64_encode($patientImg) }}" style="opacity: .8;height:20px;width:100px;">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 35%;font-size:16px;">
-                        Invoice No. {!! $main->bill_id !!}
-                    </td>
-                    <td  style="width: 30%;"></td>
-                    <td  style="width: 35%;text-align:right;font-size:16px;">
-                        Patient ID. {!! $main->patient->patient_id !!}
-                    </td>
-                </tr>
-            </table>
-            <table style="font-size:16px;width:100%;border:1px solid black;margin-top:5px;">
-                <tr>
-                    <td style="width: 20%;">Name</td>
-                    <td style="width: 30%;">: {!! $main->patient->name !!}</td>
-                    <td style="width: 20%;text-align:right;">Age</td>
-                    <td style="width: 30%;">: {!! $main->patient->age !!}</td>
-                </tr>
-                <tr>
-                    <td style="width: 20%;">Phone No.</td>
-                    <td style="width: 30%;">: {!! $main->patient->contact_no !!}</td>
-                    <td style="width: 20%;text-align:right;">Gender</td>
-                    <td style="width: 30%;">: {!! $main->patient->sex == "M" ? "Male" : ($main->patient->sex == "F" ? "Female" : "Other") !!} </td>
-                </tr>
-                <tr>
-                    <td style="width: 25%;vertical-align: top;">Referrenced By</td>
-                    <td colspan="3">: {!! @$main->reference->name_eng !!}</td>
-
-                </tr>
-            </table>
-            @php
-                $i=0;
-            @endphp
-            <table width="100%" style="font-size:14px;width:100%;margin-top:5px;border:1px solid black;border-collapse: collapse;">
-                <tbody>
-                    <tr  style="text-align:left;font-weight:600;">
-                        <td style="width: 5%;text-align:left;padding:2px;">SL</td>
-                        <td style="width: 30%;padding:2px;text-align:left;border-left:1px solid black;">Item Name</td>
-                        {{-- <td style="width: 15%;text-align:center;border-left:1px solid black;">Room No</td> --}}
-                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Rate</td>
-                        <td style="width: 15%;padding:2px;text-align:center;border-left:1px solid black;">Qty</td>
-                        <td style="width: 15%;padding:2px;text-align:right;border-left:1px solid black;">Amount</td>
-                    </tr>
-                    @foreach ($details as $item)
-                        <tr style="{{count($details)>12?'font-size:12px;':''}}">
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! ++$i !!}</td>
-                            <td style="border-top:1px solid black;">{!! $item->item_name !!}</td>
-                            {{-- <td style="text-align:center;">{!! $item->room_no !!}</td> --}}
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->item_rate !!}</td>
-                            <td style="text-align:center;padding:2px;border-top:1px solid black;">{!! $item->quantity !!}</td>
-                            <td style="text-align:right;padding:2px;border-top:1px solid black;">{!! $item->price !!}</td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-            <table width="100%" style="font-size:14px;border:1px solid black;border-top:none;border-collapse: collapse;">
-                <tbody>
-                    <tr>
-                        <td rowspan="3" style="text-align:right;">
-                            <span style="text-align:left;font-size:12px;display:block;">Bill Date: {!! $main->created_at !!}</span>
-                            <span style="text-align:left;font-size:12px;display:block;">Printed by: {!! $printed_by !!}</span>
-                            <span style="text-align:left;font-size:12px;display:block;">Printed date: {!! $print_date !!}</span>
-                        </td>
-                        <td rowspan="3" style="text-align:right;">
-                            <span style="border:3px solid black;padding:10px;border-radius:10px;font-weight:bolder;">{!! (int)$main->paid_status == 0 ?"DUE":"PAID" !!}</span>
-                        </td>
-                        <td colspan="2" style="text-align:right;">Total Amount :</td>
-                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->total_amount !!}</td>
-                    </tr>
-                    <tr>
-
-                        <td colspan="2"  style="text-align:right;">Discount Amount :</td>
-                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->discount_amount !!}</td>
-                    </tr>
-                    <tr>
-
-                        <td colspan="2" style="text-align:right;">Payable Amount :</td>
-                        <td style="text-align:center;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->payable_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2" colspan="2" style="text-align:left;font-size:12px;font-weight:bold;">In words :{!! $paidinwords !!} tk only.</td>
-                        <td colspan="2" style="text-align:right;">Paid Amount :</td>
-                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->paid_amount !!}</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align:right;">Due Amount :</td>
-                        <td style="text-align:center;font-weight:bold;border-bottom:1px solid black;border-left:1px solid black;"> {!! $main->due_amount !!}</td>
-                    </tr>
-
-
-                </tbody>
-            </table>
-            <div class="footer-div">
-                <span style="border:1px dashed black;border-radius:5px;margin-bottom:10px;display:block;padding:5px;">
-                @php
-                    $dateList = collect($details)->unique('delivery_date')->where('service_category_id',2)->pluck('delivery_date')->toArray();
-                @endphp
-
-                @foreach ($dateList as $date)
-                        @php
-                            $itemList = collect($details)->where('delivery_date',$date)->where('service_category_id',2)->pluck('item_name')->toArray();
-                        @endphp
-                        <span style="text-align:left;font-size:12px;display:block;">(
-                            @foreach ($itemList as $item)
-                                <span>{!! $item !!},</span>
-                            @endforeach
-                            Delivery Date -
-                            <span style="font-weight:bold;">{!! $date !!}</span> )
-                        </span>
-                @endforeach
-                </span>
-                 <span  style="text-align:center;padding:10px;border:1px solid black;display:block;font-size:14px;"><img src="backend/adminlte/dist/img/note.png" alt="AdminLTE Logo" class="img-square" style="opacity: .8;height:30px;"></span>
-            </div>
-        @endif
-    @endif
+       
+   
 </body>
 </html>

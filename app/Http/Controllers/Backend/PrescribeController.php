@@ -17,6 +17,8 @@ use App\Models\Backend\PrescriptionDiagnosis;
 use App\Models\Backend\PrescriptionMedicines;
 use App\Models\Backend\PrescriptionReferred;
 use App\Models\Backend\PrescriptionAdvice;
+use App\Models\Backend\PrescriptionPrevHistory;
+
 
 use Illuminate\Support\Carbon;
 
@@ -159,9 +161,9 @@ class PrescribeController extends Controller
             $diagnosis = PrescriptionDiagnosis::where('prescription_id','=',$prescription_id)->get();
             $medicins = PrescriptionMedicines::where('prescription_id','=',$prescription_id)->get();
             $advices = PrescriptionAdvice::where('prescription_id','=',$prescription_id)->get();
-            $referred = PrescriptionReferred::where('prescription_id','=',$prescription_id)->get();
+            $history = PrescriptionPrevHistory::where('prescription_id','=',$prescription_id)->get();
 
-            return response()->json(["appointment"=>$appoinmentInfo,"main"=>$main,'investigations'=>$investigations,'onexam'=>$onexam,'complain'=>$complain,'diagnosis'=>$diagnosis,'medicins'=>$medicins,'advices'=>$advices,'referred'=>$referred]);
+            return response()->json(["appointment"=>$appoinmentInfo,"main"=>$main,'investigations'=>$investigations,'onexam'=>$onexam,'complain'=>$complain,'diagnosis'=>$diagnosis,'medicins'=>$medicins,'advices'=>$advices,'history'=>$history]);
         }
 
             return response()->json(["appointment"=>$appoinmentInfo]);
@@ -179,7 +181,7 @@ class PrescribeController extends Controller
             $diagnosis = PrescriptionDiagnosis::where('prescription_id','=',$from_id)->get();
             $medicins = PrescriptionMedicines::where('prescription_id','=',$from_id)->get();
             $advices = PrescriptionAdvice::where('prescription_id','=',$from_id)->get();
-            $referred = PrescriptionReferred::where('prescription_id','=',$from_id)->get();
+            $history = PrescriptionPrevHistory::where('prescription_id','=',$from_id)->get();
 
 
 
@@ -292,17 +294,17 @@ class PrescribeController extends Controller
             }
 
 
-            $new_referred = [];
-            if($referred->isNotEmpty()){
-                foreach($referred as $referreds){
-                    $new_referred[] = [
+            $new_history = [];
+            if($history->isNotEmpty()){
+                foreach($history as $historys){
+                    $new_history[] = [
                         'prescription_id'=>$to_id,
-                        'referred_id'=>$referreds->referred_id,
-                        'referred'=>$referreds->referred,
+                        'history_id'=>$historys->history_id,
+                        'history_value'=>$historys->history_value,
                     ];
                 }
 
-                PrescriptionReferred::insert($new_referred);
+                PrescriptionPrevHistory::insert($new_history);
             }
             
             DB::commit(); 

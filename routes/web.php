@@ -37,6 +37,7 @@ use App\Http\Controllers\Backend\PrescriptionAdviceController;
 use App\Http\Controllers\Backend\PrescriptionInvestigationController;
 use App\Http\Controllers\Backend\PrescriptionMedicineController;
 use App\Http\Controllers\Backend\PrescriptionReferredController;
+use App\Http\Controllers\Backend\PrescriptionPreviousHistoryController;
 use App\Http\Controllers\Backend\UsageController;
 use App\Http\Controllers\Backend\DoseController;
 use App\Http\Controllers\Backend\DoseFrequencyController;
@@ -538,6 +539,15 @@ Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
             'edit'=>'prescriptionreferred.edit',
             'update'=>'prescriptionreferred.update',
             'destroy'=>'prescriptionreferred.delete'
+        ]);
+
+        Route::resource('/prescriptionprevhistory',PrescriptionPreviousHistoryController::class)->names([
+            'index'=>'prescriptionprevhistory.home',
+            'create'=>'prescriptionprevhistory.create',
+            'store'=>'prescriptionprevhistory.save',
+            'edit'=>'prescriptionprevhistory.edit',
+            'update'=>'prescriptionprevhistory.update',
+            'destroy'=>'prescriptionprevhistory.delete'
         ]);
 
 

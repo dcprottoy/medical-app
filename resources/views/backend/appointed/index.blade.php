@@ -711,8 +711,8 @@ body * { visibility: hidden; }
                             <h6><b>Advice</b></h6>
                             <ul class="border-top pt-2" id="advice-list" style="min-height:200px;">
                             </ul>
-                            <h6><b>Referred</b></h6>
-                            <ul class="border-top pt-2" id="referred-list" style="min-height:200px;">
+                            <h6><b>Previous History</b></h6>
+                            <ul class="border-top pt-2" id="history-list" style="min-height:200px;">
                             </ul>
                         </div>
                     </div>
@@ -1297,7 +1297,7 @@ body * { visibility: hidden; }
                                 <div class="row">
                                     <div class="col-sm-10">${data.advice_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn  btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -1583,7 +1583,7 @@ body * { visibility: hidden; }
             $.ajax({
                     type: 'post',
                     dataType: "json",
-                    url: "{{ url('prescriptionreferred') }}/"+id,
+                    url: "{{ url('prescriptionprevhistory') }}/"+id,
                     data: {
                         _token:'{{ csrf_token() }}',
                         _method:'DELETE'
@@ -1591,8 +1591,8 @@ body * { visibility: hidden; }
                     success: function (data) {
                         console.log(data);
                         if(data.success){
-                            toastr.success("Referred Remove Successfully");
-                            $("#remove-test-btn"+id).closest("li").remove();
+                            toastr.success("Previous History Remove Successfully");
+                            $("#remove-history-btn"+id).closest("li").remove();
                         }
                         
                     }
@@ -1603,61 +1603,103 @@ body * { visibility: hidden; }
             e.preventDefault();
             let prescription_no = $("#prescription-no").text();
             console.log(prescription_no);
+            let selectedData = checkNew('history_id');
+            console.log(selectedData);
             if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
                 toastr.error('Prescription No Not Found');
             }else{
-                let formData = $(this).serialize();
-                let new_referred = checkNew('referred_id');
-                    formData += '&new_referred=' + encodeURIComponent(new_referred);
-                    formData += '&prescription_id=' + encodeURIComponent(prescription_no);
+                if(selectedData.length > 0){
                     $.ajax({
                         type: 'post',
                         dataType: "json",
-                        url: "{{ url('prescriptionreferred') }}",
-                        data: formData,
-                        success: function (data) {
-                            console.log(data);
-                            if('error' in data){
-                                toastr.error(data.error);
+                        url: "{{ url('prescriptionprevhistory') }}",
+                        data: {
+                            _token:'{{ csrf_token() }}',
+                            formData:selectedData,
+                            prescription_id:prescription_no
+                        },
+                        success: function (datas) {
+                            console.log(datas);
+                            if('error' in datas){
+                                toastr.error(datas.error);
                                 return;
                             }
-                            toastr.success("Referred Added Successfully");
-                            let element = `<li>
+                            toastr.success("Previous History Added Successfully");
+                            let element = '';
+                            datas.forEach((data) => {
+                                element = `<li>
                                 <div class="row">
-                                    <div class="col-sm-10">${data.referred}</div>
+                                    <div class="col-sm-10">${data.history_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-danger btn-xs remove-referred-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-history-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>`;
-                            $("#referred-list").append(element);
-                            $("#referred_id").val(null).empty().trigger('change');
+                            })
+                            
+                            $("#history-list").empty();
+                            $("#history-list").append(element);
+                            $("#history_id").val(null).empty().trigger('change');
                             setTimeout(() => {
-                                $('#investigations').modal('hide');
+                                $('#prevhistory').modal('hide');
                             }, 100);
 
-                            $('.remove-referred-btn').off('click').on('click',function(e){
+                            $('.remove-history-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
                                 removeHistory(id);
                             });
                             
                         }
                     });
+                }else{
+                    toastr.error("Please Select Previous History");
+                }
             }
             setTimeout(() => {
-                $("#referred").modal('hide');
+                $("#prevhistory").modal('hide');
             }, 100);
         });
 
         $('#prescription_history_create').on('reset',function(e){
             e.preventDefault();
-            $("#referred_id").val(null).empty().trigger('change');
+            $("#history_id").val(null).empty().trigger('change');
             setTimeout(() => {
-                $("#referred").modal('hide');
+                $("#history").modal('hide');
             }, 100);
         });
+
+        $("#prevhistorybtn").on('click',function(e){
+            e.preventDefault();
+            let prescription_no = $("#prescription-no").text();
+            console.log(prescription_no);
+            if(prescription_no == null || prescription_no == undefined || prescription_no == '' || prescription_no == ' ' || prescription_no == NaN){
+                toastr.error('Prescription No Not Found');
+                $('#prevhistory').modal('hide');
+            }else{
+                $.ajax({
+                        type: 'get',
+                        dataType: "json",
+                        url: "{{ url('prescriptionprevhistory') }}/"+prescription_no,
+                        success: function (data) {
+                            if(data.success){
+                                $("#history_id").val(null).empty().trigger('change');
+                                data.history.forEach(x => {
+                                    console.log([x.history_value,x.history_id])
+                                    let newOption = new Option(x.history_value,x.history_id, true, true);
+                                    $('#history_id').append(newOption).trigger('change');
+                                });
+                            }else{
+                                $("#history_id").val(null).empty().trigger('change');
+                            }
+                            
+                        }
+                    });
+
+            $('#prevhistory').modal('show');
+            }
+        })
 
         //Medicines Section Add Delete Start Here
         $('#medicines_id').select2({
@@ -2724,7 +2766,7 @@ body * { visibility: hidden; }
                                 <div class="row">
                                     <div class="col-sm-10">${data.advice_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn  btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-advice-btn" data-id=${data.id} title="Remove" id="remove-advice-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
@@ -2739,26 +2781,26 @@ body * { visibility: hidden; }
                             });
                         }
 
-                        if(result.referred){
+                        if(result.history){
                             let element = "";
-                            result.referred.forEach(data => {
+                            result.history.forEach(data => {
                                 console.log(data);
                                  element += `<li>
                                 <div class="row">
-                                    <div class="col-sm-10">${data.referred}</div>
+                                    <div class="col-sm-10">${data.history_value}</div>
                                     <div class="col-sm-2">
-                                        <button type="button" class="btn btn-danger btn-xs remove-referred-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
+                                        <button type="button" class="btn btn-danger btn-xs remove-history-btn" data-id=${data.id} title="Remove" id="remove-test-btn${data.id}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </div>
                                 </div>
                             </li>`;
                             });
-                            $("#referred-list").empty();
-                            $("#referred-list").append(element);
-                            $('.remove-referred-btn').off('click').on('click',function(e){
+                            $("#history-list").empty();
+                            $("#history-list").append(element);
+                            $('.remove-history-btn').off('click').on('click',function(e){
                                 let id = $(this).attr('data-id');
-                                removeReferred(id);
+                                removeHistory(id);
                             });
                         }
 
